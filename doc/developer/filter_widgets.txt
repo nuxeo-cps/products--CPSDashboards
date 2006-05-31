@@ -8,7 +8,7 @@ Filter Widgets
 .. sectnum::
 
 This is the developer's documentation for the widgets that manipulate
-filtering and sorting for CPSCourrier's dashboards.
+filtering and sorting for CPSDashboards's dashboards.
 
 The general idea is that these widgets put in datastructure all
 elements that tabular widgets, like the Catalog Tabular Widget will
@@ -40,7 +40,7 @@ RequestCookiesMixin
   class can call explicitely the usual prepare methode and the one
   provided by RequestCookiesMixin::
 
-    >>> from Products.CPSCourrier.widgets.filter_widgets \
+    >>> from Products.CPSDashboards.widgets.filter_widgets \
     ...                         import RequestCookiesMixin
     >>> mixin = RequestCookiesMixin()
 
@@ -49,9 +49,9 @@ RequestCookiesMixin
 
   We'll need some imports to deal with cookies::
 
-    >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
-    >>> from Products.CPSCourrier.utils import serializeForCookie
-    >>> from Products.CPSCourrier.utils import unserializeFromCookie
+    >>> from Products.CPSDashboards.testing import FakeRequestWithCookies
+    >>> from Products.CPSDashboards.utils import serializeForCookie
+    >>> from Products.CPSDashboards.utils import unserializeFromCookie
 
   And some general widget stuff::
 
@@ -160,7 +160,7 @@ Namings in the datastructure are based on the following properties:
 * token_suffix (defaults to '-order')
 * ref_suffix. (defaults to '-col')
 
-    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    >>> from Products.CPSDashboards.widgets.filter_widgets import\
     ...               CPSToggableCriterionWidget, FakeRequest
     >>> sort_wid = CPSToggableCriterionWidget('Query sort')
     >>> sort_wid.fields = ['crit', 'token', 'ref']
@@ -240,7 +240,7 @@ The int filter widget passes queries about integer values, together
 with how to use them. This is specified in the widget properties,
 and is written to datastructure with a suffix.
 
-    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    >>> from Products.CPSDashboards.widgets.filter_widgets import\
     ...               CPSIntFilterWidget
     >>> widget = CPSIntFilterWidget('the_widget')
     >>> widget.REQUEST = FakeRequest()
@@ -275,8 +275,8 @@ usual precedence rules::
     >>> ds['the_widget']
     1
 
-Courrier To Do Filter Widget
-----------------------------
+To Do Filter Widget
+-------------------
 
 This is the filter brother of Multi Boolean Widget, that is it is
 designed to choose among mutually exclusive criteria.
@@ -287,9 +287,9 @@ can depend on this
 
 It can translates the vocabulary key in a boolean query::
 
-    >>> from Products.CPSCourrier.widgets.filter_widgets import\
-    ...               CPSCourrierToDoFilterWidget
-    >>> widget = CPSCourrierToDoFilterWidget('the_widget')
+    >>> from Products.CPSDashboards.widgets.filter_widgets import\
+    ...               CPSToDoFilterWidget
+    >>> widget = CPSToDoFilterWidget('the_widget')
     >>> widget.manage_changeProperties(fields=('todo',))
     >>> widget.REQUEST = FakeRequest()
 

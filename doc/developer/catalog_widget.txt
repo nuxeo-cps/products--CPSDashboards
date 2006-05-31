@@ -16,7 +16,7 @@ through the portal_catalog tool.
 
 Let's make one::
 
-    >>> from Products.CPSCourrier.widgets.catalog import CatalogTabularWidget
+    >>> from Products.CPSDashboards.widgets.catalog import CatalogTabularWidget
     >>> cat = CatalogTabularWidget('thecat')
 
 We'll need the pretty printer::

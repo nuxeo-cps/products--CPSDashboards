@@ -25,9 +25,9 @@ Let's make a view , in a pseudo portal::
    >>> app._setOb('cps', Folder('cps'))
    >>> portal = app.cps
    >>> portal.default_charset = "iso-8859-15"
-   >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
+   >>> from Products.CPSDashboards.testing import FakeRequestWithCookies
    >>> request = FakeRequestWithCookies()
-   >>> from Products.CPSCourrier.browser.searchview import SearchView
+   >>> from Products.CPSDashboards.browser.searchview import SearchView
    >>> view = SearchView(portal, request).__of__(portal)
 
 Whether we are exposing search results is computed at init time::

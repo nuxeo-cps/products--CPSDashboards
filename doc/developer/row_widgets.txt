@@ -8,7 +8,7 @@ Row Widgets
 .. sectnum::
 
 This is the documentation about the widgets that build up rows in
-CPSCourrier's dashboards. Most of them are not designed to be rendered
+CPSDashboards's dashboards. Most of them are not designed to be rendered
 in any other mode than view.
 
 We'll use a fake DataModel throughout in order not to be bothered in
@@ -25,7 +25,7 @@ object portal_type.
 
 Let's instanciate one, with its id::
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ... import CPSTypeIconWidget
     >>> widget = CPSTypeIconWidget('the_widget')
     >>> widget.getId()
@@ -59,7 +59,7 @@ This widget is a simple helper that fetches the value of a workflow variable
 , typically 'review_state' for the proxy or object associated to the
 datastructure.
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ...    import CPSWorkflowVariableWidget
     >>> widget = CPSWorkflowVariableWidget('wf_var')
     >>> widget.getId()
@@ -81,7 +81,7 @@ render a detailed <a> tag.
 
 Let's instanciate one, with its id::
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ... import CPSQualifiedLinkWidget
     >>> widget = CPSQualifiedLinkWidget('the_qual')
     >>> widget.getId()
@@ -135,7 +135,7 @@ Examples
 
 Let's instanciate one, with its id, and initiate some properties::
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ... import CPSRowBooleanWidget
     >>> widget = CPSRowBooleanWidget('the_check')
     >>> widget.getId()
@@ -201,7 +201,7 @@ Time Left Widget
 The Time Left Widget is a very specific one that displays and
 highlights the (opposite of) number of days left before a deadline::
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ... import CPSTimeLeftWidget
     >>> widget = CPSTimeLeftWidget('the_wid')
     >>> widget.meta_type
@@ -250,7 +250,7 @@ The Users With Roles Widget extracts the list of users' titles that
 have one of the given roles in its prepare phase, and otherwise
 subclasses the Lines Widget for rendering::
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ... import CPSUsersWithRolesWidget
     >>> widget = CPSUsersWithRolesWidget('the_wid')
     >>> widget.meta_type
@@ -285,7 +285,7 @@ Multi Boolean Widget
 This widget takes several boolean valued fields and convert them
 to related strings::
 
-    >>> from Products.CPSCourrier.widgets.row_widgets \
+    >>> from Products.CPSDashboards.widgets.row_widgets \
     ...        import CPSMultiBooleanWidget
     >>> widget = CPSMultiBooleanWidget('mbool')
     >>> widget.manage_changeProperties(fields=['master', 'slave'],

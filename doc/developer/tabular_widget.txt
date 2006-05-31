@@ -10,7 +10,7 @@ Tabular Widget
 TabularWidget is a base class that provides the rendering mechanism
 and helper methods::
 
-    >>> from Products.CPSCourrier.widgets.tabular import TabularWidget
+    >>> from Products.CPSDashboards.widgets.tabular import TabularWidget
 
 Like most CPS objects, we need to provide the id in the constructor::
 
@@ -123,9 +123,9 @@ set it::
 To see what the cookie setting does, we'll need to simulate HTTP requests
 and read the cookie.
 
-    >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
+    >>> from Products.CPSDashboards.testing import FakeRequestWithCookies
     >>> tab.REQUEST = FakeRequestWithCookies()
-    >>> from Products.CPSCourrier.utils import unserializeFromCookie
+    >>> from Products.CPSDashboards.utils import unserializeFromCookie
 
 Cookie setting will not be done if request lacks the filter_button::
 
@@ -259,7 +259,7 @@ Obviously, this link has then to point to a document that parses that
 kind of request. This is what Toggable Criterion Widgets are meant
 for. Let's build one and simulate the above request to check this::
 
-    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    >>> from Products.CPSDashboards.widgets.filter_widgets import\
     ...               CPSToggableCriterionWidget, FakeRequest
     >>> sort_wid = CPSToggableCriterionWidget('q_sort')
     >>> sort_wid.REQUEST = FakeRequest(**{'widget__q_sort-on':'myindex',
@@ -308,7 +308,7 @@ Batching
   itself is the one that puts the batching info in datastructure in
   prepare phase. There is no need to push a new widget in the
   layouts. The cookie persistence is the same. This is done by
-  subclassing CPSCourrier.widgets.filter_widget.CPSIntFilterWidget
+  subclassing CPSDashboards.widgets.filter_widget.CPSIntFilterWidget
 
 Properties
 ~~~~~~~~~~
