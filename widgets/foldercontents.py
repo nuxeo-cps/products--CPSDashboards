@@ -34,7 +34,7 @@ from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 from Products.CPSSkins.cpsskins_utils import serializeForCookie
 
-from Products.CPSCourrier.widgets.tabular import TabularWidget
+from Products.CPSDashboards.widgets.tabular import TabularWidget
 
 _missed = object()
 

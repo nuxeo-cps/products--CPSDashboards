@@ -17,7 +17,7 @@
 #
 # $Id$
 
-"""Widget definitions for CPSCourrier query parameters and cookie management"""
+"""Widget definitions for CPSDashboards query parameters and cookie management"""
 
 import logging
 
@@ -31,11 +31,11 @@ from Products.CPSSchemas.BasicWidgets import (CPSSelectWidget,
                                               CPSStringWidget,
                                               CPSIntWidget)
 from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
-from Products.CPSCourrier.utils import unserializeFromCookie
+from Products.CPSDashboards.utils import unserializeFromCookie
 
 from Products.CPSSchemas.Widget import widgetname
 
-logger = logging.getLogger('CPSCourrier.widgets.filter_widgets')
+logger = logging.getLogger('CPSDashboards.widgets.filter_widgets')
 
 class FakeRequest:
     def __init__(self, **kw):
@@ -459,8 +459,15 @@ InitializeClass(CPSIntFilterWidget)
 
 widgetRegistry.register(CPSIntFilterWidget)
 
-class CPSCourrierToDoFilterWidget(CPSSelectFilterWidget):
-    meta_type = "Courrier To Do Filter Widget"
+class CPSToDoFilterWidget(CPSSelectFilterWidget):
+    """ A widget to translate a list of alternatives in several booleans.
+
+    See doc/developer/filter_widgets for explanation.
+
+    XXX GR: find some better name. Suggestions welcome.
+    """
+
+    meta_type = "To Do Filter Widget"
 
     _properties = CPSSelectFilterWidget._properties + (
         {'id': 'forward_values', 'type': 'tokens', 'mode': 'w',
@@ -486,7 +493,7 @@ class CPSCourrierToDoFilterWidget(CPSSelectFilterWidget):
                 return
         ds['%s-%s' % (wid, value)] = True # use empty string to mean 'all'
 
-InitializeClass(CPSCourrierToDoFilterWidget)
+InitializeClass(CPSToDoFilterWidget)
 
-widgetRegistry.register(CPSCourrierToDoFilterWidget)
+widgetRegistry.register(CPSToDoFilterWidget)
 

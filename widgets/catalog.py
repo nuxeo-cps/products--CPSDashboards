@@ -36,10 +36,10 @@ from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 
-from Products.CPSCourrier.braindatamodel import BrainDataModel
-from Products.CPSCourrier.widgets.tabular import TabularWidget
+from Products.CPSDashboards.braindatamodel import BrainDataModel
+from Products.CPSDashboards.widgets.tabular import TabularWidget
 
-logger = logging.getLogger('CPSCourrier.widgets.catalog')
+logger = logging.getLogger('CPSDashboards.widgets.catalog')
 
 class CatalogTabularWidget(TabularWidget):
     """ A tabular portlet widget that performs a catalog query.

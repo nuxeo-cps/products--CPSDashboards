@@ -32,13 +32,13 @@ from Products.CPSSchemas.Widget import widgetname
 from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSDocument.FlexibleTypeInformation import FlexibleTypeInformation
 from Products.CPSPortlets.CPSPortletWidget import CPSPortletWidget
-from Products.CPSCourrier.utils import serializeForCookie
-from Products.CPSCourrier.utils import unserializeFromCookie
-from Products.CPSCourrier.widgets.filter_widgets import CPSIntFilterWidget
+from Products.CPSDashboards.utils import serializeForCookie
+from Products.CPSDashboards.utils import unserializeFromCookie
+from Products.CPSDashboards.widgets.filter_widgets import CPSIntFilterWidget
 
 from Products.CPSDocument.interfaces import ICPSDocument
 
-logger = logging.getLogger('CPSCourrier.tabular')
+logger = logging.getLogger('CPSDashboards.tabular')
 
 SCOPE_SUFFIX = '_scope' # see explanations in filter_widgets
 

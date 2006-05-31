@@ -32,8 +32,8 @@ from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 
-from Products.CPSCourrier.braindatamodel import BrainDataModel
-from Products.CPSCourrier.widgets.tabular import TabularWidget
+from Products.CPSDashboards.braindatamodel import BrainDataModel
+from Products.CPSDashboards.widgets.tabular import TabularWidget
 
 
 class DirectoryTabularWidget(TabularWidget):
