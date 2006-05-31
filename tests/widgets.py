@@ -19,7 +19,7 @@
 #$Id$
 
 """ This module defines some concrete widget implementations for base classes
-that will be loaded via test profile in the CPSCourrier test layer.
+that will be loaded via test profile in the CPSDashboards test layer.
 
 Therefore they have to be outside of integration test modules."""
 
@@ -28,8 +28,8 @@ from Globals import InitializeClass
 from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSSchemas.DataStructure import DataStructure
 
-from Products.CPSCourrier.braindatamodel import FakeBrain, BrainDataModel
-from Products.CPSCourrier.widgets.tabular import TabularWidget
+from Products.CPSDashboards.braindatamodel import FakeBrain, BrainDataModel
+from Products.CPSDashboards.widgets.tabular import TabularWidget
 
 
 class TestingTabularWidget(TabularWidget):

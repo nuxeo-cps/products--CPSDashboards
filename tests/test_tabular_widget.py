@@ -28,6 +28,9 @@ from Products.CPSDefault.tests.CPSTestCase import CPSTestCase
 from Products.CPSDashboards.tests.layer import CPSDashboardsLayer
 from Products.CPSSchemas.tests.testWidgets import FakeDataStructure
 
+from Products.CPSDashboards.testing import FakeRequestWithCookies
+from Products.CPSDashboards.tests.widgets import TestingTabularWidget
+
 # things to be tested
 from Products.CMFCore.utils import getToolByName
 from Products.CPSSchemas.DataStructure import DataStructure
@@ -35,8 +38,6 @@ from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSDocument.FlexibleTypeInformation import FlexibleTypeInformation
 
-from Products.CPSDashboards.widgets.tabular import FakeRequestWithCookies
-from Products.CPSDashboards.tests.widgets import TestingTabularWidget
 from Products.CPSDashboards.widgets.foldercontents import FolderContentsWidget
 from Products.CPSDashboards.widgets.dirsearch import DirectoryTabularWidget
 
