@@ -1,0 +1,133 @@
+====================
+CPSDashboard Widgets
+====================
+
+:Revision: $Id$
+
+.. contents:: :depth: 2
+
+.. sectnum::
+
+Tabular Widgets
+===============
+
+The purpose of tabular widgets is to list elements, for example search
+results or folder contents. They share a common rendering system,
+defined in base class widgets.tabular.TabularWidget. The lookup of
+items to display depends on the widget type. They can be used in
+portlets as well as in ordinary documents.
+
+The row layout
+--------------
+
+Property: row_layout
+
+The rendering makes use of an auxiliairy layout, that will work on
+each item being listed to render the rows. Each widget in this layout
+will produce a column in the table.
+
+For technical reasons, the row layout must be actually organized as a
+column: one cell per line. It will be nevertheless rendered as a row.
+
+The row layout can be flexible, in which
+case it will be associated to the portlet or document object on which
+the tabular widget depends. Reminder: flexible layouts/schemas are
+associated to the CPSDocument instance (and actually stored within it
+in the current implementation).
+
+Lookup parameters
+-----------------
+
+All tabular widgets perform their lookups using the values held by other
+widgets from the same layout (or cluster). Technically speaking, they read the
+values from the datastructure. The selection of relevant widgets is based on
+their ids and is controlled by the ``filter_prefix`` property.
+We customary call the result of stripping the prefix from these
+widgets ids *filters*.
+
+Actions
+-------
+
+If the 'actions_category' property is filled, the widget will render
+the actions of this category available for the object for which it is
+called, for example as form buttons.
+
+Empty listings
+--------------
+
+If there is no element to list, the widget will render as the string
+provided by property 'empty_message'
+
+
+The rendering method
+--------------------
+
+Like with many widgets, the final rendering is delegated to a rendering method,
+most likely a page template. This method is passed the following
+arguments:
+
+:mode: the widget's mode
+:columns: a list of tuples made of
+
+          #. the widget that was used to render the column. Its properties can
+	     then serve as global column info. For instance, the label can be
+	     used for column headings.
+  	  #. a boolean telling whether the column is currently used as the
+	     sorting reference.
+	  #. the sorting mode (currently '' and 'reversed')
+  	  #. the GET part of url to trigger sort or toggle sorting
+	     mode (including '?')
+
+:rows: the list of rendered rows
+:actions: the list of actions associated to the document the tabular
+	  widget was called for. This is a triple (title, url, id)
+:here_url: the url of the proxy the tabular widget was called for.
+
+In case the rendering method isn't supplied by subclass or property,
+the rendered rows are sequentially dumped.
+
+*Example*: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk/skins/cps_courrier/widget_tabular_render.pt
+
+Specific Tabular Widgets
+========================
+
+They differ by the kind of lookup they perform. Headings of
+subsections correspond to meta_types.
+
+Folder Contents Widget
+----------------------
+
+This widget simply lists the items from the current folder, which is
+either the current rendering context if called from a portlet, or the
+folder for which the layout containing the widget is rendered.
+
+Catalog Tabular Widget
+----------------------
+
+This one performs a catalog search by calling the``portal_catalog`
+tool. Most filters are directly passed to the tool, but some of them
+are preprocessed, e.g, for range queries.
+
+Lucene Tabular Widget
+---------------------
+
+This is a slight variation on the Catalog Tabular Widget that leverages
+of Lucene's server-side batching capabilities
+
+Directory Tabular Widget
+------------------------
+
+Performs a directory search. The directory id has to be set in the
+``directory`` property. While the usual restrictions on search on
+computed fields apply, it doesn't have problems reading computed
+fields from found entries.
+
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:
+
+

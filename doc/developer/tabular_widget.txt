@@ -1,0 +1,451 @@
+==============
+Tabular Widget
+==============
+
+:Revision: $Id$
+
+.. contents:: :depth: 2
+.. sectnum::
+
+TabularWidget is a base class that provides the rendering mechanism
+and helper methods::
+
+    >>> from Products.CPSCourrier.widgets.tabular import TabularWidget
+
+Like most CPS objects, we need to provide the id in the constructor::
+
+    >>> tab = TabularWidget('spam')
+    >>> tab.getId()
+    'spam'
+
+Most of widget methods manipulate DataStructure instances::
+
+    >>> from Products.CPSSchemas.DataStructure import DataStructure
+
+It will be convenient for examples to have a pretty printer::
+
+    >>> from pprint import PrettyPrinter
+    >>> pretty_print=PrettyPrinter(width=50).pprint
+
+Items lookup parameters
+-----------------------
+
+TabularWidget provides the helper method buildFilters to fetch lookup
+parameters from datastructure. Subclasses are supposed to base their
+queries upon these parameters.
+
+Fetching parameters
+~~~~~~~~~~~~~~~~~~~
+
+The datastructure extraction is based on a prefix whose default value
+is ``q_``::
+
+    >>> datastructure1 = DataStructure(data = {
+    ...              'q_one': 'value',
+    ...              'other' : 'to_discard'})
+    >>> tab.buildFilters(datastructure1)
+    {'one': 'value'}
+
+Empty values get removed by default::
+
+    >>> datastructure2 = DataStructure(data = {'q_one': '',
+    ...                                       'q_eggs': 'spam'})
+    >>> tab.buildFilters(datastructure2)
+    {'eggs': 'spam'}
+
+The types are preserved::
+
+    >>> datastructure4 = DataStructure(data = {'q_one': [1],
+    ...                                       'q_eggs': 3})
+    >>> pretty_print(tab.buildFilters(datastructure4))
+    {'eggs': 3, 'one': [1]}
+
+Empty values can be replaced by a default value if present (postfixed
+'_scope' in datastructure)::
+
+    >>> datastructure3 = DataStructure(data = {'q_one': '',
+    ...                                       'q_one_scope': [1,2]})
+
+    >>> tab.buildFilters(datastructure3)
+    {'one': [1, 2]}
+
+The prefix used is actually a property of the widget::
+
+    >>> tab.manage_changeProperties(filter_prefix='the_prefix_')
+    >>> datastructure4 = DataStructure(data = {
+    ...              'the_prefix_one': 'value',
+    ...              'q_wrong_prefix' : 'to_discard'})
+    >>> tab.buildFilters(datastructure4)
+    {'one': 'value'}
+
+Let's get back to the default value
+    >>> tab.manage_changeProperties(filter_prefix='q_')
+
+For catalog-based subclass, we automatically make absolute paths from
+``folder_prefix`` values. For the example, let's make a fake portal::
+
+    >>> class FakePortal:
+    ...     def getPhysicalPath(self):
+    ...         return ('', 'portal_id')
+    >>> class FakeUrlTool:
+    ...     def getPortalObject(self):
+    ...         return FakePortal()
+    >>> tab.portal_url = FakeUrlTool() # fool getToolByName
+
+Case of a single folder prefix::
+
+    >>> datastructure5 = DataStructure(data = {'q_folder_prefix': 'sections'})
+    >>> tab.buildFilters(datastructure5)
+    {'path': '/portal_id/sections'}
+
+Case of multiple ones::
+
+    >>> datastructure6 = DataStructure(data = {'q_folder_prefix': ['w', 's']})
+    >>> tab.buildFilters(datastructure6)
+    {'path': ['/portal_id/w', '/portal_id/s']}
+
+Nothing's done if ``path`` is already there::
+
+    >>> datastructure7 = DataStructure(data = {'q_path': '/the/path'})
+    >>> tab.buildFilters(datastructure7)
+    {'path': '/the/path'}
+
+
+Cookie setting
+~~~~~~~~~~~~~~
+
+The cookie identifier is given by the 'cookie_id' property on the tabular
+widget. If empty, the cookie setting is completely skipped. So let's
+set it::
+
+    >>> tab.manage_changeProperties(cookie_id='test_cook', filter_button='go')
+
+To see what the cookie setting does, we'll need to simulate HTTP requests
+and read the cookie.
+
+    >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
+    >>> tab.REQUEST = FakeRequestWithCookies()
+    >>> from Products.CPSCourrier.utils import unserializeFromCookie
+
+Cookie setting will not be done if request lacks the filter_button::
+
+    >>> res = tab.buildFilters(datastructure1)
+    >>> tab.REQUEST.RESPONSE.cookies
+    {}
+
+Let's add this to the request, then::
+
+    >>> tab.REQUEST.form['go'] = 1
+
+The default charset is normally acquired from the portal object. We
+need to set it directly since we have no acquisition::
+
+    >>> tab.default_charset = charset = 'iso-8859-15'
+
+The cookie holds the interesting part of datastructure, including empty
+values & scopes::
+
+    >>> res = tab.buildFilters(datastructure1)
+    >>> cookie = tab.REQUEST.RESPONSE.cookies['test_cook']['value']
+    >>> unserializeFromCookie(cookie)
+    {u'q_one': u'value'}
+    >>> res = tab.buildFilters(datastructure2)
+    >>> cookie = tab.REQUEST.RESPONSE.cookies['test_cook']['value']
+    >>> pretty_print(unserializeFromCookie(cookie))
+    {u'q_eggs': u'spam', u'q_one': u''}
+    >>> res = tab.buildFilters(datastructure3)
+    >>> cookie = tab.REQUEST.RESPONSE.cookies['test_cook']['value']
+    >>> pretty_print(unserializeFromCookie(cookie))
+    {u'q_one_scope': [1, 2], u'q_one': u''}
+
+Now let's try with non ascii chars::
+
+    >>> datastructure8 = DataStructure(data = {'q_acc': '\xe9'})
+    >>> res = tab.buildFilters(datastructure8)
+    >>> cookie = tab.REQUEST.RESPONSE.cookies['test_cook']['value']
+    >>> pretty_print(unserializeFromCookie(cookie, charset=charset))
+    {u'q_acc': u'\xe9'}
+
+Finally we revert to the default value for filter_button::
+
+    >>> tab.manage_changeProperties(filter_button='')
+
+
+Global column information
+-------------------------
+
+At the end of the rendering process, the tabular passes column
+information to the rendering method. This information is global in the
+sense that it doesn't depend on the displayed items.
+It is extracted from the widgets that appear in the row layout and the
+datastructure the tabular works on. What the rendering method gets is
+the result of application of the ``columnFromWidget`` method to the
+list of row widgets.
+
+So let's make a basic widget::
+
+    >>> from Products.CPSSchemas.Widget import CPSWidget
+    >>> col_wi = CPSWidget('mycol')
+
+In the simplest case, the **widget instance** itself is the extracted info::
+
+    >>> ds = DataStructure()
+    >>> tab.columnFromWidget(col_wi, ds)
+    (<CPSWidget at mycol>, False, '', '')
+
+The three other returned values are, respectively
+
+* a boolean telling whether this column is the current sort reference
+* additional reference about the sorting process that has been done.
+* the GET part of a link to trigger/toggle sorting by this column
+
+For these other values to be set, the column widget has to specify that it's
+sortable and on which index (or key) the sort has to be made. This is done by
+setting the 'sortable' property on it.
+
+    >>> col_wi.manage_addProperty('sortable', 'myindex', 'str')
+
+*Warning*: this is not a standard CPSWidget property. To
+set it via XML GenericSetup configuration, one needs to make its type
+explicit, like this::
+
+    <property name="sortable" type="str">myindex</property>
+
+
+Is the column the sort reference ?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is based on info from the datastructure, so it means that some
+widget has to take care of this in its prepare method::
+
+    >>> ds = DataStructure()
+    >>> ds['q_sort-col'] = 'mycol'
+    >>> tab.columnFromWidget(col_wi, ds)[1]
+    True
+    >>> ds['q_sort-col'] = 'another'
+    >>> tab.columnFromWidget(col_wi, ds)[1]
+    False
+
+Additional sorting info
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This is any information about the sorting that the triggering widget
+may have put in the datastructure for the column renderer::
+
+    >>> ds = DataStructure()
+    >>> ds['q_sort-col'] = 'mycol'
+    >>> ds['q_sort-order'] = 'spiced-lexico'
+    >>> tab.columnFromWidget(col_wi, ds)[1:3]
+    (True, 'spiced-lexico')
+
+This shouldn't matter, but by default this is the empty string::
+
+    >>> ds = DataStructure()
+    >>> ds['q_sort-col'] = 'other'
+    >>> ds['q_sort-order'] = 'spiced-lexico'
+    >>> tab.columnFromWidget(col_wi, ds)[1:3]
+    (False, '')
+
+Link to trigger/toggle sort by this column
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The method now can provide info to build a link that triggers/toggles
+sorting on the column::
+
+    >>> tab.columnFromWidget(col_wi, ds)[3]
+    '?widget__q_sort-on=myindex&widget__q_sort-col=mycol'
+
+Obviously, this link has then to point to a document that parses that
+kind of request. This is what Toggable Criterion Widgets are meant
+for. Let's build one and simulate the above request to check this::
+
+    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    ...               CPSToggableCriterionWidget, FakeRequest
+    >>> sort_wid = CPSToggableCriterionWidget('q_sort')
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__q_sort-on':'myindex',
+    ...                                   'widget__q_sort-col':'mycol'})
+
+We need a DataStructure instance and cheat a bit with it (sorry)::
+
+    >>> other_ds = DataStructure()
+    >>> for x in ['q_sort-on', 'q_sort-col', 'q_sort-col']:
+    ...     other_ds[x] = None
+
+This is how the Toggable Criterion widget interprets the request and writes to
+the datastructure::
+
+    >>> sort_wid.prepare(other_ds)
+    >>> pretty_print(other_ds)
+    {'q_sort-col': 'mycol', 'q_sort-order': '', 'q_sort-on': 'myindex'}
+
+Options
+~~~~~~~
+
+Let's get back to what the tabular widget does. One can change the
+sorting filter::
+
+    >>> tab.columnFromWidget(col_wi, ds, sort_filter='PREF')[3]
+    '?widget__q_PREF-on=myindex&widget__q_PREF-col=mycol'
+
+If the filter_button property is non-empty, we get an additional key
+in the built GET request (see the section on buildFilter). In case
+the tabular widget is included in a view that has several rendering
+modes according to presence of a key in request (typically a search
+form), this must be used to stay in the same mode::
+
+    >>> tab.filter_button = 'filter'
+    >>> tab.columnFromWidget(col_wi, ds)[3]
+    '?widget__q_sort-on=myindex&widget__q_sort-col=mycol&filter=go'
+
+Batching
+--------
+
+  Although most of the batching has to be implemented by concrete
+  subclasses, some properties and helpers are defined at the baseclass
+  level, to enforce easy switch between concrete implementations.
+
+  The batching works like the sorting info, except that the tabular widget
+  itself is the one that puts the batching info in datastructure in
+  prepare phase. There is no need to push a new widget in the
+  layouts. The cookie persistence is the same. This is done by
+  subclassing CPSCourrier.widgets.filter_widget.CPSIntFilterWidget
+
+Properties
+~~~~~~~~~~
+
+  :items_per_page:         max number of items to be displayed on a single page
+  :batching_gadget_pages:  number of pages to be linked in batching
+                           gadget around the current one
+
+  The page number is formatted for humans: 1 means the first page.
+
+Subclasses
+~~~~~~~~~~
+
+  The ``listRowDataStructures`` method, implemented by subclasses,
+  must return a tuple.
+
+       #. The list or iterator of prepared datastructure for rows
+       #. The current page number
+       #. The total number of pages
+
+Helpers
+~~~~~~~
+
+  The ``getBatchParams`` returns the triple (page, start, length) to
+  be used,  where start is in machine format::
+
+     >>> tab.manage_changeProperties(items_per_page=15)
+     >>> ds = DataStructure()
+     >>> tab.REQUEST = FakeRequestWithCookies(widget__spam=2)
+     >>> tab.prepare(ds)
+     >>> tab.getWidgetId() # reminder
+     'spam'
+     >>> tab.getBatchParams(ds)
+     (2, 15, 15)
+
+  If the batching param is missing, we treat it as first page::
+
+     >>> ds = DataStructure()
+     >>> tab.REQUEST = FakeRequestWithCookies()
+     >>> tab.prepare(ds)
+     >>> tab.getBatchParams(ds)
+     (1, 0, 15)
+
+  Now let's see the effect of changing properties::
+
+      >>> tab.manage_changeProperties(items_per_page=17)
+      >>> tab.REQUEST = FakeRequestWithCookies(widget__spam=3)
+      >>> tab.prepare(ds)
+      >>> tab.getBatchParams(ds)
+      (3, 34, 17)
+
+  Additionnaly, one can use a filter to let the user choose the number
+  of items per page. It will get removed from the passed filters dict.::
+
+      >>> tab.manage_changeProperties(filter_items_per_page='items')
+      >>> filters={'items': 19, 'other': 'eggs'}
+      >>> tab.getBatchParams(ds, filters=filters)
+      (3, 38, 19)
+      >>> filters
+      {'other': 'eggs'}
+
+  The filter value can be a string (useful with Select Widgets)::
+
+      >>> tab.getBatchParams(ds, filters={'items': '11'})
+      (3, 22, 11)
+
+  We fall back to the property if the filter is missing::
+
+      >>> tab.getBatchParams(ds, filters={})
+      (3, 34, 17)
+
+  ``getNbPages()`` is meant to factorize the computation of the number
+  of pages::
+
+     >>> tab.manage_changeProperties(items_per_page=20)
+     >>> tab.getNbPages(20)
+     1
+     >>> tab.getNbPages(13)
+     1
+     >>> tab.getNbPages(21)
+     2
+     >>> tab.getNbPages(1)
+     1
+     >>> tab.getNbPages(200)
+     10
+     >>> tab.getNbPages(0)
+     0
+
+It can take the items_per_page keyword arg, too:
+
+    >>> tab.getNbPages(12, items_per_page=10)
+    2
+
+Batching gadget
+~~~~~~~~~~~~~~~
+  As in the case of column information, predigested info is passed to
+  the final render method, to be used to render the batching
+  gadget. This takes the form of a dict, named 'batching_info'. In
+  case there's only one page of results, this dict is set to ``None``.
+
+  :nb_pages: total number of pages (int)
+  :current_page: requested page (int)
+  :linked_pages: pages to propose a link to (int list)
+  :form_key: the key to use in a link to request a specific page
+  :filter_button: to be put in GET request for views that deduce mode
+                  from request (same as column info case)
+
+  The ``linked_pages`` list is deduced from current_page and the
+  property ``batching_gadget_pages``. The batching info is computed by
+  ``getBatchingInfo()``::
+
+     >>> tab.manage_changeProperties(batching_filter='b_page',
+     ...                             batching_gadget_pages=3)
+     >>> nb_pages = 12
+     >>> current_page = 7
+     >>> pretty_print(tab.getBatchingInfo(current_page, nb_pages))
+     {'current_page': 7,
+      'filter_button': 'filter',
+      'form_key': 'widget__spam',
+      'linked_pages': [4, 5, 6, 7, 8, 9, 10],
+      'nb_pages': 12}
+
+  Here's the behaviour with respect to boundaries::
+
+     >>> nb_pages = 8
+     >>> current_page = 7
+     >>> tab.getBatchingInfo(current_page, nb_pages)['linked_pages']
+     [4, 5, 6, 7, 8]
+     >>> current_page = 2
+     >>> tab.getBatchingInfo(current_page, nb_pages)['linked_pages']
+     [1, 2, 3, 4, 5]
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:
+
+

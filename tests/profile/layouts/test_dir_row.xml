@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+A layout for tests.
+$Id$
+-->
+
+<object name="test_dir_row" meta_type="CPS Layout">
+ <property name="style_prefix">layout_default_</property>
+
+ <widget name="id" meta_type="String Widget">
+  <property name="fields">
+   <element value="id"/>
+  </property>
+ </widget>
+
+ <widget name="sn" meta_type="String Widget">
+  <property name="fields">
+   <element value="sn"/>
+  </property>
+ </widget>
+
+ <table>
+  <row>
+   <cell name="id"/>
+  </row>
+  <row>
+   <cell name="sn"/>
+  </row>
+ </table>
+</object>

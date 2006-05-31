@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- I/O support for the archiver -->
+
+  <adapter
+      factory=".archive.CPSProxyXMLAdapter"
+      provides="Products.GenericSetup.interfaces.IBody"
+      for="Products.CPSCore.interfaces.ICPSProxy
+           Products.GenericSetup.interfaces.ISetupEnviron"
+      />
+    <!--
+      The relations between docids are automatically cleaned at document
+      deletion time.
+    -->
+    <subscriber
+      for="Products.CPSCore.interfaces.ICPSProxy
+        zope.app.container.interfaces.IObjectRemovedEvent"
+      handler="Products.CPSCourrier.workflows.events.removedProxy"
+      />
+
+  <!-- replies from existing/template answers.
+       XXX this permission is supposed to be mapped correctly to the Pilot
+       role
+       -->
+
+  <browser:page
+      for="Products.CPSCore.interfaces.ICPSProxy"
+      name="reuse_answer.html"
+      class=".browser.reuseanswerview.ReuseAnswerView"
+      template="browser/reuseAnswer.zpt"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="Products.CPSCore.interfaces.ICPSProxy"
+      name="batch_perform.html"
+      class=".browser.batchperformview.BatchPerformView"
+      template="browser/batchPerform.zpt"
+      permission="zope2.View"
+      />
+
+  <!-- roadmap view manage its mode according to various guards -->
+
+  <browser:page
+      for="Products.CPSCore.interfaces.ICPSProxy"
+      name="cpscourrier_roadmap.html"
+      class=".browser.roadmapview.RoadmapView"
+      template="browser/roadmap.zpt"
+      permission="zope2.View"
+      />
+
+  <!-- perm is inappropriate but we'll use an explicit
+       security assertion -->
+  <browser:page
+      for="Products.CPSCore.interfaces.ICPSProxy"
+      name="folder_localroles.html"
+      class=".browser.localrolesview.LocalRolesView"
+      template="browser/folderLocalRoles.zpt"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="Products.CPSCore.interfaces.ICPSProxy"
+      name="folder_localroles_submit"
+      class=".browser.localrolesview.LocalRolesView"
+      attribute="dispatchSubmit"
+      permission="cmf.ModifyPortalContent"
+      />
+
+
+
+
+</configure>

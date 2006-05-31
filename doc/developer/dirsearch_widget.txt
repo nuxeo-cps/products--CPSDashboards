@@ -1,0 +1,22 @@
+========================
+Directory Tabular Widget
+========================
+
+:Revision: $Id$
+
+.. contents:: :depth: 1
+.. sectnum::
+
+The directory tabular widget is a tabular widget that searches a directory.
+The listRowDataStructures returns a generator based on matching entries
+full datamodels, as the directory can provide them. In particular
+read_process_expressions and the like are interpreted.
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:
+
+

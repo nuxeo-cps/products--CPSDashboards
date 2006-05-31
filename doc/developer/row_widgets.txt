@@ -1,0 +1,350 @@
+===========
+Row Widgets
+===========
+
+:Revision: $Id$
+
+.. contents:: :depth: 1
+.. sectnum::
+
+This is the documentation about the widgets that build up rows in
+CPSCourrier's dashboards. Most of them are not designed to be rendered
+in any other mode than view.
+
+We'll use a fake DataModel throughout in order not to be bothered in
+the examples by the numerous security checks that the full-featured
+one provides::
+
+    >>> from Products.CPSSchemas.tests.testWidgets import FakeDataModel
+
+Type Icon Widget
+----------------
+
+This widget simply displays the icon associated to the underlying
+object portal_type.
+
+Let's instanciate one, with its id::
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ... import CPSTypeIconWidget
+    >>> widget = CPSTypeIconWidget('the_widget')
+    >>> widget.getId()
+    'the_widget'
+
+The prepare method simply puts the object's portal_type in the
+dataStructure. To see this, let's make an empty CPSDocument instance, and
+related datamodel and datastructures::
+
+    >>> from Products.CPSSchemas.DataModel import DataModel
+    >>> from Products.CPSSchemas.DataStructure import DataStructure
+    >>> from Products.CPSDocument.CPSDocument import CPSDocument
+
+    >>> doc = CPSDocument('mydoc')
+    >>> doc.portal_type = 'Example Document'
+    >>> dm = FakeDataModel()
+    >>> dm.proxy = doc
+    >>> ds = DataStructure(datamodel=dm)
+
+    >>> widget.prepare(ds)
+    >>> ds['the_widget']
+    'Example Document'
+
+It's the render method's job to query the portal_types tool to get the
+icon's file name.
+
+Workflow Variable Widget
+------------------------
+
+This widget is a simple helper that fetches the value of a workflow variable
+, typically 'review_state' for the proxy or object associated to the
+datastructure.
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ...    import CPSWorkflowVariableWidget
+    >>> widget = CPSWorkflowVariableWidget('wf_var')
+    >>> widget.getId()
+    'wf_var'
+
+The worflow tool answers None in some cases (archived versions). We
+don't fail
+
+    >>> ds = DataStructure()
+    >>> ds['wf_var'] = None
+    >>> widget.render('view', ds)
+    ''
+
+Qualified Link Widget
+---------------------
+
+This links reads two or three fields in the datamodel and uses them to
+render a detailed <a> tag.
+
+Let's instanciate one, with its id::
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ... import CPSQualifiedLinkWidget
+    >>> widget = CPSQualifiedLinkWidget('the_qual')
+    >>> widget.getId()
+    'the_qual'
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> dm['text'] = 'text of the link'
+    >>> dm['href'] = 'http://target.url'
+    >>> dm['title'] = 'title of the link'
+
+Now let's tell the widget on which fields it works and prepare the
+datastructure::
+
+    >>> widget.fields = ('text', 'title', 'href',)
+    >>> widget.prepare(ds)
+    >>> from pprint import PrettyPrinter
+    >>> pprint=PrettyPrinter(width=50).pprint
+    >>> pprint(ds)
+    {'the_qual_title': 'title of the link', 'the_qual_contents': 'text of the link', 'the_qual_href': 'http://target.url'}
+
+This now the result of rendering::
+
+    >>> widget.render('view', ds)
+    '<a href="http://target.url" title="title of the link">text of the link</a>'
+
+Optionally, one can provide only two fields. The widget will then fetch the
+proxy or object associated to the datamodel and uses its url as target.
+
+Row Boolean Widget
+------------------
+
+This widget renders a checkbox or radio input element.
+
+The goal is to post a bunch of object identifiers or references as a
+list in the checkbox case, or to post the info
+associated to the selected row in the radio button case.
+
+Properties
+~~~~~~~~~~
+
+    :input_type: 'radio' or 'checkbox'
+    :input_name: name attribute of the input element
+    :fields: will give the value attribute (optional, see below)
+    :format_string: a Python format string to customize the value attribute
+    		    (optional)
+Examples
+~~~~~~~~
+
+Let's instanciate one, with its id, and initiate some properties::
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ... import CPSRowBooleanWidget
+    >>> widget = CPSRowBooleanWidget('the_check')
+    >>> widget.getId()
+    'the_check'
+    >>> widget.manage_changeProperties(input_type='checkbox', fields=('token',),
+    ...                                input_name='toks')
+
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> dm['token'] = '54FF54'
+
+Preparation is straightforward if a field has been specified::
+
+    >>> widget.prepare(ds)
+    >>> ds
+    {'the_check': '54FF54'}
+
+
+The rendering is being controlled by the list_name and format_string
+properties. We'll try first without the latter::
+
+    >>> widget.render('view', ds)
+    '<input type="checkbox" name="toks:list" value="54FF54" />'
+
+Now the format string is a python format string::
+
+    >>> widget.format_string = 'tok-%s-formatted'
+    >>> widget.render('view', ds)
+    '<input type="checkbox" name="toks:list" value="tok-54FF54-formatted" />'
+
+Let's see what the radio input type does::
+
+    >>> widget.input_type = 'radio'
+    >>> widget.render('view', ds)
+    '<input type="radio" name="toks" value="tok-54FF54-formatted" />'
+
+Without field
+~~~~~~~~~~~~~
+
+Finally, if the fields property is empty, the widget tries to use the
+id of the proxy associated to the datamodel. We'll have to make new datamodel
+and datastructure to demonstrate this::
+
+    >>> from Products.CPSSchemas.DataModel import DataModel
+    >>> class FakeProxy:
+    ...      def getId(self):
+    ...          return 'the_id'
+    >>> dm = DataModel(None, proxy=FakeProxy())
+    >>> ds = DataStructure(datamodel=dm)
+
+Now let's go::
+    >>> widget.fields = ()
+    >>> widget.prepare(ds)
+    >>> ds
+    {'the_check': 'the_id'}
+
+Time Left Widget
+----------------
+
+The Time Left Widget is a very specific one that displays and
+highlights the (opposite of) number of days left before a deadline::
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ... import CPSTimeLeftWidget
+    >>> widget = CPSTimeLeftWidget('the_wid')
+    >>> widget.meta_type
+    'Time Left Widget'
+    >>> widget.manage_changeProperties(fields=('deadline',))
+
+Preparation
+-----------
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+
+The widget understands strings that Zope's DateTime does (today kwarg
+is a backdoor to make examples reproducible)::
+
+    >>> from DateTime import DateTime
+    >>> dm['deadline'] ='2006/04/07'
+    >>> widget.prepare(ds, today=DateTime('2006/04/10'))
+    >>> ds['the_wid']
+    '3'
+    >>> widget.prepare(ds) # no failure with current time
+
+It doesn't fail if the string is badly formatted. Can happen if this
+is a Missing.value coming from some brain::
+
+    >>> dm['deadline'] ='200sjjdfskj'
+    >>> widget.prepare(ds, today=DateTime('2006/04/10'))
+    >>> ds['the_wid']
+    ''
+    >>> widget.prepare(ds) # no failure with current time
+
+It does understand datetime.datetime objects too
+    >>> from datetime import datetime
+    >>> dm['deadline'] = datetime(2006, 04, 10)
+    >>> widget.prepare(ds, today=datetime(2006, 04, 07))
+    >>> ds['the_wid']
+    '-3'
+    >>> widget.prepare(ds) # no failure with current time
+
+Users With Roles Widget
+-----------------------
+
+The Users With Roles Widget extracts the list of users' titles that
+have one of the given roles in its prepare phase, and otherwise
+subclasses the Lines Widget for rendering::
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ... import CPSUsersWithRolesWidget
+    >>> widget = CPSUsersWithRolesWidget('the_wid')
+    >>> widget.meta_type
+    'Users With Roles Widget'
+
+Internals
+~~~~~~~~~
+
+    >>> class FakeDirectory:
+    ...     title_field = 'title'
+    ...     entries = {'me' : {'title': 'A B'},
+    ...                'it' : {'title' : 'thing'},
+    ...                }
+    ...     def _getEntry(self, eid):
+    ...         return self.entries[eid]
+
+
+``_extractMembers`` can use any prefix and is therefore suitable
+for users and groups::
+
+    >>> widget._extractMembers('spr|', FakeDirectory(), ['spr|me', 'spr|it'])
+    ['A B', 'thing']
+
+It forwards directly pseudo-role groups::
+
+    >>> widget._extractMembers('spr|', FakeDirectory(), ['spr|role:Glob',])
+    ['role:Glob']
+
+Multi Boolean Widget
+--------------------
+
+This widget takes several boolean valued fields and convert them
+to related strings::
+
+    >>> from Products.CPSCourrier.widgets.row_widgets \
+    ...        import CPSMultiBooleanWidget
+    >>> widget = CPSMultiBooleanWidget('mbool')
+    >>> widget.manage_changeProperties(fields=['master', 'slave'],
+    ...                                displayed_values=['Primary', 'Mirror'])
+
+Preparation
+~~~~~~~~~~~
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+
+Booleans are checked in the fields order. First matching wins::
+
+    >>> dm['master'] = True
+    >>> widget.prepare(ds)
+    >>> ds
+    {'mbool': 'Primary'}
+    >>> dm['master'] = False
+    >>> dm['slave'] = True
+    >>> widget.prepare(ds)
+    >>> ds
+    {'mbool': 'Mirror'}
+
+In case none matches, we use one more value from ``displayed_fields``.
+
+    >>> widget.manage_changeProperties(displayed_values=['P', 'M', 'Unknown'])
+
+    >>> dm['slave'] = False
+    >>> widget.prepare(ds)
+    >>> ds
+    {'mbool': 'Unknown'}
+
+Rendering
+~~~~~~~~~
+
+    >>> ds['mbool'] = 'Here!'
+    >>> widget.render('view', ds)
+    'Here!'
+
+Translation is made according to ``is_display_i18n`` property::
+
+    >>> widget.is_display_i18n = True
+    >>> class FakeLocalizer:
+    ...     def __call__(self, key):
+    ...         if key == 'Here!':
+    ...             return u'ici'
+    >>> cpsmcat = FakeLocalizer()
+    >>> cpsmcat('Here!')
+    u'ici'
+    >>> widget.translation_service = FakeLocalizer()
+    >>> widget.render('search', ds, something='else')
+    'ici'
+
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:

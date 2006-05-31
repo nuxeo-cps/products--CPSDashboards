@@ -1,0 +1,108 @@
+<tal:comment replace="nothing"> $Id$ </tal:comment>
+
+
+<script type="text/javascript">
+  isChecked = false
+
+  function toggleSelectAll(toggleCheckbox) {
+    inputElements = toggleCheckbox.form.getElementsByTagName("input");
+
+    for (i = 0; i < inputElements.length; i++) {
+       element = inputElements[i]
+       if (element.type == "checkbox") {
+           element.checked = ! (isChecked); }
+     }
+     isChecked = !(isChecked);
+   }
+</script>
+
+<tal:block define="actions options/actions;
+		   batching_info options/batching_info|nothing;
+		   here_url options/here_url;
+		   base_url options/base_url|string:;
+		   make_form python: actions and options['mode'] != 'search';
+	           columns options/columns;
+		   rows options/rows;
+                   empty_message options/empty_message|string:;
+		   ">
+  <tal:block condition="make_form">
+    <tal:comment condition="nothing">
+      we use "structure string:html_soup" in order to make the ZPT file valid
+         xml even if we don't close the form tag now
+    </tal:comment>
+    <tal:block
+	content="structure string:<form action='batch_perform.html'
+					method='post'
+					enctype='multipart/form-data'> "/>
+  </tal:block>
+  <table class="listing" tal:condition="rows">
+    <tr>
+      <th tal:repeat="col columns">
+	<tal:block define="widget python:col[0];
+			   is_sort python:col[1];
+			   sort_token python:col[2];
+			   toggle_get python:col[3];
+			   ">
+
+	  <input type="checkbox" name="select_all"
+		 onclick="toggleSelectAll(this);"
+		 tal:condition="python:widget.meta_type == 'Row Boolean Widget' and widget.input_type == 'checkbox'" />
+
+	  <a href="" tal:omit-tag="not:widget/sortable|nothing"
+	     tal:attributes="href string:${here_url}${toggle_get}">
+	    <img tal:condition="is_sort" src=""
+		  tal:attributes="src python:base_url + test(sort_token,
+				   'arrow_down.png', 'arrow_up.png')" />
+	    <tal:block content="widget/label"
+		       i18n:translate=""
+		       tal:condition="widget/is_i18n" />
+	  </a>
+	</tal:block>
+      </th>
+    </tr>
+    <tr tal:repeat="row rows"
+	  tal:attributes="class python:test(repeat['row'].odd(),
+			  'odd', 'even')">
+      <tal:block replace="structure row" />
+    </tr>
+  </table>
+  <p tal:condition="not:rows" tal:content="empty_message"
+    i18n:translate=""></p>
+
+  <input type="submit"
+	 class="context"
+	 tal:repeat="action actions"
+         tal:attributes="value action/title;
+                         name string:cpscourrier_batch_${action/id}"
+	 i18n:attributes="value" />
+
+  <tal:block condition="make_form">
+    <tal:block content="structure string:</form>"/>
+  </tal:block>
+
+  <tal:batching_gadget condition="batching_info">
+    <tal:block define="form_key batching_info/form_key;
+		       pages batching_info/linked_pages;
+		       current_page batching_info/current_page;
+		       nb_pages batching_info/nb_pages;
+		       filter_button batching_info/filter_button;
+		       ">
+      <span i18n:translate="">Page <span tal:replace="current_page"
+          i18n:name="current_page"/> of <span tal:replace="nb_pages"
+          i18n:name="nb_pages"/></span>
+      <div tal:condition="python:nb_pages > 1">
+        <a tal:condition="python:1 not in pages"
+          tal:attributes="href string:${here_url}?${form_key}=1&${filter_button}=go">1</a>
+        <tal:dots condition="python:2 not in pages">...</tal:dots>
+      <a href="" tal:repeat="page pages"
+	 tal:attributes="href string:${here_url}?${form_key}=${page}&${filter_button}=go"
+         tal:omit-tag="python:page == current_page" tal:content="page"/>
+        <tal:dots condition="python:(nb_pages-1) not in pages">...</tal:dots>
+        <a tal:condition="python:nb_pages not in pages" tal:content="nb_pages"
+          tal:attributes="href string:${here_url}?${form_key}=${nb_pages}&${filter_button}=go"
+          >last page</a>
+        </div>
+    </tal:block>
+  </tal:batching_gadget>
+
+</tal:block>

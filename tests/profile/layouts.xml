@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object name="portal_layouts">
+ <object name="test_portlet" meta_type="CPS Layout"/>
+ <object name="test_row" meta_type="CPS Layout"/>
+ <object name="test_dir_row" meta_type="CPS Layout"/>
+</object>

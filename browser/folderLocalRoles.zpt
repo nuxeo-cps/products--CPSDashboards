@@ -1,0 +1,103 @@
+<html metal:use-macro="here/main_template/macros/master"
+      tal:define="dummy python:view.setAttrs(mtool=mtool)"
+      tal:condition="python:view.checkPerm">
+
+<body>
+
+<metal:main fill-slot="main"
+	    tal:define="searching view/is_results;
+			localrole_form view/getFormName;
+			submit_url string:${here_url}/folder_localroles_submit;
+			cps_roles view/getCPSCandidateLocalRoles;
+			">
+  <h1 i18n:translate="heading_local_roles_search_members_and_groups"
+      tal:condition="not:searching">
+    Assign local roles: Search Members and groups
+  </h1>
+  <h1 i18n:translate="heading_local_roles_search_results"
+      tal:condition="searching">
+    Assign local roles: Search Results
+  </h1>
+
+  <div class="user_roles">
+    <h3 i18n:translate="cpscourrier_search_users"
+	tal:condition="not:searching">
+      Search users
+    </h3>
+    <form method="post" action=""
+	  tal:condition="not:searching"
+	  tal:attributes="action localrole_form">
+      <tal:block replace="structure view/renderUsersLayout"/>
+      <input type="submit"
+	     name="submit_users_search"
+	     value="button_search"
+	     class="standalone"
+	     i18n:attributes="value"/>
+    </form>
+  </div>
+
+<div class="user_roles">
+    <h3 i18n:translate="cpscourrier_search_groups"
+	tal:condition="not:searching">
+      Search groups
+    </h3>
+    <form method="post" action=""
+	  tal:condition="not:searching"
+	  tal:attributes="action localrole_form">
+      <tal:block replace="structure view/renderGroupsLayout"/>
+      <input type="submit"
+	     name="submit_groups_search"
+	     class="standalone"
+	     value="button_search"
+	     i18n:attributes="value"/>
+    </form>
+  </div>
+
+<!-- End search -->
+
+<div class="user_roles" tal:condition="python:searching">
+    <p i18n:translate="legend_local_roles_select_members_and_role"
+       tal:condition="view/users_results">
+       Select member(s) and a role to assign:
+    </p>
+    <p i18n:translate="legend_local_roles_select_groups_and_role"
+       tal:condition="view/groups_results">
+       Select groups(s) and a role to assign:
+    </p>
+    <form method="post" action="tal managed"
+         tal:attributes="action submit_url">
+      <tal:block replace="structure view/renderResults"/>
+      <div class="assign_roles"
+	   tal:condition="cps_roles">
+        <label for="member_role"
+               i18n:translate="legend_local_roles_role_to_assign">
+          Role to assign:
+        </label>
+        <select name="member_role" id="member_role">
+          <option tal:repeat="role cps_roles"
+                  tal:attributes="value role"
+                  i18n:translate=""
+                  tal:content="role">
+            Role
+          </option>
+        </select>
+        <input i18n:attributes="value" class="standalone"
+          type="submit" value="button_assign_roles" />
+      </div>
+    </form>
+  </div>
+
+<!-- End assignment -->
+<tal:block define="localrole_edit_url submit_url;
+		   localrole_block_url submit_url;
+		   localrole_form_url string:${here_url}/${localrole_form}
+		   ">
+  <metal:block use-macro="here/folder_localrole_assigned/macros/assigned" />
+</tal:block>
+
+</metal:main>
+
+</body>
+</html>
+
+

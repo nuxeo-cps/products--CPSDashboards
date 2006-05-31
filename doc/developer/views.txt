@@ -1,0 +1,42 @@
+==========================
+CPS Courrier browser views
+==========================
+
+:Revision: $Id$
+
+.. contents:: :depth: 2
+.. sectnum::
+
+RoadmapView
+------------
+
+This view class inherits form searchview.SearchView for users and
+groups search forms. It also provides some stack related helpers.
+
+ReuseAnswerView
+---------------
+
+This view class inherits from searchview.SearchView for existing
+outgoing mails search/forms and results.
+
+FolderLocalRolesView
+--------------------
+
+This view class inherits from searchview.SearchView. It recognizes
+whether we search for users or groups::
+
+    >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
+    >>> 
+
+
+
+
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:
+
+

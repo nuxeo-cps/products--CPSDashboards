@@ -1,0 +1,331 @@
+==============
+Filter Widgets
+==============
+
+:Revision: $Id$
+
+.. contents:: :depth: 1
+.. sectnum::
+
+This is the developer's documentation for the widgets that manipulate
+filtering and sorting for CPSCourrier's dashboards.
+
+The general idea is that these widgets put in datastructure all
+elements that tabular widgets, like the Catalog Tabular Widget will
+use to perform their lookup of items to display.
+
+The source of data for these widgets is (in ascending priority):
+
+* the datamodel. Typically, this comes from the document or portlet
+  used for the whole dashboard and can be used as persistent default
+  parameters.
+* a cookie. This makes for session-time persistent parameters.
+* the request. For example, if one of these widgets is rendered in
+  edit mode, along with a submit <input> tag, then submission will
+  have the effect of putting new parameters in the datastructure,
+  hence triggering a new lookup and rendering of the tabular widgets.
+
+We'll use a fake DataModel throughout in order not to be bothered in
+the examples by the numerous security checks that the full-featured
+one provides::
+
+    >>> from Products.CPSSchemas.tests.testWidgets import FakeDataModel
+    >>> from Products.CPSSchemas.DataStructure import DataStructure
+
+RequestCookiesMixin
+------------------
+
+  This is a mixin class that provides the preparation of datastructure
+  from request and cookie. Widgets that subclass this and a widget
+  class can call explicitely the usual prepare methode and the one
+  provided by RequestCookiesMixin::
+
+    >>> from Products.CPSCourrier.widgets.filter_widgets \
+    ...                         import RequestCookiesMixin
+    >>> mixin = RequestCookiesMixin()
+
+  The cookie parsing is optional and depends on the non-emptiness of
+  the 'cookie_id' property.
+
+  We'll need some imports to deal with cookies::
+
+    >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
+    >>> from Products.CPSCourrier.utils import serializeForCookie
+    >>> from Products.CPSCourrier.utils import unserializeFromCookie
+
+  And some general widget stuff::
+
+    >>> from Products.CPSSchemas.Widget import widgetname
+
+
+Cookie expiration
+~~~~~~~~~~~~~~~~~
+
+  Suppose the widget is being used for a CPSDocument instance,
+  e.g., a dashboard or a portlet. Then the values stored in ZODB will behave
+  as default values: the filtering criteria ones you get when
+  you use it for the first time. When one changes them, cookies must
+  expire at validation time, otherwise it could look as if nothing happened.
+
+  On the other hand, if the datamodel refers to transient data, as in
+  the advanced search form, the cookie mustn't expire at validation
+  time, because validation will happpen on all search results pages.
+  Expiring the cookie effectively breaks column-sorting capabilities
+  since these are simple HTTP GETs providing the *change* in
+  filtering options only.
+
+  Fortunately, the layout mode is different in these two diametrally
+  opposed use cases, and ``validate()`` receives it in its keyword args.
+
+  The actual expiration is handled by ``_expireCookie()``. Let's
+  replace it by a logger for the purposes of demonstration::
+
+    >>> def _expireCookie():
+    ...     print 'Expired'
+    >>> mixin._expireCookie = _expireCookie
+
+  In edit mode, we are changing ZODB persistent data, but we won't do
+  anything if the ``cookie_id`` property is not set::
+
+    >>> mixin.expireCookie(layout_mode='edit')
+    >>> mixin.cookie_id = 'the_cookie'
+    >>> mixin.expireCookie(layout_mode='edit')
+    Expired
+
+  In view or search_results modes, we are always changing parameters
+  on the fly, we need not to expire::
+
+    >>> mixin.expireCookie(layout_mode='view')
+    >>> mixin.expireCookie(layout_mode='search_results')
+
+  Now let's check that the genuine ``_expireCookie`` does its job,
+  that is forwarding to the response object.
+
+    >>> mixin = RequestCookiesMixin()
+    >>> mixin.cookie_id = 'the_cookie'
+    >>> mixin.REQUEST = FakeRequestWithCookies()
+    >>> resp = mixin.REQUEST.RESPONSE
+    >>> resp.setCookie('the_cookie', 'abcd', path='/')
+    >>> resp.cookies['the_cookie']['value']
+    'abcd'
+    >>> mixin._expireCookie()
+    FakeResponse: called expireCookie with arg=the_cookie
+
+CPSSelectFilterWidget
+---------------------
+
+  This is a widget that subclasses CPSSelectWidget and parses request
+  and cookies.
+
+  It also has an additional property, 'defines_scope' (a boolean). If
+  this is set to true, it puts the full vocabulary list of adds
+  another (key, item) pair in the
+  datastructure in case the normal value is empty. This tells the
+  query mechanism the full scope of the search, which might be more
+  restrictive than no search.
+  Also, the additional reject_from_scope property (tokens) specifies
+  keys to exclude from the scope. Typical use-case: you want to filter
+  based on workflow states, but one of them corresponds to closed
+  files.
+  Finally, there's the ``total_scope`` property if you want to fix the scope no
+  matter what. Use-case: base rpath.
+
+
+Fixed Filter Widget
+-------------------
+
+  A trivial one that puts its 'value' property in datastructure for
+search criteria that don't depend on user input at all and aren't in
+schema.
+
+String Filter Widget
+--------------------
+
+  Like a String Widget, cookie-request enabled
+
+
+CPSToggableCriterionWidget
+--------------------------
+
+This widget is meant to trigger/toggle a criterion (typically a sort)
+It manipulates three fields, in that order:
+
+#. the criterion (e.g, on what to sort)
+#. the token (e.g, how to sort)
+#. an additional reference (e.g, where the request comes from).
+
+Namings in the datastructure are based on the following properties:
+
+* criterion_suffix (defaults to '-on')
+* token_suffix (defaults to '-order')
+* ref_suffix. (defaults to '-col')
+
+    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    ...               CPSToggableCriterionWidget, FakeRequest
+    >>> sort_wid = CPSToggableCriterionWidget('Query sort')
+    >>> sort_wid.fields = ['crit', 'token', 'ref']
+
+The token possible values are stored as a property, too::
+
+    >>> sort_wid.manage_changeProperties(toggle_tokens=('usual', 'alternate',))
+
+Let's simulate a request::
+
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort-on':'myindex',
+    ...                                   'widget__Query sort-col':'mycol'})
+
+The widget really needs to start with a datamodel which has the three
+mentionned fields, so let's make one and start with empty fields::
+
+    >>> dm = FakeDataModel()
+    >>> for x in ['crit', 'token', 'ref']:
+    ...     dm[x] = None
+    >>> ds = DataStructure(datamodel=dm)
+
+This is how the Toggable Criterion widget interprets the request and writes to
+the datastructure::
+
+    >>> sort_wid.prepare(ds)
+    >>> from pprint import PrettyPrinter
+    >>> pprint=PrettyPrinter(width=50).pprint
+    >>> pprint(ds)
+    {'Query sort-order': 'usual', 'Query sort-col': 'mycol', 'Query sort-on': 'myindex'}
+
+The request parsing takes place after loading from datamodel and cookie.
+If the request's criterion is the same as the one in datastructure after
+these two steps, the widget iterates the token (here, sort-order). So let's
+fill the datamodel with values that give the same datastructure as the last
+one before request parsing::
+
+    >>> dm['crit'] = 'myindex'
+    >>> dm['token'] = 'usual'
+    >>> sort_wid.prepare(ds)
+    >>> pprint(ds)
+    {'Query sort-order': 'alternate', 'Query sort-col': 'mycol', 'Query sort-on': 'myindex'}
+
+A change of criterion doesn't toggle but resets the token to its first value::
+
+    >>> sort_wid.REQUEST.form['widget__Query sort-on'] = 'another'
+    >>> sort_wid.prepare(ds)
+    >>> pprint(ds)
+    {'Query sort-order': 'usual', 'Query sort-col': 'mycol', 'Query sort-on': 'another'}
+
+This works about the same if there is no associated fields. Let's replay
+some of it::
+
+    >>> sort_wid.fields = ()
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort-on':'myindex',
+    ...                                   'widget__Query sort-col':'mycol'})
+    >>> ds = DataStructure(datamodel=FakeDataModel())
+    >>> sort_wid.prepare(ds)
+    >>> from pprint import PrettyPrinter
+    >>> pprint=PrettyPrinter(width=50).pprint
+    >>> pprint(ds)
+    {'Query sort-order': 'usual', 'Query sort-col': 'mycol', 'Query sort-on': 'myindex'}
+
+Now let's check that the toggling works::
+
+    >>> sort_wid.REQUEST = FakeRequestWithCookies(
+    ...                                 **{'widget__Query sort-on':'myindex',
+    ...                                    'widget__Query sort-col':'mycol'})
+    >>> sort_wid.REQUEST.cookies = {'Query sort-order': 'usual'}
+    >>> sort_wid.prepare(ds)
+    >>> pprint(ds)
+    {'Query sort-order': 'alternate', 'Query sort-col': 'mycol', 'Query sort-on': 'myindex'}
+
+
+Int Filter Widget
+-----------------
+The int filter widget passes queries about integer values, together
+with how to use them. This is specified in the widget properties,
+and is written to datastructure with a suffix.
+
+    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    ...               CPSIntFilterWidget
+    >>> widget = CPSIntFilterWidget('the_widget')
+    >>> widget.REQUEST = FakeRequest()
+    >>> widget.default_charset = 'iso-8859-15' # normally acquired from portal
+    >>> widget.manage_changeProperties(fields=('int',))
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> dm['int'] = 3
+
+Now let's go through preparation. It is vital for queries that the datastructure
+value's type stays an int, and that's a major difference with the usual
+Int Widget::
+
+    >>> widget.prepare(ds)
+    >>> ds['the_widget']
+    3
+
+Same must be true with cookies and request form, and they follow the
+usual precedence rules::
+
+    >>> widget.manage_changeProperties(cookie_id='cooked')
+    >>> cooked = serializeForCookie({'the_widget': 2})
+    >>> widget.REQUEST.cookies = {'cooked': cooked}
+    >>> widget.prepare(ds)
+    >>> ds['the_widget']
+    2
+    >>> widget.REQUEST.form = {widgetname('the_widget'): '1'}
+    >>> widget.prepare(ds)
+    >>> ds['the_widget']
+    1
+
+Courrier To Do Filter Widget
+----------------------------
+
+This is the filter brother of Multi Boolean Widget, that is it is
+designed to choose among mutually exclusive criteria.
+It can translates the vocabulary key in a boolean query::
+
+    >>> from Products.CPSCourrier.widgets.filter_widgets import\
+    ...               CPSCourrierToDoFilterWidget
+    >>> widget = CPSCourrierToDoFilterWidget('the_widget')
+    >>> widget.manage_changeProperties(fields=('todo',))
+    >>> widget.REQUEST = FakeRequest()
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> dm['todo'] = 'handle'
+
+Now let's go through preparation. Note that the field value is put in
+datastructure like a Select Widget would do, too. This is
+for the rendering part::
+
+    >>> widget.prepare(ds)
+    >>> ds['the_widget']
+    'handle'
+    >>> ds['the_widget-handle']
+    True
+
+In addition, the widget can forward non-boolean queries to several indexes::
+
+    >>> widget.manage_changeProperties(forward_values=['dead', 'flying'],
+    ...                                forward_indexes=['state', 'type'])
+    >>> dm['todo'] = 'dead'
+    >>> widget.prepare(ds)
+    >>> ds['state']
+    'dead'
+    >>> dm['todo'] = 'flying'
+    >>> widget.prepare(ds)
+    >>> ds['type']
+    'flying'
+
+It's now the job of the catalog widget to convert to the needed query,
+for example replacing the above booleans by the list of groyps the
+user belongs to. Note that you'll have to use the same prefix
+convention in ``forward_values`` as you did for the widget id for this
+to work.
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:

@@ -1,0 +1,134 @@
+===========
+Search View
+===========
+
+:Revision: $Id$
+
+.. contents:: :depth: 2
+.. sectnum::
+
+``searchview.SearchView`` is a common base class for views that
+implement a search form and its results.
+
+It will be convenient for examples to have a pretty printer::
+
+    >>> from pprint import PrettyPrinter
+    >>> pretty_print=PrettyPrinter(width=50).pprint
+
+Instanciation
+~~~~~~~~~~~~~
+
+Let's make a view , in a pseudo portal::
+
+   >>> from OFS.Folder import Folder
+   >>> app = Folder('app')
+   >>> app._setOb('cps', Folder('cps'))
+   >>> portal = app.cps
+   >>> portal.default_charset = "iso-8859-15"
+   >>> from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
+   >>> request = FakeRequestWithCookies()
+   >>> from Products.CPSCourrier.browser.searchview import SearchView
+   >>> view = SearchView(portal, request).__of__(portal)
+
+Whether we are exposing search results is computed at init time::
+
+   >>> view.is_results
+   False
+
+We are in search results mode if the right button was pressed by the user::
+
+   >>> request.form = {'search_submit': 'go'}
+   >>> view = SearchView(portal, request).__of__(portal)
+   >>> view.is_results
+   True
+   >>> request.form = {'filter': 'go'}
+   >>> view = SearchView(portal, request).__of__(portal)
+   >>> view.is_results
+   True
+   >>> request.form = {}
+   >>> view = SearchView(portal, request).__of__(portal)
+   >>> view.is_results
+   False
+
+
+renderLayout
+~~~~~~~~~~~~
+This method has to make the right call to the layouts tool, so let's
+make a fake one::
+
+   >>> class FakeLayoutsTool:
+   ...     def renderLayout(self, **kwargs):
+   ...         pretty_print(kwargs)
+   ...         return 'rendered', True, 'datastructure'
+   >>> portal._setOb('portal_layouts', FakeLayoutsTool())
+
+If we aren't displaying search results, the layout is rendered in
+edit mode::
+
+   >>> res = view.renderLayout(name='the_search')
+   {'context': <Folder at app/cps>,
+    'layout_id': 'the_search',
+    'layout_mode': 'edit',
+    'mapping': {},
+    'ob': {},
+    'schema_id': 'the_search'}
+   >>> pretty_print(res)
+   {'ds': 'datastructure',
+    'rendered': 'rendered',
+    'status': True}
+
+Search results mode corresponds to layout mode 'search_results'::
+
+   >>> view.is_results = True
+   >>> res = view.renderLayout(name='the_search')
+   {'context': <Folder at app/cps>,
+    'layout_id': 'the_search',
+    'layout_mode': 'search_results',
+    'mapping': {},
+    'ob': {},
+    'schema_id': 'the_search'}
+
+If name is missing, the ``layout_id`` attribute is taken::
+
+   >>> view.layout_id = 'some_layout'
+   >>> res = view.renderLayout()
+   {'context': <Folder at app/cps>,
+    'layout_id': 'some_layout',
+    'layout_mode': 'search_results',
+    'mapping': {},
+    'ob': {},
+    'schema_id': 'some_layout'}
+
+The schema can be independently specified::
+
+   >>> res = view.renderLayout(schema_id='the_schema')
+   {'context': <Folder at app/cps>,
+    'layout_id': 'some_layout',
+    'layout_mode': 'search_results',
+    'mapping': {},
+    'ob': {},
+    'schema_id': 'the_schema'}
+
+Values forwarding
+~~~~~~~~~~~~~~~~~
+   If one already comes from the search results page, one has to forward
+   some inputs to the next page. SearchView provides an helper for
+   this use cas::
+
+   >>> request.form = {'widget__truc': 'a value',
+   ...                 'widget__spam': 'eggs'}
+   >>> print view.forwardInputs(['truc', 'spam'])
+   <input type="hidden" name="widget__truc" value="a value" />
+   <input type="hidden" name="widget__spam" value="eggs" />
+
+   XXX there is a problem with the cookie stuff: is it on purpose that
+   request doesn't take precedence ?
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:
+
+

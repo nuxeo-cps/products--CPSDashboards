@@ -1,0 +1,102 @@
+======================
+Catalog Tabular Widget
+======================
+
+:Revision: $Id$
+
+.. contents:: :depth: 1
+.. sectnum::
+
+The Catalog Tabular Widget is a Tabular Widget that performs a
+ZCatalog query.
+
+In terms of classes, this is a simple subclass of
+TabularWidget that provides an implementation of listRowDataStructures
+through the portal_catalog tool.
+
+Let's make one::
+
+    >>> from Products.CPSCourrier.widgets.catalog import CatalogTabularWidget
+    >>> cat = CatalogTabularWidget('thecat')
+
+We'll need the pretty printer::
+
+    >>> from pprint import PrettyPrinter
+    >>> pretty_print=PrettyPrinter(width=50).pprint
+
+Properties
+----------
+
+The ``fulltext_keys`` property indicates keys used in the Catalog Tool
+query for fulltext searches.
+
+The ``fulltext_ors`` property are the corresponding incoming key for
+or searches. *They must correspond perfectly*.
+
+Default values are set for a typical CPS setup::
+
+    >>> cat.fulltext_keys
+    ('SearchableText', 'ZCTitle')
+    >>> cat.fulltext_ors
+    ('ZCText_or', 'ZCTitle_or')
+
+Process
+-------
+As incoming parameters, the widget uses the result of base class'
+buildFilters method. It processes them with the filterToQuery method
+before forwarding to the Catalog Tool. Finally, it adapts the
+resulting brains as dastructures.
+
+The filterToQuery method takes only care of fulltext searches, using the
+widget's properties to find them.
+
+    >>> filters = {'ZCText_or': 'abc', 'other': 'other'}
+    >>> cat.filtersToQuery(filters)
+    >>> pretty_print(filters)
+    {'other': 'other', 'SearchableText': 'abc'}
+
+Now let's see what happens with several tokens:
+
+    >>> filters = {'ZCTitle_or': 'foo eggs'}
+    >>> cat.filtersToQuery(filters)
+    >>> filters
+    {'ZCTitle': '(foo OR eggs)'}
+
+Of course we don't fail if the keys are missing::
+    >>> filters = {}
+    >>> cat.filtersToQuery(filters)
+
+Queries with ranges (the filter widget has to push such keys in ds)::
+
+    >>> filters = {'used_min': 5}
+    >>> cat.filtersToQuery(filters)
+    >>> pretty_print(filters)
+    {'used': {'query': 5, 'range': 'min'}}
+
+This also supports 'min:max' ranges on demand, according the range suffixes::
+
+    >>> from DateTime import DateTime
+    >>> filters = {'date_min': DateTime('2006/01/22'),
+    ...            'date_max': DateTime('2006/02/03')}
+    >>> cat.filtersToQuery(filters)
+    >>> pretty_print(filters)
+    {'date': {'query': [DateTime('2006/01/22'),
+                        DateTime('2006/02/03')],
+              'range': 'min:max'}}
+
+Empty values are ignored if any::
+
+    >>> filters = {'date_min': None,
+    ...            'date_max': DateTime('2006/02/03')}
+    >>> cat.filtersToQuery(filters)
+    >>> pretty_print(filters)
+    {'date': {'query': DateTime('2006/02/03'),
+              'range': 'max'}}
+
+
+.. Emacs
+.. Local Variables:
+.. mode: rst
+.. End:
+.. Vim
+.. vim: set filetype=rst:

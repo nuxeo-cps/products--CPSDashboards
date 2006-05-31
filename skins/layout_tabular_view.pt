@@ -1,0 +1,63 @@
+<tal:comment replace="nothing">
+  This special layout expects to find a tabular widget in the last row.
+  All other widgets are used to govern filtering/sorting parameters and make up
+  a form.
+
+  $Id$
+</tal:comment>
+
+<tal:block define="layout options/layout;
+		   rows layout/rows;
+		   tabular_cell python:rows[-1][0];
+		   param_rows python:rows[:-1];
+		   tabular_mode tabular_cell/widget_mode;
+		   make_form python:tabular_mode != 'search';
+		   formaction string:;
+		   ">
+
+  <tal:block condition="make_form">
+    <tal:block
+	content="structure string:<form action='${formaction}' method='post'
+					enctype='multipart/form-data'> "/>
+  </tal:block>
+
+    <table width="100%" cellpadding="2" cellspacing="2"
+	   summary="filter options">
+      <tr tal:repeat="row param_rows">
+	<tal:block repeat="cell row">
+	  <td>
+	    <tal:block define="widget cell/widget">
+	      <span class="dlabel"
+		    tal:condition="widget/is_i18n"
+		    tal:content="widget/label"
+		    i18n:translate=""
+		    >
+		label
+	      </span>
+	      <span class="dlabel" tal:condition="not:widget/is_i18n"
+		    tal:content="widget/label">label</span>
+	    </tal:block>
+	  </td>
+	  <td>
+	    <tal:block replace="structure cell/widget_rendered" />
+	  </td>
+	</tal:block>
+      </tr>
+    </table>
+    <p style="text-align:right; margin:1em">
+      <input type="submit" name="filter" value="cpscourrier_filter_button"
+	     class="context"
+	     tal:condition="param_rows"
+	     i18n:attributes="value" />
+    </p>
+
+  <tal:block condition="make_form">
+    <tal:block content="structure string:</form>"/>
+  </tal:block>
+
+
+  <p>
+    <tal:block replace="structure tabular_cell/widget_rendered" />
+  </p>
+
+</tal:block>

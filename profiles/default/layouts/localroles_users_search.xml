@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!-- unique difference so far with roadmap conterpart:
+     Results, property row_layout -->
+<object name="localroles_users_search" meta_type="CPS Layout">
+ <property name="layout_search_results_method"
+	   type="string">layout_tabular_view</property>
+  <widget name="Results" meta_type="Directory Tabular Widget">
+    <property name="row_layout">localroles_users_row</property>
+    <property name="hidden_layout_modes">edit</property>
+    <property name="empty_message">cpscourrier_no_user_found</property>
+    <property name="is_empty_message_i18n">True</property>
+    <property name="filter_button">submit_users_search</property>
+    <property name="directory">members</property>
+ </widget>
+
+  <widget name="q_givenName" meta_type="String Widget">
+    <property name="hidden_layout_modes">search_results</property>
+    <property name="is_i18n">True</property>
+    <property name="label_edit">label_first_name</property>
+    <property name="fields">
+      <element value="givenName"/>
+    </property>
+  </widget>
+
+  <widget name="q_sn" meta_type="String Widget">
+    <property name="hidden_layout_modes">search_results</property>
+    <property name="is_i18n">True</property>
+    <property name="label_edit">label_last_name</property>
+    <property name="fields">
+      <element value="sn"/>
+    </property>
+  </widget>
+
+  <table>
+    <row>
+      <cell name="q_sn"/>
+      <cell name="q_givenName"/>
+    </row>
+    <row>
+      <cell name="Results"/>
+    </row>
+  </table>
+</object>
