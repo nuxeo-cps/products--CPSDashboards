@@ -44,52 +44,6 @@ SCOPE_SUFFIX = '_scope' # see explanations in filter_widgets
 
 _missed = object()
 
-class FakeResponse:
-
-    def __init__(self):
-        self.cookies = {}
-
-    def setCookie(self, cookie_id, cookie, path=None):
-        self.cookies[cookie_id] = {
-            'value': cookie, 'path': path}
-
-    def expireCookie(self, arg, **kw):
-        print "FakeResponse: called expireCookie with arg=%s" % arg
-
-
-
-class FakeRequestWithCookies:
-    """To simulate a request with cookies
-
-    >>> request = FakeRequestWithCookies()
-    >>> request.form
-    {}
-    >>> request['KEY'] = 'spam'
-    >>> request['KEY']
-    'spam'
-    >>> request.RESPONSE.setCookie('cook_id', 'contents')
-    """
-
-    def __init__(self, **kw):
-        self.form = kw
-        self.cookies = {}
-        self.RESPONSE = FakeResponse()
-        self.URLPATH1 = '/path/to/obj'
-
-    def __getitem__(self, key, default=None):
-        return getattr(self, key, default)
-
-    def __setitem__(self, key, value):
-        setattr(self, key, value)
-
-    def getCookie(self, cookie_id, **kw):
-        """ We do nothing about the path currently."""
-
-        info = self.cookies.get(cookie_id)
-        if info is None:
-            return None
-        return info['value']
-
 
 class TabularWidget(CPSIntFilterWidget):
     """ A generic portlet widget to display tabular contents.
