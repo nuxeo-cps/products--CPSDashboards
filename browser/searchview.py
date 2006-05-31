@@ -25,9 +25,9 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CPSSchemas.Widget import widgetname
 from Products.CPSSchemas.BasicWidgets import renderHtmlTag
-from Products.CPSCourrier.utils import unserializeFromCookie
+from Products.CPSDashboards.utils import unserializeFromCookie
 
-logger = logging.getLogger('CPSCourrier.browser.reuseanswerview')
+logger = logging.getLogger('CPSDashboards.browser.reuseanswerview')
 
 class SearchView(BrowserView):
 
