@@ -3,7 +3,7 @@ Requires:
 -
 New features:
 ~~~~~~~~~~~~~
--
+- Product init, extracted from CPSCourrier
 Bug fixes:
 ~~~~~~~~~~
 -
