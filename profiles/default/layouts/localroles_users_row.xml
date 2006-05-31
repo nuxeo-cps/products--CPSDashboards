@@ -7,7 +7,7 @@
     <property name="input_name">member_ids</property>
     <property name="input_type">checkbox</property>
     <property name="fields">
-      <element value="uid"/>
+      <element value="id"/>
     </property>
     <property name="format_string">user:%s</property>
   </widget>
