@@ -17,7 +17,7 @@
 #
 # $Id$
 
-""" This module holds simple widget definitions for CPSCourrier row layouts.
+""" This module holds simple widget definitions for CPSDashboards row layouts.
 """
 import logging
 from cgi import escape
@@ -34,7 +34,7 @@ from Products.CPSSchemas.BasicWidgets import (CPSStringWidget,
                                               CPSIntWidget,
                                               CPSBooleanWidget)
 
-logger = logging.getLogger('CPSCourrier.widgets.row_widgets')
+logger = logging.getLogger('CPSDashboards.widgets.row_widgets')
 
 def xlate(s, cpsmcat):
     """Does a translation."""
