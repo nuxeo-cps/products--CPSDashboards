@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object name="portal_schemas" meta_type="CPS Schemas Tool">
+ <!-- Directory searches -->
+ <object name="localroles_users_search" meta_type="CPS Schema"/>
+ <object name="localroles_groups_search" meta_type="CPS Schema"/>
+</object>

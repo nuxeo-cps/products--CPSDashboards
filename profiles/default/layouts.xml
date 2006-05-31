@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<object name="portal_layouts" meta_type="CPS Layouts Tool">
+
+  <!-- layouts for the mail document types -->
+ <object name="mail_header" meta_type="CPS Layout"/>
+ <object name="mail_common" meta_type="CPS Layout"/>
+ <object name="mail_flexible" meta_type="CPS Layout"/>
+ <object name="outgoing_mail" meta_type="CPS Layout"/>
+ <object name="mail_metadata" meta_type="CPS Layout"/>
+ <object name="incoming_mail_metadata" meta_type="CPS Layout"/>
+
+ <!-- layout for the Mailbox and Mailbox Group document types -->
+ <object name="mailbox_header" meta_type="CPS Layout"/>
+ <object name="mailbox_common_header" meta_type="CPS Layout"/>
+ <object name="mailbox_common" meta_type="CPS Layout"/>
+ <object name="mailbox_contents" meta_type="CPS Layout"/>
+ <object name="mailbox_group_common" meta_type="CPS Layout"/>
+ <object name="mailbox_group_contents" meta_type="CPS Layout"/>
+
+ <!-- layout for the Mail Templates Box document types -->
+ <object name="mail_templates_box_contents" meta_type="CPS Layout"/>
+ <object name="mail_templates_box_contents_row" meta_type="CPS Layout"/>
+
+ <!-- layout for the Dashboard document type -->
+ <object name="mail_dashboard" meta_type="CPS Layout"/>
+
+ <!-- Search layouts -->
+ <object name="mail_search_answers" meta_type="CPS Layout"/>
+ <object name="roadmap_groups_search" meta_type="CPS Layout"/>
+ <object name="roadmap_users_search" meta_type="CPS Layout"/>
+ <object name="localroles_groups_search" meta_type="CPS Layout"/>
+ <object name="localroles_users_search" meta_type="CPS Layout"/>
+
+ <!-- layouts for rows of contents views -->
+ <object name="mailbox_contents_row" meta_type="CPS Layout"/>
+ <object name="mailbox_group_contents_row" meta_type="CPS Layout"/>
+ <object name="mail_dashboard_row" meta_type="CPS Layout"/>
+ <object name="mail_search_answers_row" meta_type="CPS Layout"/>
+ <object name="roadmap_groups_row" meta_type="CPS Layout"/>
+ <object name="roadmap_users_row" meta_type="CPS Layout"/>
+ <object name="localroles_groups_row" meta_type="CPS Layout"/>
+ <object name="localroles_users_row" meta_type="CPS Layout"/>
+
+</object>

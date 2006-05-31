@@ -20,23 +20,12 @@
     </property>
   </widget>
 
-   <widget name="description" meta_type="String Widget">
-     <property name="is_i18n">True</property>
-     <property name="label">label_description</property>
-     <property name="fields">
-       <element value="description"/>
-     </property>
-   </widget>
-
   <table>
     <row>
       <cell name="Checkbox"/>
     </row>
     <row>
       <cell name="title"/>
-    </row>
-    <row>
-      <cell name="description"/>
     </row>
   </table>
 </object>

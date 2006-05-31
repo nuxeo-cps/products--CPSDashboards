@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<object name="localroles_groups_search" meta_type="CPS Schema">
+  <field name="group" meta_type="CPS String Field"/>
+  <field name="description" meta_type="CPS String Field"/>
+</object>
