@@ -280,6 +280,11 @@ Courrier To Do Filter Widget
 
 This is the filter brother of Multi Boolean Widget, that is it is
 designed to choose among mutually exclusive criteria.
+
+This is useful for high level flags, depending ,e.g, on wf states,
+localroles amd so on. For instance what has to be done on some document
+can depend on this
+
 It can translates the vocabulary key in a boolean query::
 
     >>> from Products.CPSCourrier.widgets.filter_widgets import\
