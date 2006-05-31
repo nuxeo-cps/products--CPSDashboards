@@ -40,12 +40,10 @@ class LocalRolesView(SearchView):
             return self.renderGroupsLayout()
 
     def renderUsersLayout(self):
-        return self.renderLayout(name='localroles_users_search',
-                                 schema_id='roadmap_users_search')['rendered']
+        return self.renderLayout(name='localroles_users_search')['rendered']
 
     def renderGroupsLayout(self):
-        return self.renderLayout(name='localroles_groups_search',
-                                 schema_id='roadmap_groups_search')['rendered']
+        return self.renderLayout(name='localroles_groups_search')['rendered']
 
     def checkPerm(self):
         mtool = getattr(self, 'mtool', None) or getToolByName(

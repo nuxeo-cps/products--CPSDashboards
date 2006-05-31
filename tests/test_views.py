@@ -22,9 +22,34 @@
 
 import unittest
 from zope.testing import doctest
+from Products.CPSDefault.tests.CPSTestCase import CPSTestCase
+from Products.CPSDashboards.testing import FakeRequestWithCookies
+from layer import CPSDashboardsLayer
+
+# what we test
+from Products.CPSDashboards.browser.localrolesview import LocalRolesView
+
+class LocalRolesViewIntegrationTestCase(CPSTestCase):
+    layer = CPSDashboardsLayer
+
+    def afterSetUp(self):
+        self.request = FakeRequestWithCookies()
+        self.view = LocalRolesView(self.portal.workspaces,
+                                   self.request).__of__(self.portal)
+
+    def test_renderUsersLayout(self):
+        # just check config consistency
+
+        self.view.renderUsersLayout()
+
+    def test_renderGroupsLayout(self):
+        # just check config consistency
+
+        self.view.renderGroupsLayout()
 
 def test_suite():
     return unittest.TestSuite((
+        unittest.makeSuite(LocalRolesViewIntegrationTestCase),
         doctest.DocFileTest('doc/developer/views.txt',
                             package='Products.CPSDashboards'),
         doctest.DocFileTest('doc/developer/searchview.txt',
