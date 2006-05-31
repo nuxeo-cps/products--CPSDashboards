@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_skins">
  <object name="cps_dashboards" meta_type="Filesystem Directory View"
-    directory="CPSCourrier/skins"/>
+    directory="CPSDashboards/skins"/>
  <skin-path name="CPSSkins">
   <layer name="cps_dashboards" insert-after="custom"/>
  </skin-path>
