@@ -24,5 +24,5 @@ from zope.testing import doctest
 def test_suite():
     return unittest.TestSuite((
         doctest.DocFileTest('doc/developer/filter_widgets.txt',
-                            package='Products.CPSCourrier'),
+                            package='Products.CPSDashboards'),
         ))

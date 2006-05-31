@@ -25,7 +25,7 @@ from zope.testing import doctest
 
 from Products.CPSDefault.tests.CPSTestCase import CPSTestCase
 
-from Products.CPSCourrier.tests.layer import CPSCourrierLayer
+from Products.CPSDashboards.tests.layer import CPSDashboardsLayer
 from Products.CPSSchemas.tests.testWidgets import FakeDataStructure
 
 # things to be tested
@@ -35,10 +35,10 @@ from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSDocument.FlexibleTypeInformation import FlexibleTypeInformation
 
-from Products.CPSCourrier.widgets.tabular import FakeRequestWithCookies
-from Products.CPSCourrier.tests.widgets import TestingTabularWidget
-from Products.CPSCourrier.widgets.foldercontents import FolderContentsWidget
-from Products.CPSCourrier.widgets.dirsearch import DirectoryTabularWidget
+from Products.CPSDashboards.widgets.tabular import FakeRequestWithCookies
+from Products.CPSDashboards.tests.widgets import TestingTabularWidget
+from Products.CPSDashboards.widgets.foldercontents import FolderContentsWidget
+from Products.CPSDashboards.widgets.dirsearch import DirectoryTabularWidget
 
 
 class CustomMethods:
@@ -80,7 +80,7 @@ class TestingTabularWidgetCustomMethods(CustomMethods, TestingTabularWidget):
 
 class IntegrationTestCase(CPSTestCase):
 
-    layer = CPSCourrierLayer
+    layer = CPSDashboardsLayer
 
     def afterSetUp(self):
         self.login('manager')
@@ -289,7 +289,7 @@ def test_suite():
         unittest.makeSuite(IntegrationTestTabularPortlet),
         unittest.makeSuite(IntegrationTestFolderContentsPortlet),
         unittest.makeSuite(IntegrationTestDirectoryTabularWidget),
-        doctest.DocTestSuite('Products.CPSCourrier.widgets.tabular'),
+        doctest.DocTestSuite('Products.CPSDashboards.widgets.tabular'),
         doctest.DocFileTest('doc/developer/tabular_widget.txt',
-                            package='Products.CPSCourrier'),
+                            package='Products.CPSDashboards'),
         ))

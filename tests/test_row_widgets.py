@@ -27,7 +27,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.DataStructure import DataStructure
 
-from Products.CPSCourrier.widgets.row_widgets import CPSUsersWithRolesWidget
+from Products.CPSDashboards.widgets.row_widgets import CPSUsersWithRolesWidget
 
 class TestUsersWithRolesWidget(CPSTestCase):
 
@@ -76,5 +76,5 @@ def test_suite():
     return unittest.TestSuite((
         unittest.makeSuite(TestUsersWithRolesWidget),
         doctest.DocFileTest('doc/developer/row_widgets.txt',
-                            package='Products.CPSCourrier'),
+                            package='Products.CPSDashboards'),
         ))
