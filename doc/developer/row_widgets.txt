@@ -57,7 +57,7 @@ Workflow Variable Widget
 
 This widget is a simple helper that fetches the value of a workflow variable
 , typically 'review_state' for the proxy or object associated to the
-datastructure.
+datastructure::
 
     >>> from Products.CPSDashboards.widgets.row_widgets \
     ...    import CPSWorkflowVariableWidget
@@ -65,8 +65,8 @@ datastructure.
     >>> widget.getId()
     'wf_var'
 
-The worflow tool answers None in some cases (archived versions). We
-don't fail
+The workflow tool answers None in some cases (archived versions). We
+don't fail::
 
     >>> ds = DataStructure()
     >>> ds['wf_var'] = None
@@ -311,7 +311,7 @@ Booleans are checked in the fields order. First matching wins::
     >>> ds
     {'mbool': 'Mirror'}
 
-In case none matches, we use one more value from ``displayed_fields``.
+In case none matches, we use one more value from ``displayed_fields``::
 
     >>> widget.manage_changeProperties(displayed_values=['P', 'M', 'Unknown'])
 
@@ -322,7 +322,7 @@ In case none matches, we use one more value from ``displayed_fields``.
 
 Rendering
 ~~~~~~~~~
-
+::
     >>> ds['mbool'] = 'Here!'
     >>> widget.render('view', ds)
     'Here!'
@@ -340,6 +340,51 @@ Translation is made according to ``is_display_i18n`` property::
     >>> widget.translation_service = FakeLocalizer()
     >>> widget.render('search', ds, something='else')
     'ici'
+
+Email Display Widget
+--------------------
+
+Row widget to display small email addresses::
+
+    >>> from Products.CPSDashboards.widgets.row_widgets \
+    ...        import CPSEmailDisplayWidget
+    >>> widget = CPSEmailDisplayWidget('email')
+
+This only works in view mode::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> ds["email"] = "ogrisel+row-widget@nuxeo.com"
+    >>> widget.render('view', ds)
+    '<address style="font-size: 80%">ogrisel+row-widget@nuxeo.com</address>'
+
+This widget also supports complex email string with the user name and the
+email address in angle brackets::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> ds["email"] = "Olivier Grisel <ogrisel+row-widget@nuxeo.com>"
+    >>> widget.render('view', ds)
+    'Olivier Grisel<br/><address style="font-size: 80%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
+
+
+Emails Display Widget
+---------------------
+
+This is the same as previously but for a list of emails addresses::
+
+    >>> from Products.CPSDashboards.widgets.row_widgets \
+    ...        import CPSEmailsDisplayWidget
+    >>> widget = CPSEmailsDisplayWidget('emails')
+
+This only works in view mode as well::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> ds["emails"] = ["ogrisel+row-widget@nuxeo.com",
+    ...                 "Olivier Grisel <ogrisel+row-widget@nuxeo.com>"]
+    >>> widget.render('view', ds)
+    '<address style="font-size: 80%">ogrisel+row-widget@nuxeo.com</address><br/>Olivier Grisel<br/><address style="font-size: 80%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
 
 
 .. Emacs

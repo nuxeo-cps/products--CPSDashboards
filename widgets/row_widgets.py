@@ -20,6 +20,7 @@
 """ This module holds simple widget definitions for CPSDashboards row layouts.
 """
 import logging
+import re
 from cgi import escape
 from datetime import datetime
 from Globals import InitializeClass
@@ -541,4 +542,53 @@ class CPSMultiBooleanWidget(CPSWidget):
 
 InitializeClass(CPSMultiBooleanWidget)
 widgetRegistry.register(CPSMultiBooleanWidget)
+
+class CPSEmailDisplayWidget(CPSStringWidget):
+    """Display an email address"""
+
+    meta_type = 'Email Display Widget'
+
+    compound_email_pattern = re.compile(
+        r"^(.*)(<([-\w_.'+])+@(([-\w])+\.)+([\w]{2,4})>)$")
+
+    def renderEmailAddress(self, value, tag="address"):
+        # TODO: remove hardcoded style
+        return renderHtmlTag(tag, style="font-size: 80%", contents=value)
+
+    def renderOneEmail(self, value):
+        m = self.compound_email_pattern.match(value)
+        if m:
+            title = escape(m.group(1).strip())
+            email = self.renderEmailAddress(escape(m.group(2)))
+
+            return "%s<br/>%s" % (title, email)
+        else:
+            return self.renderEmailAddress(value)
+
+    def render(self, mode, datastructure, **kw):
+        if mode != "view":
+            return ""
+        value = datastructure[self.getWidgetId()].strip()
+        return self.renderOneEmail(value)
+
+InitializeClass(CPSEmailDisplayWidget)
+widgetRegistry.register(CPSEmailDisplayWidget)
+
+
+class CPSEmailsDisplayWidget(CPSLinesWidget, CPSEmailDisplayWidget):
+    """Display a list of email addresses"""
+
+    meta_type = 'Emails Display Widget'
+
+    view_mode_separator = "<br/>"
+
+    def render(self, mode, datastructure, **kw):
+        if mode != "view":
+            return ""
+        values = datastructure[self.getWidgetId()]
+        rendered = (self.renderOneEmail(v.strip()) for v in values)
+        return self.view_mode_separator.join(rendered)
+
+InitializeClass(CPSEmailsDisplayWidget)
+widgetRegistry.register(CPSEmailsDisplayWidget)
 
