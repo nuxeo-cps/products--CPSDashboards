@@ -356,7 +356,7 @@ This only works in view mode::
     >>> ds = DataStructure(datamodel=dm)
     >>> ds["email"] = "ogrisel+row-widget@nuxeo.com"
     >>> widget.render('view', ds)
-    '<address style="font-size: 80%">ogrisel+row-widget@nuxeo.com</address>'
+    '<address style="font-size: 90%">ogrisel+row-widget@nuxeo.com</address>'
 
 This widget also supports complex email string with the user name and the
 email address in angle brackets::
@@ -365,7 +365,7 @@ email address in angle brackets::
     >>> ds = DataStructure(datamodel=dm)
     >>> ds["email"] = "Olivier Grisel <ogrisel+row-widget@nuxeo.com>"
     >>> widget.render('view', ds)
-    'Olivier Grisel<br/><address style="font-size: 80%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
+    'Olivier Grisel<br/><address style="font-size: 90%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
 
 
 Emails Display Widget
@@ -384,7 +384,7 @@ This only works in view mode as well::
     >>> ds["emails"] = ["ogrisel+row-widget@nuxeo.com",
     ...                 "Olivier Grisel <ogrisel+row-widget@nuxeo.com>"]
     >>> widget.render('view', ds)
-    '<address style="font-size: 80%">ogrisel+row-widget@nuxeo.com</address><br/>Olivier Grisel<br/><address style="font-size: 80%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
+    '<address style="font-size: 90%">ogrisel+row-widget@nuxeo.com</address><br/>Olivier Grisel<br/><address style="font-size: 90%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
 
 
 .. Emacs

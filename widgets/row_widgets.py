@@ -553,7 +553,7 @@ class CPSEmailDisplayWidget(CPSStringWidget):
 
     def renderEmailAddress(self, value, tag="address"):
         # TODO: remove hardcoded style
-        return renderHtmlTag(tag, style="font-size: 80%", contents=value)
+        return renderHtmlTag(tag, style="font-size: 90%", contents=value)
 
     def renderOneEmail(self, value):
         m = self.compound_email_pattern.match(value)
