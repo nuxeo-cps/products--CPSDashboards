@@ -3,7 +3,7 @@
      Results, property row_layout -->
 <object name="localroles_users_search" meta_type="CPS Layout">
  <property name="layout_search_results_method"
-	   type="string">layout_tabular_view</property>
+           type="string">layout_tabular_view</property>
   <widget name="Results" meta_type="Directory Tabular Widget">
     <property name="row_layout">localroles_users_row</property>
     <property name="hidden_layout_modes">edit</property>
