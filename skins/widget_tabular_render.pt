@@ -37,12 +37,14 @@
   </tal:block>
   <table class="listing" tal:condition="rows">
     <tr>
-      <th tal:repeat="col columns">
+      <tal:column repeat="col columns">
 	<tal:block define="widget python:col[0];
 			   is_sort python:col[1];
 			   sort_token python:col[2];
 			   toggle_get python:col[3];
 			   ">
+
+      <th tal:attributes="class widget/css_class">
 
 	  <input type="checkbox" name="select_all"
 		 onclick="toggleSelectAll(this);"
@@ -57,8 +59,10 @@
 		       i18n:translate=""
 		       tal:condition="widget/is_i18n" />
 	  </a>
-	</tal:block>
+
       </th>
+	</tal:block>
+      </tal:column>
     </tr>
     <tr tal:repeat="row rows"
 	  tal:attributes="class python:test(repeat['row'].odd(),
