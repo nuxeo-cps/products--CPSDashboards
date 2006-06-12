@@ -45,7 +45,7 @@
       </tr>
     </table>
     <p style="text-align:right; margin:1em">
-      <input type="submit" name="filter" value="cpscourrier_filter_button"
+      <input type="submit" name="filter" value="tabular_filter_button"
 	     class="context"
 	     tal:condition="param_rows"
 	     i18n:attributes="value" />
