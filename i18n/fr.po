@@ -1,0 +1,41 @@
+# Gettext Message File for default.
+# Your Name <your@email>, Year
+msgid ""
+msgstr ""
+"Project-Id-Version: default\n"
+"POT-Creation-Date: 2006-06-12 17:01default\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Your Name <your@email>\n"
+"Language-Team: Name <email>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: fr\n"
+"Language-Name: French\n"
+"Preferred-encodings: latin9 utf-8\n"
+"Domain: default\n"
+
+#.   <span>Page ${current_page (tal replace="current_page")} of ${nb_pages (tal replace="nb_pages")}</span>
+#: from ../skins/widget_tabular_render.pt
+msgid "Page ${current_page} of ${nb_pages}"
+msgstr "Page ${current_page} sur ${nb_pages}"
+
+#.   <h3 condition="not:searching">
+#.         Search groups
+#.       </h3>
+#: from ../browser/folderLocalRoles.zpt
+msgid "cpsdashboards_search_groups"
+msgstr "Recherche de groupes"
+
+#.   <h3 condition="not:searching">
+#.         Search users
+#.       </h3>
+#: from ../browser/folderLocalRoles.zpt
+msgid "cpsdashboards_search_users"
+msgstr "Recherche d'utilisateurs"
+
+#.   <input condition="param_rows" type="submit" name="filter" value="tabular_filter_button" class="context" />
+#: from ../skins/layout_tabular_view.pt
+msgid "tabular_filter_button"
+msgstr "Filtrer"

@@ -6,7 +6,7 @@ New features:
 -
 Bug fixes:
 ~~~~~~~~~~
--
+- i18n structure wasn't imported from CPSCourrier
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 -
