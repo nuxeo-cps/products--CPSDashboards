@@ -384,6 +384,9 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
          'label': 'Icon to display if value is False',}
         )
 
+    icon_true = ''
+    icon_false = ''
+
     def prepare(self, datastructure, **kw):
         """Prepare datastructure from datamodel.
 
@@ -412,6 +415,10 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
         else:
             icon = self.icon_false
             label = self.label_false
+
+        if not icon:
+            return ''
+
         uri = utool.getBaseUrl() + icon
 
         cpsmcat = getToolByName(self, 'translation_service')

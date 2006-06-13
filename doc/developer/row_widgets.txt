@@ -387,6 +387,51 @@ This only works in view mode as well::
     '<address style="font-size: 90%">ogrisel+row-widget@nuxeo.com</address><br/>Olivier Grisel<br/><address style="font-size: 90%">&lt;ogrisel+row-widget@nuxeo.com&gt;</address>'
 
 
+Icon Boolean Widget
+-------------------
+
+This widget renders in view mode an icon according to the value of the boolean.
+
+    >>> from Products.CPSDashboards.widgets.row_widgets \
+    ...          import CPSIconBooleanWidget
+    >>> widget = CPSIconBooleanWidget('ic_bool')
+
+Icons and alt sttributes are specified in the following properties::
+
+    >>> widget.manage_changeProperties(icon_true='true.gif',
+    ...                                icon_false='false.png',
+    ...                                label_true='Yes, true!',
+    ...                                label_false='Not true!')
+
+We'll need to fake some tools::
+
+    >>> class FakePortalUrl:
+    ...       def getBaseUrl(self):
+    ...          return '/base_url/'
+    >>> class FakeTranslationService:
+    ...       def __call__(self, msg):
+    ...           return msg
+    >>> widget.portal_url = FakePortalUrl()
+    >>> widget.translation_service = FakeTranslationService()
+
+True and False are taken to be python equivalents::
+
+    >>> ds = DataStructure()
+    >>> ds['ic_bool'] = 1
+    >>> widget.render('view', ds)
+    '<img src="/base_url/true.gif" alt="Yes, true!" />'
+    >>> ds['ic_bool'] = 0
+    >>> widget.render('view', ds)
+    '<img src="/base_url/false.png" alt="Not true!" />'
+
+If an icon is empty (or missing), the rendering is empty. This avoids using
+(buggy) transparencies::
+
+    >>> ds['ic_bool'] = 0
+    >>> widget.manage_changeProperties(icon_false='')
+    >>> widget.render('view', ds)
+    ''
+
 .. Emacs
 .. Local Variables:
 .. mode: rst
