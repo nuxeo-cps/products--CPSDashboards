@@ -37,6 +37,8 @@ from Products.CPSSchemas.Widget import widgetname
 
 logger = logging.getLogger('CPSDashboards.widgets.filter_widgets')
 
+DS_COOKIES = '_cookies'
+
 class FakeRequest:
     def __init__(self, **kw):
         self.form = kw
@@ -51,26 +53,39 @@ class RequestCookiesMixin:
 
     cookie_id = ''
 
-    def readCookie(self, wid):
+    def readCookie(self, datastructure, wid):
         """Read a value for datastructure from cookie.
 
-        XXX should go in a mixin class
+        keep unserialized cookies dicts on datastructure.
+        Was preferred over calling updateFromMapping to avoid overriding
+        already performed full preparations by non cookie-aware widgets.
+
+        XXX This shouldn't be done by widgets, see #1606
+
         """
         if not self.cookie_id:
             return
-        cookie = self.REQUEST.cookies.get(self.cookie_id)
 
+        ds_cookies = getattr(datastructure, DS_COOKIES, None)
+        if ds_cookies is None:
+            ds_cookies = {}
+            setattr(datastructure, DS_COOKIES, ds_cookies)
+
+        cookie = ds_cookies.get(self.cookie_id)
         if cookie is None:
-            return
+            cookie = self.REQUEST.cookies.get(self.cookie_id)
+            if cookie is None:
+                return
 
-        # we have to convert from unicode. There should be only identifiers
-        # so we don't catch UnicodeEncodeErrors
-        c_filters = unserializeFromCookie(string=cookie,
-                                          charset=self.default_charset)
-        logger.debug('c_filters:%s', c_filters)
-        logger.debug('wid:%s', wid)
+            # we have to convert from unicode. There should be only identifiers
+            # so we don't catch UnicodeEncodeErrors
+            cookie = unserializeFromCookie(string=cookie,
+                                           charset=self.default_charset)
+            logger.debug('Widget %s, read cookie:%s', wid, cookie)
+            ds_cookies[self.cookie_id] = cookie
+
         try:
-            read = c_filters.get(wid)
+            read = cookie.get(wid)
         except AttributeError: # not a dict
             return
 
@@ -111,7 +126,7 @@ class RequestCookiesMixin:
             klass.prepare(self, datastructure, **kw)
 
         # from cookie
-        from_cookie = self.readCookie(wid)
+        from_cookie = self.readCookie(datastructure, wid)
         if from_cookie is not None:
             datastructure[wid] = from_cookie
 
@@ -290,7 +305,7 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
 
         # from cookie
         for key in keys:
-            from_cookie = self.readCookie(key)
+            from_cookie = self.readCookie(ds, key)
             if from_cookie is not None:
                ds[key] = from_cookie
 
@@ -379,7 +394,7 @@ class CPSDateTimeFilterWidget(RequestCookiesMixin, CPSDateTimeWidget):
             CPSDateTimeWidget.prepare(self, datastructure, **kw)
 
         # from cookie
-        from_cookie = self.readCookie(wid)
+        from_cookie = self.readCookie(datastructure, wid)
         if from_cookie is not None:
             try:
                 self._prepareDateTimeFromValue(from_cookie, datastructure, **kw)
@@ -437,7 +452,7 @@ class CPSIntFilterWidget(RequestCookiesMixin, CPSIntWidget):
            datastructure[wid] = dm[self.fields[0]]
 
         # from cookie
-        from_cookie = self.readCookie(wid)
+        from_cookie = self.readCookie(datastructure, wid)
         if from_cookie is not None:
             try:
                 datastructure[wid] = int(from_cookie)

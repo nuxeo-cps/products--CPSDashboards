@@ -10,3 +10,4 @@ Bug fixes:
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 - TypeIconWidget can use the brain's metadata
+- Optimisation: cookies get unserialized only once
