@@ -525,7 +525,7 @@ class CPSMultiBooleanWidget(CPSWidget):
     meta_type = "Multi Boolean Widget"
 
     _properties = CPSWidget._properties + (
-        {'id': 'displayed_values', 'type': 'string', 'mode': 'w',
+        {'id': 'displayed_values', 'type': 'tokens', 'mode': 'w',
          'label': 'Values corresponding to fields to be displayed '},
         {'id': 'is_display_i18n', 'type': 'boolean', 'mode': 'w',
          'label': 'Are displayed values to be translated?'},
