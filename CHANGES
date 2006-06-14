@@ -9,4 +9,4 @@ Bug fixes:
 - i18n structure wasn't imported from CPSCourrier
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
--
+- TypeIconWidget can use the brain's metadata

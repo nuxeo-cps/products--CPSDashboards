@@ -51,10 +51,12 @@ class CPSTypeIconWidget(CPSWidget):
     def prepare(self, datastructure, **kw):
         """Prepare datastructure from datamodel."""
         dm = datastructure.getDataModel()
-        obj = dm.getObject()
-        if obj is None:
-            return
-        datastructure[self.getWidgetId()] = obj.portal_type
+        if self.fields:
+            datastructure[self.getWidgetId()] = dm[self.fields[0]]
+        else:
+            obj = dm.getObject()
+            if obj is not None:
+                datastructure[self.getWidgetId()] = obj.portal_type
 
     def validate(self, datastructure, **kw):
         """Validate datastructure and update datamodel."""
@@ -330,7 +332,9 @@ class CPSTimeLeftWidget(CPSIntWidget):
         due = dm[self.fields[0]]
 
         if isinstance(due, datetime): # Lucene
-            today = kw.get('today', datetime.today())
+            today = kw.get('today')
+            if today is None:
+                today = datetime.today()
             datastructure[wid] = str((today-due).days)
         else: # ZCat or ZODB
             try:
@@ -338,7 +342,9 @@ class CPSTimeLeftWidget(CPSIntWidget):
             except DateTime.SyntaxError:
                 value = ''
             else:
-                today = kw.get('today', DateTime())
+                today = kw.get('today')
+                if today is None:
+                    today = DateTime()
                 value = str(int(today-due))
             datastructure[self.getWidgetId()] = value
 

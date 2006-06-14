@@ -49,6 +49,17 @@ related datamodel and datastructures::
     >>> ds['the_widget']
     'Example Document'
 
+In case a field has been specified, it is read from the
+datamodel. This can be used in conjunction with braindatamodel, since
+the portal_type is usually part of the brain's metadata:
+
+    >>> widget.manage_changeProperties(fields='portal_type_in_brain')
+    >>> dm.proxy = dm.object = None
+    >>> dm['portal_type_in_brain'] = 'From Brain'
+    >>> widget.prepare(ds)
+    >>> ds['the_widget']
+    'From Brain'
+
 It's the render method's job to query the portal_types tool to get the
 icon's file name.
 
