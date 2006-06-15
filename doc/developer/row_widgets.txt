@@ -421,7 +421,7 @@ We'll need to fake some tools::
     ...          return '/base_url/'
     >>> class FakeTranslationService:
     ...       def __call__(self, msg):
-    ...           return msg
+    ...           return 'xlated:' + msg
     >>> widget.portal_url = FakePortalUrl()
     >>> widget.translation_service = FakeTranslationService()
 
@@ -430,10 +430,10 @@ True and False are taken to be python equivalents::
     >>> ds = DataStructure()
     >>> ds['ic_bool'] = 1
     >>> widget.render('view', ds)
-    '<img src="/base_url/true.gif" alt="Yes, true!" />'
+    '<img src="/base_url/true.gif" alt="xlated:Yes, true!" />'
     >>> ds['ic_bool'] = 0
     >>> widget.render('view', ds)
-    '<img src="/base_url/false.png" alt="Not true!" />'
+    '<img src="/base_url/false.png" alt="xlated:Not true!" />'
 
 If an icon is empty (or missing), the rendering is empty. This avoids using
 (buggy) transparencies::
@@ -442,6 +442,8 @@ If an icon is empty (or missing), the rendering is empty. This avoids using
     >>> widget.manage_changeProperties(icon_false='')
     >>> widget.render('view', ds)
     ''
+
+
 
 .. Emacs
 .. Local Variables:
