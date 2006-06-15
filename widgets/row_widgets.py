@@ -34,6 +34,7 @@ from Products.CPSSchemas.BasicWidgets import (CPSStringWidget,
                                               CPSLinesWidget,
                                               CPSIntWidget,
                                               CPSBooleanWidget)
+from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
 
 logger = logging.getLogger('CPSDashboards.widgets.row_widgets')
 
@@ -605,3 +606,33 @@ class CPSEmailsDisplayWidget(CPSLinesWidget, CPSEmailDisplayWidget):
 InitializeClass(CPSEmailsDisplayWidget)
 widgetRegistry.register(CPSEmailsDisplayWidget)
 
+class CPSQuickDisplayDateTimeWidget(CPSDateTimeWidget):
+    """A much less flexible widget for quick view mode rendering. """
+
+    meta_type = 'Quick Display DateTime Widget'
+    _properties = CPSWidget._properties + (
+        {'id': 'render_format', 'type': 'string', 'mode': 'w',
+         'label': 'Date & time format string'},
+        {'id': 'render_format_i18n', 'type': 'boolean', 'mode': 'w',
+         'label': 'Is format string to be translated?'},
+        )
+
+    render_format_i18n = False
+    render_format = ''
+
+    def prepare(self, ds, **kw):
+        dm = ds.getDataModel()
+        ds[self.getWidgetId()] = dm[self.fields[0]]
+
+    def render(self, mode, datastructure, **kw):
+        if mode not in ['search', 'view']:
+            raise ValueError("This widget is for display only. ")
+        value = datastructure[self.getWidgetId()]
+        format = self.render_format
+        if self.render_format_i18n:
+            cpsmcat = getToolByName(self, 'translation_service')
+            format = xlate(format, cpsmcat)
+        return escape(value.strftime(format))
+
+InitializeClass(CPSQuickDisplayDateTimeWidget)
+widgetRegistry.register(CPSQuickDisplayDateTimeWidget)

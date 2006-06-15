@@ -443,7 +443,38 @@ If an icon is empty (or missing), the rendering is empty. This avoids using
     >>> widget.render('view', ds)
     ''
 
+Quick Display DateTime Widget
+-----------------------------
 
+This widget is a **view mode** only alternative to the DateTime
+widget that renders much faster (speedup of x18 with a fixed
+render format).
+
+    >>> from Products.CPSDashboards.widgets.row_widgets \
+    ...          import CPSQuickDisplayDateTimeWidget
+    >>> widget = CPSQuickDisplayDateTimeWidget('datetime')
+    >>> from DateTime import DateTime
+
+Render format behaving as explained in
+http://docs.python.org/lib/module-time.html
+is specified in the ``render_format`` property::
+
+    >>> widget.manage_changeProperties(
+    ...               render_format='Strange format %y|%m|%d %M?%H')
+
+    >>> ds['datetime'] = DateTime('1997/3/9 1:45pm')
+    >>> widget.render('view', ds)
+    'Strange format 97|03|09 45?13'
+
+The format can be a translation msgid (this is about twice slower)::
+
+    >>> widget.manage_changeProperties(render_format_i18n=True)
+    >>> class FakeTranslationService:
+    ...        def __call__(self, *args):
+    ...              return "In martian, usage is: %M/%I %d/%Y/%m"
+    >>> widget.translation_service = FakeTranslationService()
+    >>> widget.render('view', ds)
+    'In martian, usage is: 45/01 09/1997/03'
 
 .. Emacs
 .. Local Variables:

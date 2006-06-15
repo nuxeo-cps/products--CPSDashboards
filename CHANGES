@@ -4,6 +4,7 @@ Requires:
 New features:
 ~~~~~~~~~~~~~
 - Icon Boolean Widget can not render in 'False' case
+- new row widget for quicker DateTime rendering.
 Bug fixes:
 ~~~~~~~~~~
 - i18n structure wasn't imported from CPSCourrier
