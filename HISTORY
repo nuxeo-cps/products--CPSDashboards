@@ -1,4 +1,21 @@
 *******************************************
+** CPSDashboards V0.2.0 [R1 build 2006/06/15-18:00 by gracinet]
+** SVN URL: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk Revision: 46558
+Requires:
+~~~~~~~~~
+-
+New features:
+~~~~~~~~~~~~~
+- Icon Boolean Widget can not render in 'False' case
+- new row widget for quicker DateTime rendering.
+Bug fixes:
+~~~~~~~~~~
+- i18n structure wasn't imported from CPSCourrier
+New internal features:
+~~~~~~~~~~~~~~~~~~~~~~
+- TypeIconWidget can use the brain's metadata
+- Optimisation: cookies get unserialized only once
+*******************************************
 ** CPSDashboards V0.1.0 [R1 build 2006/06/07-18:16 by ogrisel]
 ** SVN URL: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk Revision: 46311
 Requires:
