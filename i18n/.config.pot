@@ -1,1 +1,1 @@
-/home/gracinet/Checkouts/DGME/CPSDashboards/i18n/cpsdashboards.pot
+cpsdashboards.pot
