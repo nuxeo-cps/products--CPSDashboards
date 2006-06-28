@@ -20,7 +20,7 @@
 
 """ Folder Contents Portlet Widgets. """
 
-from zLOG import LOG, DEBUG
+import logging
 from Globals import InitializeClass
 from AccessControl import Unauthorized
 
@@ -35,6 +35,8 @@ from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 from Products.CPSSkins.cpsskins_utils import serializeForCookie
 
 from Products.CPSDashboards.widgets.tabular import TabularWidget
+
+logger = logging.getLogger('CPSDashboards.widgets.foldercontents')
 
 _missed = object()
 
@@ -106,8 +108,8 @@ class FolderContentsWidget(TabularWidget):
         False
         """
 
-        LOG('passFilters:item', DEBUG, item)
-        LOG('passFilters:ilters', DEBUG, filters)
+        logger.debug('passFilters:item=%s',item)
+        logger.debug('passFilters:filters=%s',filters)
         if not filters:
             return True
         for key, value in filters.items():
