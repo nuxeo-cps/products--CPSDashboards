@@ -228,6 +228,9 @@ class CPSQualifiedLinkWidget(CPSWidget):
         if self.target:
             params['target'] = self.target
 
+        if not params['href']:
+            return escape(params['contents'])
+                
         if self.popup:
             script = renderHtmlTag('script', type='text/javascript',
                                      contents=JS_OPENER % (self.popup_width,

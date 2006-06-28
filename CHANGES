@@ -3,7 +3,7 @@ Requires:
 -
 New features:
 ~~~~~~~~~~~~~
--
+- Qualified Link Widget fall backs to simple string rendering if href is missing
 Bug fixes:
 ~~~~~~~~~~
 -

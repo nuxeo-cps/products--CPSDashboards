@@ -121,6 +121,13 @@ This now the result of rendering::
     >>> widget.render('view', ds)
     '<a href="http://target.url" title="title of the link">text of the link</a>'
 
+In case the link field is empty, no <a> element is produced::
+
+   >>> dm['href'] = ''
+   >>> widget.prepare(ds)
+   >>> widget.render('view', ds)
+   'text of the link'
+
 Optionally, one can provide only two fields. The widget will then fetch the
 proxy or object associated to the datamodel and uses its url as target.
 
