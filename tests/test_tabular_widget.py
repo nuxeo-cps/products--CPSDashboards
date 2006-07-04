@@ -68,12 +68,14 @@ class CustomMethods:
                          )
     def widget_render_logging(self, columns=None,
                              rows=None,
-                             batching_info=None, **kw):
+                             batching_info=None,
+                             here_url=None, **kw):
         # deepcopy would not work
         # (Can't pickle objects in acquisition wrappers.)
         self.passed_columns = columns
         self.passed_rows = rows
         self.passed_batching_info = batching_info
+        self.passed_here_url = here_url
 
 class TestingTabularWidgetCustomMethods(CustomMethods, TestingTabularWidget):
     pass
@@ -168,13 +170,21 @@ class IntegrationTestTabularPortlet(IntegrationTestCase):
 
     def test_not_from_CPSDocument(self):
         # use-case: global search form with a tabular widget
-        dm = DataModel({}, [], proxy=self.portal, context=self.portal)
+        dm = DataModel({}, [], proxy=None, context=self.portal)
         ds = DataStructure(datamodel=dm)
+        self.widget.REQUEST = FakeRequestWithCookies()
+        self.widget.REQUEST.URLPATH0 = 'the/path/to/doc/view.html'
+
         rendered = self.widget.render('view', ds)
         self.assertEquals(rendered.split('\n'), [
             'Title 1|<div class="ddefault">Pending</div>',
             'Title 2|<div class="ddefault">Rejected</div>',
             ])
+
+        self.widget.render_method = 'widget_render_logging'
+        rendered = self.widget.render('search', ds)
+        self.assertEquals(self.widget.passed_here_url,
+                          'http://nohost/portal/view.html')
 
     def test_getActions(self):
         # don't fail if no action from the right category

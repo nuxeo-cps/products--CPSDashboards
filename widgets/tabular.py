@@ -339,6 +339,7 @@ class TabularWidget(CPSIntFilterWidget):
 
         # global preparations
         calling_obj = self.getCallingObject(datastructure)
+        
         if calling_obj is None: # happens on creation
             return ''
 
@@ -347,10 +348,10 @@ class TabularWidget(CPSIntFilterWidget):
         if proxy is None:
             proxy = datastructure.getDataModel().getProxy()
 
-        # lookup of row layout
+        ## lookup of row layout
+        #  calling_obj is typically: a proxy, a CPSDocument/Portlet, a mappping
+        #  (cf LayoutsTool.renderLayout)
         lid = self.row_layout
-        ## LayoutsTool.renderLayout sets proxy=context, but context might be
-        #  anything, e.g, if we are rendering global search results
         if ICPSDocument.providedBy(calling_obj):
             fti = calling_obj.getTypeInfo()
             # get the layout from object because it might be flexible
@@ -403,17 +404,16 @@ class TabularWidget(CPSIntFilterWidget):
             columns = ()
         actions = self.getActions(datastructure)
 
-        if proxy is not None:
-            here_url = proxy.absolute_url()
-        else:
-            here_url = None
+        # finding here_url to feed to render method
+        here = proxy or datastructure.getDataModel().getContext()
+        here_url = here.absolute_url()
 
-        # in search mode, proxy is actually the context, so
-        # here_url must take the view name into account
+        # in search mode, we must add the view name to here_url
         # PUBLISHED would be the view class instance or the skin zpt or py
         if mode == 'search':
             request = self.REQUEST
             if request is not None:
+                # Better use __name__ for Five views.
                 view_name = self.REQUEST['URLPATH0'].split('/')[-1]
                 here_url += '/' + view_name
 
@@ -421,6 +421,7 @@ class TabularWidget(CPSIntFilterWidget):
             batching_info = None
         else:
             batching_info = self.getBatchingInfo(current_page, nb_pages)
+
         return meth(mode=mode, columns=columns,
                     rows=rendered_rows, actions=actions,
                     here_url=here_url, batching_info=batching_info,
