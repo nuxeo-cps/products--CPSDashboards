@@ -356,7 +356,7 @@ class TabularWidget(CPSIntFilterWidget):
             # get the layout from object because it might be flexible
             row_layout = fti.getLayout(lid, calling_obj)
         else:
-            ltool = getToolByName(calling_obj, 'portal_layouts')
+            ltool = getToolByName(self, 'portal_layouts')
             row_layout = getattr(ltool, lid)
             fti = FlexibleTypeInformation('transient')
 
