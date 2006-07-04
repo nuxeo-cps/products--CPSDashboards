@@ -27,7 +27,7 @@ from Products.CPSSchemas.Widget import widgetname
 from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 from Products.CPSDashboards.utils import unserializeFromCookie
 
-logger = logging.getLogger('CPSDashboards.browser.reuseanswerview')
+logger = logging.getLogger('CPSDashboards.browser.searchview')
 
 class SearchView(BrowserView):
 
@@ -64,13 +64,15 @@ class SearchView(BrowserView):
         mode = self.is_results and 'search_results' or 'edit'
         ltool = getToolByName(self.context, 'portal_layouts')
         # XXX the cookie stuff could be done by passing the right mapping here
+        ob = {}
         rendered, status, ds = ltool.renderLayout(
             layout_id=layout_id,
             schema_id=schema_id,
             context=self.context,
             mapping=self.request.form,
             layout_mode=mode,
-            ob={})
+            ob=ob)
+        logger.debug('ob: %s', ob)
         logger.debug('status: %s' % status)
         return {'rendered': rendered, 'status': status, 'ds': ds}
 
