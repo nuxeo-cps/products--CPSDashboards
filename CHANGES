@@ -3,12 +3,10 @@ Requires:
 -
 New features:
 ~~~~~~~~~~~~~
-- Qualified Link Widget fall backs to simple string rendering if href is missing
+-
 Bug fixes:
 ~~~~~~~~~~
-- Selecting sorting from a non-persistent view now works
+-
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
-- Toggable Criterion Widget (used to choose sorting criteria) now inherits from
-Select Widget for rendering and validation. Change in what it reads from request
-to make it homogeneous to ordinary Select Widget
+-
