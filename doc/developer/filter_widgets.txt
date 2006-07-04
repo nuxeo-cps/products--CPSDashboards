@@ -171,7 +171,7 @@ The token possible values are stored as a property, too::
 
 Let's simulate a request::
 
-    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort-on':'myindex',
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort':'myindex',
     ...                                   'widget__Query sort-col':'mycol'})
 
 The widget really needs to start with a datamodel which has the three
@@ -193,28 +193,37 @@ the datastructure::
 
 The request parsing takes place after loading from datamodel and cookie.
 If the request's criterion is the same as the one in datastructure after
-these two steps, the widget iterates the token (here, sort-order). So let's
+these two steps, and the filter_button is triggered,
+the widget iterates the token (here, sort-order). So let's
 fill the datamodel with values that give the same datastructure as the last
 one before request parsing::
 
     >>> dm['crit'] = 'myindex'
     >>> dm['token'] = 'usual'
+    >>> sort_wid.manage_changeProperties(filter_button='ze_filter')
+    >>> sort_wid.REQUEST.form['ze_filter'] = 'yes'
     >>> sort_wid.prepare(ds)
     >>> pprint(ds)
     {'Query sort-order': 'alternate', 'Query sort-col': 'mycol', 'Query sort-on': 'myindex'}
 
-A change of criterion doesn't toggle but resets the token to its first value::
+A change of criterion doesn't toggle but resets the token to its first
+value. Same happens if request lacks the filter_button::
 
-    >>> sort_wid.REQUEST.form['widget__Query sort-on'] = 'another'
+    >>> sort_wid.REQUEST.form['widget__Query sort'] = 'another'
     >>> sort_wid.prepare(ds)
     >>> pprint(ds)
     {'Query sort-order': 'usual', 'Query sort-col': 'mycol', 'Query sort-on': 'another'}
+    >>> del sort_wid.REQUEST.form['ze_filter']
+    >>> sort_wid.prepare(ds)
+    >>> pprint(ds)
+    {'Query sort-order': 'usual', 'Query sort-col': 'mycol', 'Query sort-on': 'another'}
+    >>> sort_wid.REQUEST.form['ze_filter'] = 'put back'
 
 This works about the same if there is no associated fields. Let's replay
 some of it::
 
     >>> sort_wid.fields = ()
-    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort-on':'myindex',
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort':'myindex',
     ...                                   'widget__Query sort-col':'mycol'})
     >>> ds = DataStructure(datamodel=FakeDataModel())
     >>> sort_wid.prepare(ds)
@@ -226,8 +235,9 @@ some of it::
 Now let's check that the toggling works::
 
     >>> sort_wid.REQUEST = FakeRequestWithCookies(
-    ...                                 **{'widget__Query sort-on':'myindex',
-    ...                                    'widget__Query sort-col':'mycol'})
+    ...                                 **{'widget__Query sort':'myindex',
+    ...                                    'widget__Query sort-col':'mycol',
+    ...                                    'ze_filter': 'still here'})
     >>> sort_wid.REQUEST.cookies = {'Query sort-order': 'usual'}
     >>> sort_wid.prepare(ds)
     >>> pprint(ds)

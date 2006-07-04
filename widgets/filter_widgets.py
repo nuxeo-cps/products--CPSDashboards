@@ -257,7 +257,7 @@ widgetRegistry.register(CPSFixedFilterWidget)
 
 TOKEN_SUFFIX = '_token'
 
-class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
+class CPSToggableCriterionWidget(RequestCookiesMixin, CPSSelectWidget):
     """A widget that manipulates a decorated criterion.
 
     typical use-case: key to sort on and sort direction. In this use-case, one
@@ -267,7 +267,10 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
 
     meta_type = 'Toggable Criterion Widget'
 
-    _properties = CPSWidget._properties + RequestCookiesMixin._properties + (
+    _properties = CPSSelectWidget._properties +\
+                  RequestCookiesMixin._properties + (
+        {'id': 'filter_button', 'type': 'string', 'mode': 'w',
+         'label': 'Name of the button used to trigger filtering', },
         {'id': 'toggle_tokens', 'type': 'tokens', 'mode': 'w',
          'label': 'Tokens to toggle'}, # we could use a vocabulary, too
         {'id': 'criterion_suffix', 'type': 'string', 'mode': 'w',
@@ -283,9 +286,21 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
     criterion_suffix = '-on'
     token_suffix = '-order'
     ref_suffix = '-col'
+    filter_button = ''
 
     def validate(self, ds, **kw):
-        return 1
+        self.expireCookie(**kw)
+
+        # ugly hack to let CPSSelectWidget do the job
+        wid = self.getWidgetId()
+        crit_key = wid + self.criterion_suffix
+        ds[wid] = ds[crit_key]
+
+        res = CPSSelectWidget.validate(self, ds, **kw)
+
+        if wid != crit_key:
+            del ds[wid]
+        return res
 
     def prepare(self, ds, **kw):
         """prepare datastructure from datamodel, request and cookie. """
@@ -309,14 +324,15 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
             if from_cookie is not None:
                ds[key] = from_cookie
 
-
         # from request form: criterion
-        posted = self.REQUEST.form.get(widgetname(crit_key))
+        form =  self.REQUEST.form
+        posted = form.get(widgetname(wid))
 
         # do toggle token
+        # if not post-filtering *from* the results page, start over
         logger.debug('Toggable Widget posted: %s', posted)
         if posted is not None:
-            if posted != ds.get(crit_key):
+            if posted != ds.get(crit_key) or self.filter_button not in form:
                 ds[crit_key] = posted
                 ds[token_key] = self.toggle_tokens[0]
             else:
@@ -328,6 +344,8 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
         posted = self.REQUEST.form.get(widgetname(ref_key))
         if posted is not None:
             ds[ref_key] = posted
+        else:
+            del ds[ref_key]
         logger.debug('ref: %s', ds.get(ref_key))
         logger.debug('crit: %s', ds.get(crit_key))
         logger.debug('token: %s', ds.get(token_key))
@@ -336,16 +354,17 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSWidget):
     def render(self, mode, datastructure, **kw):
         """ render in mode from datastructure.
 
-        This is used for test/debug purposes only, currently. """
+        Useful for search pages or dashboards edit views."""
 
         wid = self.getWidgetId()
         crit_key = wid + self.criterion_suffix
-        token_key = wid + self.token_suffix
 
-        crit = datastructure[wid]
-        token = datastructure[token_key]
-        return '<div>%s, %s</div>' % (crit, token)
-
+        # ugly hack to let CPSSelectWidget do the job
+        datastructure[wid] = datastructure[crit_key]
+        rendered = CPSSelectWidget.render(self, mode, datastructure, **kw)
+        if wid != crit_key:
+            del datastructure[wid]
+        return rendered
 
 InitializeClass(CPSToggableCriterionWidget)
 

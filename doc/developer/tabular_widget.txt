@@ -253,7 +253,7 @@ The method now can provide info to build a link that triggers/toggles
 sorting on the column::
 
     >>> tab.columnFromWidget(col_wi, ds)[3]
-    '?widget__q_sort-on=myindex&widget__q_sort-col=mycol'
+    '?widget__q_sort=myindex&widget__q_sort-col=mycol'
 
 Obviously, this link has then to point to a document that parses that
 kind of request. This is what Toggable Criterion Widgets are meant
@@ -262,7 +262,7 @@ for. Let's build one and simulate the above request to check this::
     >>> from Products.CPSDashboards.widgets.filter_widgets import\
     ...               CPSToggableCriterionWidget, FakeRequest
     >>> sort_wid = CPSToggableCriterionWidget('q_sort')
-    >>> sort_wid.REQUEST = FakeRequest(**{'widget__q_sort-on':'myindex',
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__q_sort':'myindex',
     ...                                   'widget__q_sort-col':'mycol'})
 
 We need a DataStructure instance and cheat a bit with it (sorry)::
@@ -285,7 +285,7 @@ Let's get back to what the tabular widget does. One can change the
 sorting filter::
 
     >>> tab.columnFromWidget(col_wi, ds, sort_filter='PREF')[3]
-    '?widget__q_PREF-on=myindex&widget__q_PREF-col=mycol'
+    '?widget__q_PREF=myindex&widget__q_PREF-col=mycol'
 
 If the filter_button property is non-empty, we get an additional key
 in the built GET request (see the section on buildFilter). In case
@@ -295,7 +295,7 @@ form), this must be used to stay in the same mode::
 
     >>> tab.filter_button = 'filter'
     >>> tab.columnFromWidget(col_wi, ds)[3]
-    '?widget__q_sort-on=myindex&widget__q_sort-col=mycol&filter=go'
+    '?widget__q_sort=myindex&widget__q_sort-col=mycol&filter=go'
 
 Batching
 --------

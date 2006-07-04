@@ -263,11 +263,11 @@ class TabularWidget(CPSIntFilterWidget):
         wid = widget.getWidgetId()
         sort_wid = self.filter_prefix + sort_filter
         sort_name = widgetname(sort_wid)
-        get_req = '?%s-on=%s&%s-col=%s' % (sort_name,
-                                           quote(sortable),
-                                           sort_name,
-                                           wid,
-                                           )
+        get_req = '?%s=%s&%s-col=%s' % (sort_name,
+                                        quote(sortable),
+                                        sort_name,
+                                        wid,
+                                        )
         filt_butt = getattr(self, 'filter_button', '')
         if filt_butt:
             get_req += '&%s=go' % filt_butt
