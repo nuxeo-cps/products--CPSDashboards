@@ -345,7 +345,7 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSSelectWidget):
         if posted is not None:
             ds[ref_key] = posted
         else:
-            del ds[ref_key]
+            ds.pop(ref_key, None)
         logger.debug('ref: %s', ds.get(ref_key))
         logger.debug('crit: %s', ds.get(crit_key))
         logger.debug('token: %s', ds.get(token_key))
