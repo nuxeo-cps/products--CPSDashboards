@@ -207,7 +207,8 @@ one before request parsing::
     {'Query sort-order': 'alternate', 'Query sort-col': 'mycol', 'Query sort-on': 'myindex'}
 
 A change of criterion doesn't toggle but resets the token to its first
-value. Same happens if request lacks the filter_button::
+value. The same happens if the filter_button property is set and
+request's form lacks it::
 
     >>> sort_wid.REQUEST.form['widget__Query sort'] = 'another'
     >>> sort_wid.prepare(ds)
@@ -218,6 +219,16 @@ value. Same happens if request lacks the filter_button::
     >>> pprint(ds)
     {'Query sort-order': 'usual', 'Query sort-col': 'mycol', 'Query sort-on': 'another'}
     >>> sort_wid.REQUEST.form['ze_filter'] = 'put back'
+
+Some robustness: don't fail if the ref is missing from request::
+
+    >>> sort_wid.REQUEST = FakeRequest(**{'widget__Query sort':'myindex'})
+    >>> sort_wid.fields = sort_wid.fields[:2]
+    >>> del dm['ref']
+    >>> ds = DataStructure(datamodel=dm)
+    >>> sort_wid.prepare(ds)
+    >>> pprint(ds)
+    {'Query sort-order': 'usual', 'Query sort-on': 'myindex'}
 
 This works about the same if there is no associated fields. Let's replay
 some of it::

@@ -332,7 +332,9 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSSelectWidget):
         # if not post-filtering *from* the results page, start over
         logger.debug('Toggable Widget posted: %s', posted)
         if posted is not None:
-            if posted != ds.get(crit_key) or self.filter_button not in form:
+            button = self.filter_button
+            # check button non void for partial BBB
+            if posted != ds.get(crit_key) or (button and button not in form):
                 ds[crit_key] = posted
                 ds[token_key] = self.toggle_tokens[0]
             else:
