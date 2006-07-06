@@ -6,7 +6,7 @@ New features:
 -
 Bug fixes:
 ~~~~~~~~~~
--
+- DateTime Filter Widget couldn't work if from request or cookie.
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 -

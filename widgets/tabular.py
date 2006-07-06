@@ -24,6 +24,7 @@ import logging
 from urllib import quote
 
 from Globals import InitializeClass
+from DateTime.DateTime import DateTime
 
 from Products.CMFCore.utils import getToolByName
 
@@ -150,7 +151,13 @@ class TabularWidget(CPSIntFilterWidget):
         else:
             path = request['URLPATH1']
 
-        cookie = serializeForCookie(mapping, charset=self.default_charset)
+        # DateTime widget puts plenty info enough to rebuild the object
+        # We should not put them in filter and serialize more tightly, but this
+        # is good enough for now
+        to_cook = dict( (k,v) for (k,v) in mapping.items()
+                        if not isinstance(v, DateTime) )
+
+        cookie = serializeForCookie(to_cook, charset=self.default_charset)
         logger.debug("Setting cookie, path=%s" % path)
         request.RESPONSE.setCookie(self.cookie_id, cookie, path=path)
 
@@ -339,7 +346,7 @@ class TabularWidget(CPSIntFilterWidget):
 
         # global preparations
         calling_obj = self.getCallingObject(datastructure)
-        
+
         if calling_obj is None: # happens on creation
             return ''
 

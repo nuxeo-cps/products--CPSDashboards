@@ -296,6 +296,56 @@ usual precedence rules::
     >>> ds['the_widget']
     1
 
+
+DateTime Filter Widget
+----------------------
+The DateTime Filter widget has to reinterpret the three pieces of data
+that go in datastructure to represent a DateTime object.
+
+    >>> from DateTime.DateTime import DateTime
+    >>> from Products.CPSDashboards.widgets.filter_widgets import\
+    ...               CPSDateTimeFilterWidget
+    >>> widget = CPSDateTimeFilterWidget('datetime')
+    >>> widget.REQUEST = FakeRequestWithCookies()
+    >>> widget.default_charset = 'iso-8859-15' # normally acquired from portal
+    >>> widget.manage_changeProperties(fields=('deadline',),
+    ...                                cookie_id='the_cookie')
+    >>> class FakeTranslationService:
+    ...       def getSelectedLanguage(self):
+    ...          return 'fr'
+    >>> widget.translation_service = FakeTranslationService()
+
+Let's make datamodel and datastructure::
+
+    >>> dm = FakeDataModel()
+    >>> ds = DataStructure(datamodel=dm)
+    >>> dm['deadline'] = DateTime('2006-06-06')
+
+Now let's try with a cookie::
+
+    >>> cookie = serializeForCookie({'datetime_date': '03/07/2006',
+    ...                              'datetime_hour': '3',
+    ...                              'datetime_minute': '57'})
+    >>> widget.REQUEST['cookies']['the_cookie'] = cookie
+    >>> widget.prepare(ds)
+    >>> dt = ds['datetime']
+    >>> isinstance(dt, DateTime)
+    True
+    >>> dt.strftime('%Y-%m-%d %H:%M')
+    '2006-07-03 03:57'
+
+And now as usual, request form takes precedence::
+
+    >>> widget.REQUEST.form.update({'widget__datetime_date': '05/07/2006',
+    ...                             'widget__datetime_hour': '13',
+    ...                             'widget__datetime_minute': '28'})
+    >>> widget.prepare(ds)
+    >>> dt = ds['datetime']
+    >>> isinstance(dt, DateTime)
+    True
+    >>> dt.strftime('%Y-%m-%d %H:%M')
+    '2006-07-05 13:28'
+
 To Do Filter Widget
 -------------------
 

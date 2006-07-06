@@ -25,6 +25,7 @@ from Globals import InitializeClass
 
 from Products.CMFCore.utils import getToolByName
 from Products.CPSSchemas.Widget import CPSWidget
+from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSSchemas.BasicWidgets import (CPSSelectWidget,
                                               CPSMultiSelectWidget,
@@ -402,7 +403,10 @@ InitializeClass(CPSPathWidget)
 widgetRegistry.register(CPSPathWidget)
 
 class CPSDateTimeFilterWidget(RequestCookiesMixin, CPSDateTimeWidget):
-    """ Puts its argument in datastructure. """
+    """ Puts its argument in datastructure.
+
+    This widget would become useless after #1606 is done
+    """
 
     meta_type = 'DateTime Filter Widget'
     _properties = CPSDateTimeWidget._properties + RequestCookiesMixin._properties
@@ -415,15 +419,21 @@ class CPSDateTimeFilterWidget(RequestCookiesMixin, CPSDateTimeWidget):
             CPSDateTimeWidget.prepare(self, datastructure, **kw)
 
         # from cookie
-        from_cookie = self.readCookie(datastructure, wid)
-        if from_cookie is not None:
+        v = self.readCookie(datastructure, wid)
+        subkeys = ['%s_%s' % (wid, k) for k in ['date', 'hour', 'minute']]
+        subvalues = ((k,self.readCookie(datastructure, k))
+                     for k in subkeys)
+        subvalues = dict( (k, v ) for k, v in subvalues if v is not None)
+
+        if v is not None:
             try:
-                self._prepareDateTimeFromValue(from_cookie, datastructure, **kw)
+                self._prepareDateTimeFromValue(v, datastructure, **kw)
             except ValueError:
                 # XXX OG: Ugly, see #1606
                 pass
 
         # from request form
+        form = self.REQUEST.form
         posted = self.REQUEST.form.get(widgetname(wid))
         if posted is not None:
             try:
@@ -431,6 +441,24 @@ class CPSDateTimeFilterWidget(RequestCookiesMixin, CPSDateTimeWidget):
             except ValueError:
                 # XXX OG: Ugly, see #1606
                 pass
+
+        subvalues.update(dict( (k, form[widgetname(k)])
+                              for k in subkeys if widgetname(k) in form))
+
+        if subvalues:
+            datastructure.updateFromMapping(subvalues)
+            # explicitely posted (or cookie) based sub values take precedence
+            # and should bt the only present anyway
+            cheat_dm = {}
+            cheat_ds = DataStructure(data=subvalues, datamodel=cheat_dm)
+            if subkeys[1] not in cheat_ds:
+                cheat_ds[subkeys[1]] = self.time_hour_default
+            if subkeys[2] not in cheat_ds:
+                cheat_ds[subkeys[2]] = self.time_minutes_default
+
+            # it's really time for #1606
+            CPSDateTimeWidget.validate(self, cheat_ds, **kw)
+            datastructure[wid] = cheat_dm[self.fields[0]]
 
     def _prepareDateTimeFromValue(self, value, datastructure, **kw):
         """Same as CPSDateTimeWidget.prepare but use value instead of dm"""

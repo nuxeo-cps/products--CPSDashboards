@@ -216,6 +216,8 @@ class LuceneTabularWidget(CatalogTabularWidget):
         query['b_start'] = b_start
         query['b_size'] = b_size
 
+#        logger.debug('Final query: %s', query)
+
         brains = catalog(**query)
         if brains:
             return brains, brains[0].out_of
