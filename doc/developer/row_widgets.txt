@@ -191,7 +191,7 @@ Let's see what the radio input type does::
 
     >>> widget.input_type = 'radio'
     >>> widget.render('view', ds)
-    '<input type="radio" name="toks" value="tok-54FF54-formatted" />'
+    '<input type="radio" name="toks:utf8:ustring" value="tok-54FF54-formatted" />'
 
 Without field
 ~~~~~~~~~~~~~
