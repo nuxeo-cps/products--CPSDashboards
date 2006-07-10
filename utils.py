@@ -34,12 +34,7 @@ def serializeForCookie(obj, charset='ascii'):
     string = json.write(obj)
     # base64 will cast to str, producing Unicode errors
     if isinstance(string, unicode):
-        try:
-            string = string.encode(charset)
-        except LookupError:
-            # in case of weirdo charset, let's try latin9 as last chance
-            string = string.encode('iso-8859-15')
-
+        string = string.encode(charset)
     v = base64.encodestring(string)
     return v.replace('\n', '') # cookie values cannot contain newlines
 
@@ -51,12 +46,7 @@ def unserializeFromCookie(string='', default=None, charset='ascii'):
         return value
 
     # If not already unicode, myjson will try to decode assuming utf-8
-    v = base64.decodestring(string)
-    try:
-        v = v.decode(charset)
-    except LookupError:
-        v = v.decode('iso-8859-15')
-
+    v = base64.decodestring(string).decode(charset)
     try:
         value = json.read(v)
     except IndexError:

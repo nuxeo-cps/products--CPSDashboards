@@ -7,9 +7,6 @@ New features:
 Bug fixes:
 ~~~~~~~~~~
 - DateTime Filter Widget couldn't work if from request or cookie.
-- fixed the use of _renderLayouts, that now uses datastructures instead of 
-  datamodels
-
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 -

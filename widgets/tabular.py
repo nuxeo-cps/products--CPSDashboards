@@ -384,9 +384,9 @@ class TabularWidget(CPSIntFilterWidget):
         for row_ds in row_dss:
             # compute layout_structures if needed
             if layout_structures is None:
-                # row_dm = row_ds.getDataModel()
+                row_dm = row_ds.getDataModel()
                 layout_structures = [
-                    row_layout.computeLayoutStructure('view', row_ds)]
+                    row_layout.computeLayoutStructure('view', row_dm)]
 
             # render from row_ds
             rendered = fti._renderLayouts(layout_structures,
