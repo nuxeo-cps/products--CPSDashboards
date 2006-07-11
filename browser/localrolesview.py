@@ -60,7 +60,7 @@ class LocalRolesView(SearchView):
         change this to our form, but keep psms etc.
         """
 
-        form_name = form_name or self.form_name
+        form_name = form_name or self.getFormName()
         response = self.request.RESPONSE
         if response.getStatus() == 302: # Moved temporarily (redirection)
             url = response.getHeader('location')
@@ -92,7 +92,7 @@ class LocalRolesView(SearchView):
         kwargs['REQUEST'] = self.request
         meth(*args, **kwargs)
 
-        self.reRedirect(form_name=form_name)
+        self.reRedirect('folder_localrole_form', new_target=form_name)
 
     def getCPSCandidateLocalRoles(self):
         mtool = getToolByName(self.context, 'portal_membership')

@@ -30,6 +30,22 @@ from Products.CPSDashboards.utils import unserializeFromCookie
 logger = logging.getLogger('CPSDashboards.browser.searchview')
 
 class SearchView(BrowserView):
+    """This class if a helper base class for search forms and results.
+
+    It provides the harness to call a layout in 'edit' mode to render the form
+    and in 'search_results' mode to render the results.
+    The call is provided by the renderLayout method and can be used like this:
+
+    <tal:block replace="structure view/renderLayout"/>
+
+    provided that the concrete subclass instance has a 'layout_id' attribute.
+    Views that need to render several search forms can override this behaviour
+    (see localrolesview for an example)
+
+    ASSUMPTIONS:
+      - the tabular widget's filter_button property is set to 'filter'
+      - the name of associated page templates search button is 'search_submit'
+    """
 
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
@@ -108,19 +124,26 @@ class SearchView(BrowserView):
 
         return str(self.__name__)
 
-    def reRedirect(self, form_name=None):
-        """Remakes redirection.
+    def reRedirect(self, old_targets, new_target=None):
+        """Rewrite redirection.
 
-        One of the FS PythonScript did a redirection to folder_localroles_form
-        change this to our form, but keep psms etc.
+        In case we had to call one of CPS's standard FS PythonScripts,
+        we might want to update the redirection it likely performed,
+        keeping psms etc.
+
+        The default new target is ourselves, which is relevant only if the form
+        is designed to post on itself (like cpsdocument_edit_form for instance)
         """
 
-        form_name = form_name or self.form_name
+        new_target = new_target or self.getFormName()
         response = self.request.RESPONSE
+        if isinstance(old_targets, str):
+            old_targets = [old_targets]
+
         if response.getStatus() == 302: # Moved temporarily (redirection)
             url = response.getHeader('location')
-            url = url.replace('folder_localrole_form', form_name)
-            #XXX: remove hardcoded form name
+            for old_target in old_targets:
+                url = url.replace(old_target, new_target)
             response.redirect(url)
 
     def dispatchSubmit(self):

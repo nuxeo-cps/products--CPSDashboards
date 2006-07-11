@@ -23,6 +23,17 @@ class FakeResponse:
 
     def __init__(self):
         self.cookies = {}
+        self.headers = {}
+
+    def getStatus(self):
+        return self.status
+
+    def redirect(self, url):
+        self.headers['location'] = url
+        self.status = 302
+
+    def getHeader(self, key):
+        return self.headers[key]
 
     def setCookie(self, cookie_id, cookie, path=None):
         self.cookies[cookie_id] = {

@@ -8,7 +8,10 @@ Search View
 .. sectnum::
 
 ``searchview.SearchView`` is a common base class for views that
-implement a search form and its results.
+have to integrate non-persistent search form and results. Examples so far are:
+
+    - CPSCourrier's reuse_answer.html
+    - CPSDashboard's folder_localroles.html
 
 It will be convenient for examples to have a pretty printer::
 
@@ -35,7 +38,10 @@ Whether we are exposing search results is computed at init time::
    >>> view.is_results
    False
 
-We are in search results mode if the right button was pressed by the user::
+We are in search results mode if the right button was pressed by the user.
+The names of these buttons are fixed, therefore meaning that the tabular
+widget rendering the results must have its filter_button property set to
+filter::
 
    >>> request.form = {'search_submit': 'go'}
    >>> view = SearchView(portal, request).__of__(portal)
@@ -123,6 +129,39 @@ Values forwarding
 
    XXX there is a problem with the cookie stuff: is it on purpose that
    request doesn't take precedence ?
+
+reRedirection
+~~~~~~~~~~~~~
+
+   This is typically called from dipatchSubmit() and is useful for
+   views based on tabulars that are meant to replace some CPS standard
+   ones. CPSDashboard provides an example use-case in localrolesview.
+
+   In case dispatchSubmit() had to call one of CPS's standard FS
+   PythonScripts, it is likely that some redirection was performed and
+   it's not the one we want. reRedirect takes care of that::
+
+   >>> view.request.RESPONSE.redirect('folder_localrole_form?portal_status_message=ok')
+   >>> view.reRedirect('folder_localrole_form', new_target="some_form")
+   >>> view.request.RESPONSE.getHeader('location')
+   'some_form?portal_status_message=ok'
+
+   If we don't specify the new target, the current view name, as
+   specified in ZCML, is used::
+
+   >>> view.__name__ = 'beautiful.html'
+   >>> view.request.RESPONSE.redirect('folder_localrole_form?portal_status_message=ok')
+   >>> view.reRedirect('folder_localrole_form')
+   >>> view.request.RESPONSE.getHeader('location')
+   'beautiful.html?portal_status_message=ok'
+
+   One can provide a list of targets to rewrite::
+
+   >>> old_targets = ['a_form', 'b_form']
+   >>> view.request.RESPONSE.redirect('a_form?portal_status_message=ok')
+   >>> view.reRedirect(old_targets)
+   >>> view.request.RESPONSE.getHeader('location')
+   'beautiful.html?portal_status_message=ok'
 
 .. Emacs
 .. Local Variables:
