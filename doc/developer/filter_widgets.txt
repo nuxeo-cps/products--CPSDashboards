@@ -193,7 +193,9 @@ the datastructure::
 
 The request parsing takes place after loading from datamodel and cookie.
 If the request's criterion is the same as the one in datastructure after
-these two steps, and the filter_button is triggered,
+these two steps, and the filter_button is in request's form
+(be it through a button or a GET link as the one generated in column headers by
+the standard widget_tabular_render),
 the widget iterates the token (here, sort-order). So let's
 fill the datamodel with values that give the same datastructure as the last
 one before request parsing::
