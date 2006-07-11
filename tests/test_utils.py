@@ -19,26 +19,18 @@
 #$Id$
 
 # testing module and harness
-
 import unittest
-from zope.testing import doctest
-from Products.CPSDefault.tests.CPSTestCase import CPSTestCase
-from Products.CPSDashboards.testing import FakeRequestWithCookies
-from layer import CPSDashboardsLayer
 
 # what we test
 from Products.CPSDashboards import utils
 
-class UtilsTest(CPSTestCase):
-    layer = CPSDashboardsLayer
+class UtilsTest(unittest.TestCase):
 
-    def test_renderUsersLayout(self):
-        # preventing errors on wrong charsets
-        # this will trigger an error in case of failure
-        utils.serializeForCookie(object(), 'unicode')
-        utils.serializeForCookie(object(), 'bachibouzouk')
-        pif = utils.serializeForCookie('oulipista style powa', 'unicode')
-        utils.unserializeFromCookie(pif, charset='on lui dira')
+    def test_serialization(self):
+        start = {'abc' : '\xe9', 'a' : []}
+        pif = utils.serializeForCookie(start, 'iso_8859_15')
+        res = utils.unserializeFromCookie(pif, charset='iso_8859_15')
+        self.assertEquals(res, {u'a': [], u'abc': u'\xe9'})
 
 def test_suite():
     return unittest.TestSuite((unittest.makeSuite(UtilsTest),))
