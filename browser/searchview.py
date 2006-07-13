@@ -88,7 +88,6 @@ class SearchView(BrowserView):
             mapping=self.request.form,
             layout_mode=mode,
             ob=ob)
-        logger.debug('ob: %s', ob)
         logger.debug('status: %s' % status)
         return {'rendered': rendered, 'status': status, 'ds': ds}
 
