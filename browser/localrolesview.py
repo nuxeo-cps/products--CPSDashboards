@@ -53,27 +53,16 @@ class LocalRolesView(SearchView):
             self.request.response.redirect(self.context.absolute_url())
         return res
 
-    def reRedirect(self, form_name=None):
-        """Remakes redirection.
-
-        One of the FS PythonScript did a redirection to folder_localroles_form
-        change this to our form, but keep psms etc.
-        """
-
-        form_name = form_name or self.getFormName()
-        response = self.request.RESPONSE
-        if response.getStatus() == 302: # Moved temporarily (redirection)
-            url = response.getHeader('location')
-            url = url.replace('folder_localrole_form', form_name)
-            response.redirect(url)
-
     def dispatchSubmit(self):
         """Indirection to FS PythonsScript from skins."""
 
+        import pdb; pdb.set_trace()
         self.checkPerm()
         form = self.request.form
         form.pop('-C', None) # polluting key from publisher
-        form_name = form.pop('form_name', None)
+        # I'd prefer not this to be hardcoded here but I'd have to...
+        # hardcode it in all templates and macros
+        form_name = form.pop('form_name', 'folder_localroles.html')
 
         args = []
         if 'member_role' in form:
@@ -83,9 +72,8 @@ class LocalRolesView(SearchView):
             meth = 'folder_localrole_edit'
         elif 'delete_local_roles' in form:
             meth = 'folder_localrole_edit'
-        elif 'lr_block' or 'lr_unblock' in form:
+        elif 'lr_block' in form or 'lr_unblock' in form:
             meth = 'folder_localrole_block'
-
 
         meth = getattr(self.context, meth)
         kwargs = form.copy()
