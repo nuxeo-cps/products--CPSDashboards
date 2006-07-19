@@ -55,8 +55,6 @@ class LocalRolesView(SearchView):
 
     def dispatchSubmit(self):
         """Indirection to FS PythonsScript from skins."""
-
-        import pdb; pdb.set_trace()
         self.checkPerm()
         form = self.request.form
         form.pop('-C', None) # polluting key from publisher
