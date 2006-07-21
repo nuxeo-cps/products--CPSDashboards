@@ -10,3 +10,4 @@ Bug fixes:
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 - generic reRedirect method in searchview.
+- fixed error message in widgets/tabular.py

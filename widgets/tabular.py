@@ -401,8 +401,10 @@ class TabularWidget(CPSIntFilterWidget):
 
         meth = getattr(meth_context, self.render_method, None)
         if meth is None:
-            raise RuntimeError("Unknown Render Method %s for widget type %s"
-                               % (self.render_method, self.getId()))
+            raise RuntimeError(
+                "Unknown Render Method %r for widget %r with type %r" % (
+                    self.render_method, self.getId(),
+                    getattr(self, 'meta_type', '')))
 
         if layout_structures:
             layout_structure = layout_structures[0] # only one layout
