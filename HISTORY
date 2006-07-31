@@ -1,4 +1,21 @@
 *******************************************
+** CPSDashboards V0.3.2 [R1 build 2006/07/31-21:16 by gracinet]
+** SVN URL: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk Revision: 47695
+Requires:
+~~~~~~~~~
+-
+New features:
+~~~~~~~~~~~~~
+- updated doc on non-persistent views
+Bug fixes:
+~~~~~~~~~~
+- DateTime Filter Widget couldn't work if from request or cookie.
+New internal features:
+~~~~~~~~~~~~~~~~~~~~~~
+- generic reRedirect method in searchview.
+- fixed error message in widgets/tabular.py
+
+*******************************************
 ** CPSDashboards V0.3.1 [R1 build 2006/07/05-07:11 by gracinet]
 ** SVN URL: http://svn/pub/CPS3/products/CPSDashboards/trunk Revision: 46924
 Requires:
