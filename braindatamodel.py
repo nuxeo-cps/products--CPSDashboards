@@ -69,6 +69,8 @@ class BrainDataModel(DataModel):
             self._context = context
 
         self._forbidden_widgets = []
+        # for compat, we're not supposed to use acls anyway
+        self._acl_cache_user = []
         self.data = {}
 
         self._brain_obj = _lazy
