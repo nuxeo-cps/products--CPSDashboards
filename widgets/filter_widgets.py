@@ -256,6 +256,26 @@ InitializeClass(CPSFixedFilterWidget)
 widgetRegistry.register(CPSFixedFilterWidget)
 
 
+class CPSFixedListFilterWidget(CPSStringWidget):
+    """A string widget that puts a fixed list of string values in datastructure.
+
+    Used to transmit search criteria that don't depend on user input.
+    """
+
+    meta_type = 'Fixed List Filter Widget'
+    _properties = CPSStringWidget._properties + (
+        {'id': 'values', 'type': 'token', 'mode': 'w', 'label': 'Fixed values'},)
+
+    values = ()
+
+    def prepare(self, ds):
+        ds[self.getWidgetId()] = self.values
+
+InitializeClass(CPSFixedListFilterWidget)
+
+widgetRegistry.register(CPSFixedListFilterWidget)
+
+
 TOKEN_SUFFIX = '_token'
 
 class CPSToggableCriterionWidget(RequestCookiesMixin, CPSSelectWidget):
