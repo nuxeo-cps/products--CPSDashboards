@@ -56,6 +56,17 @@
   </tal:block>
 
 
+  <p tal:define="widget tabular_cell/widget" tal:condition="widget/label">
+    <span class="dlabel"
+      tal:condition="widget/is_i18n"
+      tal:content="widget/label"
+      i18n:translate=""
+      >
+      label
+    </span>
+    <span class="dlabel" tal:condition="not:widget/is_i18n"
+      tal:content="widget/label">label</span>
+  </p>
   <p>
     <tal:block replace="structure tabular_cell/widget_rendered" />
   </p>

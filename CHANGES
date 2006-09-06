@@ -6,7 +6,7 @@ New features:
 - Fixed List Filter Widget
 Bug fixes:
 ~~~~~~~~~~
--
+- added missing widget label for the tabular_cell of layout_tabular_view.pt
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 -
