@@ -16,3 +16,5 @@ msgstr ""
 "Preferred-encodings: latin9 utf-8\n"
 "Domain: default\n"
 
+msgid "psm_select_at_least_one_valid_item"
+msgstr ""

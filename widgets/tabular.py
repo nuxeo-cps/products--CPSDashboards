@@ -79,6 +79,8 @@ class TabularWidget(CPSIntFilterWidget):
          'label': 'Is the message of emptiness to be translated?'},
         {'id': 'actions_category', 'type': 'string', 'mode': 'w',
          'label': 'Actions category for buttons'},
+        {'id': 'batch_perform_view_name', 'type': 'string', 'mode': 'w',
+         'label': 'Name of the batch perform method'},
         {'id': 'cookie_id', 'type': 'string', 'mode': 'w',
          'label': 'Name of cookie for filter params (no cookie if empty)', },
         {'id': 'filter_button', 'type': 'string', 'mode': 'w',
@@ -98,6 +100,7 @@ class TabularWidget(CPSIntFilterWidget):
     empty_message = ''
     is_empty_message_i18n = False
     actions_category = ''
+    batch_perform_view_name = 'batchperform.html'
     actions = ()
     cookie_id = ''
     filter_button = ''
@@ -432,6 +435,7 @@ class TabularWidget(CPSIntFilterWidget):
             batching_info = self.getBatchingInfo(current_page, nb_pages)
 
         return meth(mode=mode, columns=columns,
+                    batch_perform_view_name=self.batch_perform_view_name,
                     rows=rendered_rows, actions=actions,
                     here_url=here_url, batching_info=batching_info,
                     base_url=getToolByName(self, 'portal_url').getBaseUrl(),

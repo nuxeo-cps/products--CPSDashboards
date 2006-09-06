@@ -1,0 +1,57 @@
+<metal:master use-macro="here/main_template/macros/master">
+  <metal:header fill-slot="header"/>
+  <metal:main fill-slot="main">
+    <tal:dispatch_submit define="submit_result view/dispatchSubmit">
+      <tal:no_redirect condition="python: submit_result != 'do_redirect'"
+        define="transition view/transition">
+
+        <metal:std_main use-macro="here/content_lib_std_main/macros/std_main">
+
+          <metal:title fill-slot="title" i18n:translate="">
+            <span tal:replace="string:heading_batch_workflow_${transition}" />
+          </metal:title>
+
+          <metal:help fill-slot="help">
+            <tal:help i18n:translate=""
+              content="string:help_batch_workflow_${transition}"></tal:help>
+            <ul>
+              <li tal:repeat="info view/getDocumentInfo">
+                <a tal:attributes="href info/url" target="_blank"
+                  tal:content="info/title"></a>
+                (<a tal:attributes="href info/container_url" target="_blank"
+                  tal:content="info/container_title"></a>)
+              </li>
+            </ul>
+          </metal:help>
+
+          <metal:main fill-slot="main">
+
+            <tal:confirm_form tal:define="workflow_action_script view/__name__;
+                                          proxy nocall:here">
+
+              <!-- simple confirmation form -->
+              <metal:transition_form
+                use-macro="here/content_lib_transition_form/macros/transition_form">
+                <metal:block fill-slot="fields">
+                </metal:block>
+
+                <metal:block fill-slot="button">
+                  <input type="hidden" name="trigger_transition"
+                    tal:attributes="value transition" />
+                  <input type="submit" class="standalone"
+                    tal:attributes="value string:button_${transition}"
+                    i18n:attributes="value" />
+                  <input type="button" class="context" onClick="history.back()"
+                    value="button_cancel" i18n:attributes="value" />
+                </metal:block>
+
+              </metal:transition_form>
+            </tal:confirm_form>
+
+          </metal:main>
+        </metal:std_main>
+      </tal:no_redirect>
+    </tal:dispatch_submit>
+  </metal:main>
+</metal:master>
+

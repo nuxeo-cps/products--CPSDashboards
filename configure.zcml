@@ -22,4 +22,12 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      for="Products.CPSCore.interfaces.ICPSProxy"
+      name="batchperform.html"
+      class=".browser.batchperformview.BatchPerformView"
+      template="browser/batchPerform.zpt"
+      permission="zope2.View"
+      />
+
 </configure>

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-06-12 17:01default\n"
+"POT-Creation-Date: 2006-09-06 20:56default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -15,6 +15,13 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-encodings: latin9 utf-8\n"
 "Domain: default\n"
+
+#.   <title fill-slot="title">
+#.               <span replace="string:heading_batch_workflow_${transition}" />
+#.             </title>
+#: from ../browser/batchPerform.zpt
+msgid "<span replace=\"string:heading_batch_workflow_${transition}\" />"
+msgstr ""
 
 #.   <span>Page ${current_page (tal replace="current_page")} of ${nb_pages (tal replace="nb_pages")}</span>
 #: from ../skins/widget_tabular_render.pt
@@ -38,4 +45,7 @@ msgstr ""
 #.   <input condition="param_rows" type="submit" name="filter" value="tabular_filter_button" class="context" />
 #: from ../skins/layout_tabular_view.pt
 msgid "tabular_filter_button"
+msgstr ""
+
+msgid "psm_select_at_least_one_valid_item"
 msgstr ""

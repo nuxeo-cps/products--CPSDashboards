@@ -17,6 +17,7 @@
 </script>
 
 <tal:block define="actions options/actions;
+                   batch_perform_view_name options/batch_perform_view_name;
 		   batching_info options/batching_info|nothing;
 		   here_url options/here_url;
 		   base_url options/base_url|string:;
@@ -31,7 +32,7 @@
          xml even if we don't close the form tag now
     </tal:comment>
     <tal:block
-	content="structure string:<form action='batch_perform.html'
+      content="structure string:<form action='${batch_perform_view_name}'
 					method='post'
 					enctype='multipart/form-data'> "/>
   </tal:block>
@@ -77,7 +78,7 @@
 	 class="context"
 	 tal:repeat="action actions"
          tal:attributes="value action/title;
-                         name string:cpscourrier_batch_${action/id}"
+                         name string:cpsdashboard_batch_${action/id}"
 	 i18n:attributes="value" />
 
   <tal:block condition="make_form">
