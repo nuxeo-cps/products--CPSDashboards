@@ -8,12 +8,12 @@
         <metal:std_main use-macro="here/content_lib_std_main/macros/std_main">
 
           <metal:title fill-slot="title" i18n:translate="">
-            <span tal:replace="string:heading_batch_workflow_${transition}" />
+            <span tal:replace="string:heading_batch_${transition}" />
           </metal:title>
 
           <metal:help fill-slot="help">
             <tal:help i18n:translate=""
-              content="string:help_batch_workflow_${transition}"></tal:help>
+              content="string:help_batch_${transition}"></tal:help>
             <ul>
               <li tal:repeat="info view/getDocumentInfo">
                 <a tal:attributes="href info/url" target="_blank"
