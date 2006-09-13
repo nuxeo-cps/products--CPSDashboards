@@ -1,3 +1,23 @@
+===========================================================
+Package: CPSDashboards 0.4.0
+===========================================================
+First release built by: gracinet at: 2006-09-13T13:49:06
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.4.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@48920
+
+Requires:
+~~~~~~~~~
+-
+New features:
+~~~~~~~~~~~~~
+- Fixed List Filter Widget
+Bug fixes:
+~~~~~~~~~~
+- added missing widget label for the tabular_cell of layout_tabular_view.pt
+New internal features:
+~~~~~~~~~~~~~~~~~~~~~~
+-
+
 *******************************************
 ** CPSDashboards V0.3.2 [R1 build 2006/07/31-21:16 by gracinet]
 ** SVN URL: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk Revision: 47695
