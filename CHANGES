@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Select all javascript checkbox caused js errors when no action was available
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
