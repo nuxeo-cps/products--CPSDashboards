@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.4.1
+===========================================================
+First release built by: ogrisel at: 2006-10-04T21:19:38
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.4.1
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@49317
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Select all javascript checkbox caused js errors when no action was available
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.4.0
 ===========================================================
 First release built by: gracinet at: 2006-09-13T13:49:06
