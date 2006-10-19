@@ -47,12 +47,18 @@ class FakeResponse:
 class FakeRequestWithCookies:
     """To simulate a request with cookies
 
+    Note: the dict API is not well implemented (no diff between [] and get)
+
     >>> request = FakeRequestWithCookies()
     >>> request.form
     {}
     >>> request['KEY'] = 'spam'
     >>> request['KEY']
     'spam'
+    >>> request.get('KEY')
+    'spam'
+    >>> request.get('NOKEY') is None
+    True
     >>> request.RESPONSE.setCookie('cook_id', 'contents')
     """
 
@@ -61,9 +67,13 @@ class FakeRequestWithCookies:
         self.cookies = {}
         self.RESPONSE = FakeResponse()
         self.URLPATH1 = '/path/to/obj'
+        self.other = {} # holds sessions
 
     def __getitem__(self, key, default=None):
         return getattr(self, key, default)
+
+    def get(self, key, default=None):
+        return self.__getitem__(key, default=default)
 
     def __setitem__(self, key, value):
         setattr(self, key, value)
