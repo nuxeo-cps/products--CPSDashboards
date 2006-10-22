@@ -631,6 +631,8 @@ class CPSQuickDisplayDateTimeWidget(CPSDateTimeWidget):
         if mode not in ['search', 'view']:
             raise ValueError("This widget is for display only. ")
         value = datastructure[self.getWidgetId()]
+        if value is None:
+            return ''
         format = self.render_format
         if self.render_format_i18n:
             cpsmcat = getToolByName(self, 'translation_service')
