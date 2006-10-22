@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
-- [packaging] bundleman svn property
+- Quick Display Date Time Widget used to fail on empty dates
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
