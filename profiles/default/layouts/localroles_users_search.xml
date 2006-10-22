@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
-<!-- unique difference so far with roadmap conterpart:
-     Results, property row_layout -->
 <object name="localroles_users_search" meta_type="CPS Layout">
  <property name="layout_search_results_method"
            type="string">layout_tabular_view</property>

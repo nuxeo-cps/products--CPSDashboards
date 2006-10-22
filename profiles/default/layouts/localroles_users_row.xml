@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<!-- unique difference so far with roadmap conterpart:
-     Checkbox, properties input_name & format_string -->
-<object name="roadmap_users_row" meta_type="CPS Layout">
+<object name="localroles_users_row" meta_type="CPS Layout">
  <property name="layout_view_method">layout_row_view</property>
   <widget name="Checkbox" meta_type="Row Boolean Widget">
     <property name="input_name">member_ids</property>
