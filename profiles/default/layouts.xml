@@ -8,7 +8,7 @@
  <object name="localroles_users_row" meta_type="CPS Layout"/>
 
  <!-- Dashboard -->
- <!-- XXX should be renamed -->
- <object name="mail_dashboard" meta_type="CPS Layout"/>
+ <object name="dashboard" meta_type="CPS Layout"/>
+ <object name="dashboard_row" meta_type="CPS Layout"/>
 
 </object>

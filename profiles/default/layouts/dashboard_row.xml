@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+Layouts for rows in dashboards search results
+-->
+
+<object name="dashboard_row" meta_type="CPS Layout">
+ <property name="layout_view_method">layout_row_view</property>
+
+ <widget name="Checkbox" meta_type="Row Boolean Widget">
+  <property name="input_name">rpaths</property>
+  <property name="input_type">checkbox</property>
+  <property name="fields">
+   <element value="rpath"/>
+  </property>
+  <property name="css_class">smallCell</property>
+ </widget>
+
+ <widget name="portal_type" meta_type="Type Icon Widget">
+  <property name="label">cpsdashboards_label_type</property>
+  <property name="is_i18n">True</property>
+  <property name="sortable" type="string">portal_type</property>
+  <property name="fields">
+   <element value="portal_type"/>
+  </property>
+ </widget>
+
+ <widget name="Title" meta_type="Qualified Link Widget">
+  <property name="fields">
+   <element value="Title"/>
+   <element value="Description"/>
+   <element value="url" />
+  </property>
+  <property name="is_i18n">True</property>
+  <property name="label">label_title</property>
+  <property name="sortable" type="string">Title</property>
+ </widget>
+
+ <widget name="modified" meta_type="Quick Display DateTime Widget">
+  <property name="fields">
+   <element value="modified"/>
+  </property>
+  <property name="label">label_searchadv_updated</property>
+  <property name="is_i18n">True</property>
+  <property name="sortable" type="string">modified</property>
+  <property name="render_format">date_medium</property>
+  <property name="render_format_i18n">True</property>
+ </widget>
+
+<widget name="created" meta_type="Quick Display DateTime Widget">
+  <property name="fields">
+   <element value="created"/>
+  </property>
+  <property name="label">cpsdashboards_creation_date_label</property>
+  <property name="is_i18n">True</property>
+  <property name="sortable" type="string">created</property>
+  <property name="render_format">date_short</property>
+  <property name="render_format_i18n">True</property>
+ </widget>
+
+ <widget name="review_state" meta_type="Review State String Widget">
+  <property name="label">label_search_status</property>
+  <property name="is_i18n">True</property>
+  <property name="fields">
+   <element value="review_state"/>
+  </property>
+  <property name="sortable" type="string">review_state</property>
+ </widget>
+
+ <table>
+  <row>
+   <cell name="Checkbox"/>
+  </row>
+  <row>
+   <cell name="portal_type"/>
+  </row>
+  <row>
+   <cell name="Title"/>
+  </row>
+  <row>
+    <cell name="modified"/>
+  </row>
+  <row>
+    <cell name="created"/>
+  </row>
+  <row>
+   <cell name="review_state"/>
+  </row>
+ </table>
+</object>
+

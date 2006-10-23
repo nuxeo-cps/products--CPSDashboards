@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object name="dashboard_sort_criteria" meta_type="CPS Method Vocabulary">
+ <property name="title"></property>
+ <property name="title_msgid"></property>
+ <property name="description"></property>
+ <property name="get_vocabulary_method">getVocabularySortCriteria</property>
+ <property name="add_empty_key">False</property>
+</object>

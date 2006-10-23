@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!--
+Layout that presents catalog search results
+-->
+
+<object name="dashboard" meta_type="CPS Layout">
+ <property name="layout_view_method">layout_tabular_view</property>
+ <property name="layout_search_results_method" type="string">layout_tabular_view</property>
+ <property name="style_prefix">layout_default_</property>
+
+ <widget name="Table" meta_type="Catalog Tabular Widget">
+  <property name="row_layout">dashboard_row</property>
+  <property name="hidden_layout_modes">edit create</property>
+  <property name="empty_message">cpsdashboards_no_result_msg</property>
+  <property name="is_empty_message_i18n">True</property>
+  <property name="actions_category">object_cpsdashboards_batch</property>
+  <property name="cookie_id">cpsdashboards</property>
+  <property name="filter_button">filter</property>
+  <property name="filter_items_per_page">items_nb</property>
+  <property name="fulltext_keys">
+    <element value="SearchableText"/>
+    <element value="ZCTitle"/>
+  </property>
+   <property name="fulltext_ors">
+    <element value="ZCText_or"/>
+    <element value="ZCTitle_or"/>
+  </property>
+  <property name="users_groups_filters">
+    <element value="todo-process"/>
+    <element value="todo-watch"/>
+  </property>
+ </widget>
+
+ <widget name="q_review_state" meta_type="Select Filter Widget">
+   <property name="widget_mode_expr">string:edit</property>
+   <property name="label">label_search_status</property>
+   <property name="label_edit">label_search_status</property>
+   <property name="is_i18n">True</property>
+   <property name="vocabulary">search_review_state</property>
+   <property name="defines_scope">True</property>
+   <property name="translated">False</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="fields">
+     <element value="filter_review_state" />
+   </property>
+ </widget>
+
+ <widget name="q_Subject" meta_type="Select Filter Widget">
+   <property name="widget_mode_expr">string:edit</property>
+   <property name="label">cpsdashboards_subject_label</property>
+   <property name="label_edit">cpsdashboards_subject_label</property>
+   <property name="is_i18n">True</property>
+   <property name="vocabulary">mailbox_filter_subject</property>
+   <property name="translated">True</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="fields">
+     <element value="filter_Subject"/>
+   </property>
+ </widget>
+
+ <widget name="q_portal_type" meta_type="Select Filter Widget">
+   <property name="widget_mode_expr">string:edit</property>
+   <property name="label">cpsdashboards_type_label</property>
+   <property name="label_edit">cpsdashboards_type_label</property>
+   <property name="is_i18n">True</property>
+   <property name="vocabulary">search_portal_type</property>
+   <property name="translated">False</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="fields">
+     <element value="filter_type" />
+   </property>
+   <property name="defines_scope">True</property>
+ </widget>
+
+ <widget name="q_sort" meta_type="Toggable Criterion Widget">
+   <property name="hidden_layout_modes">view search_results</property>
+   <property name="widget_mode_expr">string:edit</property>
+   <property name="label_edit">label_sort_by</property>
+   <property name="is_i18n">True</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="toggle_tokens">
+     <element value="" />
+     <element value="reverse" />
+   </property>
+   <property name="criterion_suffix">-on</property>
+   <property name="token_suffix">-order</property>
+   <property name="ref_suffix">-col</property>
+   <property name="fields">
+     <element value="filter_sort_on" />
+     <element value="filter_sort_order" />
+     <element value="filter_sort_ref" />
+   </property>
+   <property name="filter_button">filter</property>
+   <property name="vocabulary">dashboard_sort_criteria</property>
+   <property name="translated">False</property>
+ </widget>
+
+<widget name="q_ZCText_or" meta_type="String Filter Widget">
+   <property name="label_edit">cpsdashboards_fulltext_search</property>
+   <property name="is_i18n">True</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="hidden_layout_modes">view search_results</property>
+   <property name="fields">
+     <element value="filter_fulltext" />
+   </property>
+</widget>
+
+<widget name="q_ZCTitle_or" meta_type="String Filter Widget">
+   <property name="label_edit">label_title</property>
+   <property name="is_i18n">True</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="hidden_layout_modes">view search_results</property>
+   <property name="fields">
+     <element value="filter_title" />
+   </property>
+</widget>
+
+  <widget name="q_created_min" meta_type="DateTime Filter Widget">
+   <property name="label_edit">cpsdashboards_created_min_label</property>
+   <property name="is_i18n">True</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="hidden_layout_modes">view search_results</property>
+   <property name="view_format">long</property>
+   <property name="time_setting">0</property>
+   <property name="time_hour_default">00</property>
+   <property name="fields">
+     <element value="filter_created_min" />
+   </property>
+  </widget>
+
+  <widget name="q_created_max" meta_type="DateTime Filter Widget">
+   <property name="label_edit">cpsdashboards_created_max_label</property>
+   <property name="is_i18n">True</property>
+   <property name="cookie_id">cpsdashboards</property>
+   <property name="hidden_layout_modes">view search_results</property>
+   <property name="view_format">long</property>
+   <property name="time_setting">0</property>
+   <property name="time_hour_default">23</property>
+   <property name="time_minutes_default">59</property>
+   <property name="fields">
+     <element value="filter_created_max" />
+   </property>
+  </widget>
+
+  <widget name="q_items_nb" meta_type="Select Filter Widget">
+  <property name="fields">
+   <element value="filter_items_nb"/>
+  </property>
+  <property name="label">cpsdashboards_items_nb_label</property>
+  <property name="label_edit">cpsdashboards_items_nb_label</property>
+  <property name="is_i18n">True</property>
+  <property name="hidden_layout_modes">
+   <element value="create"/>
+  </property>
+  <property name="widget_mode_expr">string:edit</property>
+  <property name="vocabulary">items_per_page</property>
+  <property name="translated">False</property>
+  <property name="cookie_id">cpsdashboards</property>
+ </widget>
+
+  <table>
+   <row>
+     <cell name="q_ZCText_or"/>
+     <cell name="q_ZCTitle_or"/>
+   </row>
+   <row>
+     <cell name="q_Subject"/>
+     <cell name="q_portal_type" />
+   </row>
+   <row>
+     <cell name="q_created_min"/>
+     <cell name="q_created_max"/>
+   </row>
+   <row>
+     <cell name="q_review_state"/>
+     <cell name="q_sort"/>
+     <cell name="q_items_nb"/>
+   </row>
+   <row>
+     <cell name="Table"/>
+   </row>
+ </table>
+</object>

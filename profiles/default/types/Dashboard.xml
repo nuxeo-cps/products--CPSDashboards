@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<object name="Dashboard" meta_type="CPS Flexible Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title">portal_type_Dashboard_title</property>
+ <property name="description">portal_type_Dashboard_description</property>
+ <property name="content_icon">dashboard_icon.png</property>
+ <property name="content_meta_type">CPS Document</property>
+ <property name="product">CPSDocument</property>
+ <property name="factory">addCPSDocument</property>
+ <property name="immediate_view"></property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types"/>
+ <property name="allow_discussion">False</property>
+ <property name="cps_is_searchable">True</property>
+ <property name="cps_proxy_type">document</property>
+ <property name="cps_display_as_document_in_listing">False</property>
+ <property name="schemas">
+  <element value="metadata"/>
+  <element value="common"/>
+  <element value="dashboard"/>
+ </property>
+ <property name="layouts">
+  <element value="common"/>
+  <element value="dashboard"/>
+ </property>
+ <property name="layout_clusters">
+  <element value="metadata:metadata"/>
+ </property>
+ <property name="flexible_layouts"/>
+ <property name="storage_methods"/>
+ <property name="cps_is_portlet">False</property>
+ <alias from="(Default)" to="cpsdocument_view"/>
+ <alias from="view" to="cpsdocument_view"/>
+ <action title="action_view" action_id="view" category="object"
+    condition_expr="" url_expr="string:${object_url}/cpsdocument_view"
+    visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="action_edit" action_id="edit" category="object"
+    condition_expr="" url_expr="string:${object_url}/cpsdocument_edit_form"
+    visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+</object>

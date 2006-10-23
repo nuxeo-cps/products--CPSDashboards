@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<object name="dashboard" meta_type="CPS Schema">
+  <field name="filter_review_state" meta_type="CPS String Field"/>
+  <field name="filter_type" meta_type="CPS String Field"/>
+  <field name="filter_sort_on" meta_type="CPS String Field">
+    <property name="default_expr">string:created</property>
+  </field>
+  <field name="filter_sort_order" meta_type="CPS String Field">
+    <property name="default_expr">string:reverse</property>
+  </field>
+  <field name="filter_sort_ref" meta_type="CPS String Field">
+    <property name="default_expr">string:Date</property>
+  </field>
+  <field name="filter_path" meta_type="CPS String Field" />
+  <field name="filter_Subject" meta_type="CPS String Field" />
+  <field name="filter_fulltext" meta_type="CPS String Field" />
+  <field name="filter_title" meta_type="CPS String Field" />
+   <field name="filter_created_min" meta_type="CPS DateTime Field" />
+  <field name="filter_created_max" meta_type="CPS DateTime Field" />
+   <field name="filter_items_nb" meta_type="CPS String Field">
+    <property name="default_expr">string:10</property>
+  </field>
+</object>
+

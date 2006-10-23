@@ -1,0 +1,65 @@
+<tal:block define="submit_result view/dispatchSubmit">
+
+  <tal:block condition="submit_result"
+	     replace="structure submit_result" />
+
+  <tal:block condition="not:submit_result">
+    <metal:block use-macro="here/main_template/macros/master">
+
+      <metal:block fill-slot="style_slot">
+	<link rel="Stylesheet" type="text/css" href=""
+	      tal:attributes="href string:${base_url}document.css" />
+
+	<metal:block
+	    use-macro="here/cpsdocument_edit_form/macros/widgets_javascript" />
+      </metal:block>
+	<metal:block fill-slot="header">
+	  <h1 i18n:translate="heading_search_results"
+	      tal:condition="view/is_results">
+	    Search results
+	  </h1>
+	  <h1 i18n:translate="heading_advanced_search"
+	      tal:condition="not:view/is_results">
+	    Advanced search
+	  </h1>
+	</metal:block>
+
+	<metal:block fill-slot="main"
+		     tal:define="res view/renderLayout;
+				 rendered res/rendered;
+				 ds res/ds">
+
+	  <form action="" method="post">
+
+	    <tal:block replace="structure rendered" />
+
+	    <tal:block condition="view/is_results">
+	      <p class="advancedSearchButton">
+		<input type="hidden" name="type_name" value="Dashboard" />
+		<tal:block replace="structure python:view.forwardInputs((
+				         'Query ZCText_or',),
+				         cookie_id='cpscourrier')" />
+		<input type="submit" name="saveas_submit"
+		       class="standalone" value="button_saveas_dashboard"
+		       tal:condition="view/saveAsAllowed"
+		       i18n:attributes="value" />
+	      </p>
+	    </tal:block>
+
+	    <tal:block condition="not:view/is_results">
+	      <p class="advancedSearchButton">
+		<input type=hidden name="filter" value="go" />
+		<input type="submit" name="search_submit"
+		       class="standalone" value="button_search"
+		       i18n:attributes="value" />
+		<input type="button" name="cancel_submit"
+		       class="standalone" value="button_cancel"
+		       i18n:attributes="value"
+		       onClick="history.back();"/>
+	      </p>
+	    </tal:block>
+	  </form>
+	</metal:block>
+    </metal:block>
+  </tal:block>
+</tal:block>

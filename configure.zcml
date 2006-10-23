@@ -30,4 +30,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      for="Products.CPSDefault.ICPSSite"
+      name="advanced_search.html"
+      class=".browser.advancedsearchview.AdvancedSearchView"
+      template="browser/advancedSearch.zpt"
+      permission="zope2.View"
+      />
+
 </configure>

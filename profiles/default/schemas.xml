@@ -3,4 +3,7 @@
  <!-- Directory searches -->
  <object name="localroles_users_search" meta_type="CPS Schema"/>
  <object name="localroles_groups_search" meta_type="CPS Schema"/>
+
+ <!-- Dashboard -->
+ <object name="dashboard" meta_type="CPS Schema"/>
 </object>
