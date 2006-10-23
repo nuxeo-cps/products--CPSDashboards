@@ -6,6 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
+- #1768: pseudo-groups support in folder_localroles.html
 - Quick Display Date Time Widget used to fail on empty dates
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~

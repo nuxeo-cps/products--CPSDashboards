@@ -44,6 +44,18 @@
     <form method="post" action=""
 	  tal:condition="not:searching"
 	  tal:attributes="action localrole_form">
+      <p style="vertical-align:middle">
+	<input type="submit"
+	       name="submit_roles"
+	       value="button_submit_roles"
+	       class="standalone"
+	       id="button_submit_roles"
+	       i18n:attributes="value"/>
+	<span style="vertical-align:middle"
+	      i18n:translate="label_button_submit_roles">
+	  All members, anonymous users.
+	</span>
+      </p>
       <tal:block replace="structure view/renderGroupsLayout"/>
       <input type="submit"
 	     name="submit_groups_search"
@@ -66,6 +78,22 @@
     </p>
     <form method="post" action="tal managed"
          tal:attributes="action submit_url">
+      <p tal:condition="view/roles_results">
+	<input type="checkbox"
+	       name="member_ids:list"
+	       value="group:role:Authenticated"
+	       id="checkbox_authenticated"/>
+	<label for="checkbox_authenticated" i18n:translate="">
+	  role:Authenticated
+	</label>
+	<input type="checkbox"
+	       name="member_ids:list"
+	       value="group:role:Anonymous"
+	       id="checkbox_anonymous"/>
+	<label for="checkbox_authenticated" i18n:translate="">
+	  role:Anonymous
+	</label>
+      </p>
       <tal:block replace="structure view/renderResults"/>
       <div class="assign_roles"
 	   tal:condition="cps_roles">

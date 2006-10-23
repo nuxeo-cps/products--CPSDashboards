@@ -31,7 +31,8 @@ class LocalRolesView(SearchView):
 
         self.users_results = 'submit_users_search' in self.request.form
         self.groups_results = 'submit_groups_search' in self.request.form
-        self.is_results = self.users_results or self.groups_results
+        self.roles_results = 'submit_roles' in self.request.form
+        self.is_results = self.users_results or self.groups_results or self.roles_results
 
     def renderResults(self):
         if self.users_results:
