@@ -18,3 +18,25 @@ msgstr ""
 
 msgid "psm_select_at_least_one_valid_item"
 msgstr ""
+
+#
+# Layouts label
+#
+
+msgid "cpsdashboards_type_label"
+msgstr ""
+
+msgid "cpsdashboards_items_nb_label"
+msgstr ""
+
+msgid "cpsdashboards_no_result_msg"
+msgstr ""
+
+msgid "cpsdashboards_created_min_label"
+msgstr ""
+
+msgid "cpsdashboards_created_max_label"
+msgstr ""
+
+msgid "cpsdashboards_fulltext_search"
+msgstr ""

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-10-23 15:01default\n"
+"POT-Creation-Date: 2006-10-23 21:15default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -26,6 +26,11 @@ msgstr ""
 #.   <span>Page ${current_page (tal replace="current_page")} of ${nb_pages (tal replace="nb_pages")}</span>
 #: from ../skins/widget_tabular_render.pt
 msgid "Page ${current_page} of ${nb_pages}"
+msgstr ""
+
+#.   <input condition="view/saveAsAllowed" type="submit" name="saveas_submit" value="button_saveas_dashboard" class="standalone" />
+#: from ../browser/advancedSearch.zpt
+msgid "button_saveas_dashboard"
 msgstr ""
 
 #.   <input class="standalone" type="submit" id="button_submit_roles" value="button_submit_roles" name="submit_roles" />
@@ -60,4 +65,25 @@ msgid "tabular_filter_button"
 msgstr ""
 
 msgid "psm_select_at_least_one_valid_item"
+msgstr ""
+
+#
+# Layouts label
+#
+msgid "cpsdashboards_type_label"
+msgstr ""
+
+msgid "cpsdashboards_items_nb_label"
+msgstr ""
+
+msgid "cpsdashboards_no_result_msg"
+msgstr ""
+
+msgid "cpsdashboards_created_min_label"
+msgstr ""
+
+msgid "cpsdashboards_created_max_label"
+msgstr ""
+
+msgid "cpsdashboards_fulltext_search"
 msgstr ""

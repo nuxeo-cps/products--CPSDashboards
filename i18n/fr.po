@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-10-23 15:01default\n"
+"POT-Creation-Date: 2006-10-23 21:15default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -27,6 +27,11 @@ msgstr ""
 #: from ../skins/widget_tabular_render.pt
 msgid "Page ${current_page} of ${nb_pages}"
 msgstr "Page ${current_page} sur ${nb_pages}"
+
+#.   <input condition="view/saveAsAllowed" type="submit" name="saveas_submit" value="button_saveas_dashboard" class="standalone" />
+#: from ../browser/advancedSearch.zpt
+msgid "button_saveas_dashboard"
+msgstr "Enregistrer comme tableau de bord"
 
 #.   <input class="standalone" type="submit" id="button_submit_roles" value="button_submit_roles" name="submit_roles" />
 #: from ../browser/folderLocalRoles.zpt
@@ -63,3 +68,21 @@ msgid "psm_select_at_least_one_valid_item"
 msgstr ""
 "Veuillez selectionner des documents sur lesquels vous avez les droits de "
 "déclencher cette action."
+
+msgid "cpsdashboards_type_label"
+msgstr "Type"
+
+msgid "cpsdashboards_items_nb_label"
+msgstr "Nombre de résultats par page"
+
+msgid "cpsdashboards_no_result_msg"
+msgstr "Aucun document ne répond à vos critères"
+
+msgid "cpsdashboards_created_min_label"
+msgstr "Date minimale de création"
+
+msgid "cpsdashboards_created_max_label"
+msgstr "Date maximale de création"
+
+msgid "cpsdashboards_fulltext_search"
+msgstr "Mots clés"
