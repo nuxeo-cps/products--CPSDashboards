@@ -47,8 +47,8 @@ Layout that presents catalog search results
 
  <widget name="q_Subject" meta_type="Select Filter Widget">
    <property name="widget_mode_expr">string:edit</property>
-   <property name="label">cpsdashboards_subject_label</property>
-   <property name="label_edit">cpsdashboards_subject_label</property>
+   <property name="label">label_subject</property>
+   <property name="label_edit">label_subject</property>
    <property name="is_i18n">True</property>
    <property name="vocabulary">mailbox_filter_subject</property>
    <property name="translated">True</property>
