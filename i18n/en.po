@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-09-06 20:56default\n"
+"POT-Creation-Date: 2006-10-23 15:01default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -17,16 +17,21 @@ msgstr ""
 "Domain: default\n"
 
 #.   <title fill-slot="title">
-#.               <span replace="string:heading_batch_workflow_${transition}" />
+#.               <span replace="string:heading_batch_${transition}" />
 #.             </title>
 #: from ../browser/batchPerform.zpt
-msgid "<span replace=\"string:heading_batch_workflow_${transition}\" />"
+msgid "<span replace=\"string:heading_batch_${transition}\" />"
 msgstr ""
 
 #.   <span>Page ${current_page (tal replace="current_page")} of ${nb_pages (tal replace="nb_pages")}</span>
 #: from ../skins/widget_tabular_render.pt
 msgid "Page ${current_page} of ${nb_pages}"
 msgstr ""
+
+#.   <input class="standalone" type="submit" id="button_submit_roles" value="button_submit_roles" name="submit_roles" />
+#: from ../browser/folderLocalRoles.zpt
+msgid "button_submit_roles"
+msgstr "Pseudo groups"
 
 #.   <h3 condition="not:searching">
 #.         Search groups
@@ -41,6 +46,13 @@ msgstr ""
 #: from ../browser/folderLocalRoles.zpt
 msgid "cpsdashboards_search_users"
 msgstr ""
+
+#.   <span style="vertical-align:middle">
+#.   	  All members, anonymous users.
+#.   	</span>
+#: from ../browser/folderLocalRoles.zpt
+msgid "label_button_submit_roles"
+msgstr "For instance, all members."
 
 #.   <input condition="param_rows" type="submit" name="filter" value="tabular_filter_button" class="context" />
 #: from ../skins/layout_tabular_view.pt
