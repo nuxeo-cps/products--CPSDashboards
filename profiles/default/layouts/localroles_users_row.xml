@@ -34,7 +34,7 @@
     </property>
   </widget>
 
-   <widget name="email" meta_type="String Widget">
+   <widget name="email" meta_type="Email Widget">
     <property name="is_i18n">True</property>
      <property name="label">label_email</property>
     <property name="fields">
