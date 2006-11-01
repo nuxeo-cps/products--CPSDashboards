@@ -18,10 +18,26 @@
 # $Id$
 
 from zLOG import LOG, DEBUG
+
+from OFS.Image import File
+
 from Products.CMFCore.utils import getToolByName
 
 from Products.CPSCore.interfaces import ICPSProxy
 from Products.CPSSchemas.DataModel import DataModel
+
+class FakeDataModel(dict):
+    pass
+
+class FakeDocument:
+    """ A pseudo document that can return a FakeDataModel."""
+    def __init__(self, **kw):
+        self._data = kw
+
+    def getDataModel(self):
+        dm = FakeDataModel(self._data)
+        dm._adapters = ['the', 'fake', 'adapter']
+        return dm
 
 class FakeBrain:
     """ A pseudo brain out of a dict (for tests) """
@@ -29,8 +45,8 @@ class FakeBrain:
         for key, item in d.items():
             setattr(self, key, item)
 
-    def getObject():
-        return self
+    def getObject(self):
+        return self._object
 
 _lazy = object()
 _missing = object()
@@ -58,6 +74,27 @@ class BrainDataModel(DataModel):
     Traceback (most recent call last):
     ...
     NotImplementedError
+
+    If data cannot be found in the brains, lookup goes on in object's datamodel.
+    This is to be avoided for performance but probably necessary in case of
+    files and images. Consequence: catching KeyError to see if some data exists
+    can be costly.
+
+    Let's take an attribute that doesn't exist in the brain:
+    >>> dm._brain.foo
+    Traceback (most recent call last):
+    ...
+    AttributeError: FakeBrain instance has no attribute 'foo'
+
+    Now make let's set a document in the BrainDataModel (this is normally
+    obtained through the brain via the proxy)
+    >>> dm._object = FakeDocument(foo='bar')
+    >>> dm['foo']
+    'bar'
+
+    Adapters have been saved for the widgets that want to take a look at them:
+    >>> dm._adapters
+    ['the', 'fake', 'adapter']
     """
 
 
@@ -164,9 +201,19 @@ class BrainDataModel(DataModel):
                 # we are now sure that self.utool has been set
                 value = self.utool.getUrlFromRpath(rpath)
             else:
-                raise KeyError(key)
+                # fallback on object's datamodel
+                dm = getattr(self, '_obj_dm', None)
+                if dm is None:
+                    try:
+                        self._obj_dm = dm = self.getObject().getDataModel()
+                    except AttributeError:
+                        # should maybe return None ?
+                        raise KeyError(key)
+                # Image Widget requires this
+                self._adapters = dm._adapters
+                value = dm[key]
 
-        if callable(value):
+        if callable(value) and not isinstance(value, File):
             value = value()
 
         # remember value

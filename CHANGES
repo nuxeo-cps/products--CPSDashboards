@@ -6,8 +6,10 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
+- braindatamodel relays to corresponding object datamodel
+  if requested key is missing in brains.
 - #1768: pseudo-groups support in folder_localroles.html
 - Quick Display Date Time Widget used to fail on empty dates
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
-- 
+-
