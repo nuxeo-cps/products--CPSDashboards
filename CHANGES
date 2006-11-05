@@ -3,7 +3,8 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
--
+- New div based render method for tabular widgets allows making of
+  simple listings, such as CPSDefault's search results page
 Bug fixes
 ~~~~~~~~~
 - braindatamodel relays to corresponding object datamodel
