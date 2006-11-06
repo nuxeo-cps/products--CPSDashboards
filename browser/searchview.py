@@ -39,6 +39,7 @@ class SearchView(BrowserView):
     <tal:block replace="structure view/renderLayout"/>
 
     provided that the concrete subclass instance has a 'layout_id' attribute.
+    An optional 'schema_id' attribute can be provided, too.
     Views that need to render several search forms can override this behaviour
     (see localrolesview for an example)
 
@@ -75,8 +76,7 @@ class SearchView(BrowserView):
         Uses by default the schema of same name."""
 
         layout_id = name or self.layout_id
-        if schema_id is None:
-            schema_id = layout_id
+        schema_id = schema_id or getattr(self, 'schema_id', '') or layout_id
         mode = self.is_results and 'search_results' or 'edit'
         ltool = getToolByName(self.context, 'portal_layouts')
         # XXX the cookie stuff could be done by passing the right mapping here
