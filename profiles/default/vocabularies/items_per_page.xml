@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="items_per_page" meta_type="CPS Vocabulary">
+ <property name="title"></property>
+ <property name="title_msgid"></property>
+ <property name="description"></property>
+ <property name="acl_write_roles">Manager</property>
+ <item key="10" msgid="">10</item>
+ <item key="20" msgid="">20</item>
+ <item key="50" msgid="">50</item>
+</object>
