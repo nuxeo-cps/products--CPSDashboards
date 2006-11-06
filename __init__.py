@@ -33,8 +33,16 @@ def initialize(registrar):
     profile_registry.registerProfile(
         'default',
         'CPS Dashboards',
-        "Dashboards and other tabular displays",
+        "Groundworks for dashboards and other tabular displays",
         'profiles/default',
+        'CPSDashboards',
+        EXTENSION,
+        for_=ICPSSite)
+    profile_registry.registerProfile(
+        'activation',
+        'CPS Dashboards Integration',
+        "Simple integration of CPSDashboards for CPSDefault application",
+        'profiles/activation',
         'CPSDashboards',
         EXTENSION,
         for_=ICPSSite)

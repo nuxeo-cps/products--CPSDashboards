@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object name="Workspace" meta_type="CPS Flexible Type Information">
+ <action title="action_local_roles" action_id="localroles" category="object"
+    condition_expr="" url_expr="string:${object_url}/folder_localroles.html"
+    visible="True">
+  <permission value="Change permissions"/>
+ </action>
+</object>

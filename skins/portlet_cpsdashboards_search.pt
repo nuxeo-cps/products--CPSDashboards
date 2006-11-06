@@ -1,0 +1,41 @@
+<form tal:define="utool nocall:here/portal_url;
+                  portal utool/getPortalObject;
+                  context nocall:options/context_obj;
+                  folder_prefix request/folder_prefix|nothing;
+                  cpsmcat nocall:here/translation_service;
+                  value_search
+                    request/q_ZCText_or|python:cpsmcat('button_search');
+                  base_url python:request.get('cpsskins_base_url');
+                  advanced_search_form string:${base_url}advanced_search.html;
+                  online_help_url string:${base_url}help_center/help_set_mode;"
+ method="get" action="" tal:attributes="action advanced_search_form"
+ onsubmit="return checkEmptySearch(this)">
+  <img tal:attributes="src
+    string:${base_url}cpsskins_images/portlet_search_icon.png;
+    alt value_search" />
+  <input id="searchGadget" type="text" name="widget__q_ZCText_or" size="15"
+    value="" tal:attributes="value value_search"
+    onclick="this.value='';"/>
+  <!-- hack to make IE trigger the result page even if the submit button
+       is not clicked on (by pressing the "Return" key for instance -->
+  <input type="hidden" name="filter" value=""/>
+  <input class="context searchButton" type="submit" value="button_ok"
+    i18n:attributes="value" name="search"/>
+  <a href="" i18n:translate="link_advanced_search"
+    tal:attributes="href advanced_search_form">
+    Advanced search</a>
+
+  <!-- Online help with popup window -->
+  <script type="text/javascript">
+    function link_popup(url, name) {
+      str_window_features = 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,dependent=1,width=800,height=600'
+      popup = window.open(url, name, str_window_features);
+      if (!popup.opener) {
+        popup.opener = window;
+      }
+      return false;
+    }
+  </script>
+  <a href="" tal:attributes="onclick string:return link_popup('${online_help_url}')"><img alt="action_view_help" i18n:attributes="alt"
+      tal:attributes="src string:${base_url}faq_icon.png"/></a>
+</form>

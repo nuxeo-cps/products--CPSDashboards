@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name=".cps_portlets" meta_type="CPS Placeful Portlets Container">
+ <!-- There is a transtyping to a custom portlet in order to avoid a
+ script overridance (non practical since CPSDashboards must be a non terminal
+ product -->
+ <object name="portlet_search" meta_type="CPS Portlet"
+    portal_type="Search Portlet" remove="True"/>
+ <object name="portlet_search" meta_type="CPS Portlet"
+    portal_type="Custom Portlet"/>
+</object>

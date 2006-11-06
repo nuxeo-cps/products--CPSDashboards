@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portlet_search" meta_type="CPS Portlet"
+   portal_type="Custom Portlet">
+  <f id="Title" v="CPSDashboards Search"/>
+  <f id="custom_cache_params">
+    <e v="url"/>
+    <e v="current_lang"/>
+  </f>
+  <f id="slot" v="search"/>
+  <f id="render_method" v="portlet_cpsdashboards_search"/>
+</object>
