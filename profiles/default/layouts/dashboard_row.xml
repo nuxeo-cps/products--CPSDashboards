@@ -16,7 +16,7 @@ Layouts for rows in dashboards search results
  </widget>
 
  <widget name="portal_type" meta_type="Type Icon Widget">
-  <property name="label">cpsdashboards_label_type</property>
+  <property name="label">cpsdashboards_type_label</property>
   <property name="is_i18n">True</property>
   <property name="sortable" type="string">portal_type</property>
   <property name="fields">
