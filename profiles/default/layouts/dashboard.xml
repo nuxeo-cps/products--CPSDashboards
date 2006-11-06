@@ -37,8 +37,10 @@ Layout that presents catalog search results
    <property name="label_edit">label_search_status</property>
    <property name="is_i18n">True</property>
    <property name="vocabulary">search_review_state</property>
-   <property name="defines_scope">True</property>
-   <property name="translated">False</property>
+   <property name="translated">True</property>
+   <property name="add_empty_key">True</property>
+   <property name="empty_key_value_i18n">label_all_review_states</property>
+   <property name="defines_scope">False</property>
    <property name="cookie_id">cpsdashboards</property>
    <property name="fields">
      <element value="filter_review_state" />
@@ -50,8 +52,11 @@ Layout that presents catalog search results
    <property name="label">label_subject</property>
    <property name="label_edit">label_subject</property>
    <property name="is_i18n">True</property>
-   <property name="vocabulary">mailbox_filter_subject</property>
+   <property name="vocabulary">subject_voc</property>
    <property name="translated">True</property>
+   <property name="add_empty_key">True</property>
+   <property name="empty_key_value_i18n">label_all_subjects</property>
+   <property name="defines_scope">False</property>
    <property name="cookie_id">cpsdashboards</property>
    <property name="fields">
      <element value="filter_Subject"/>
@@ -64,7 +69,10 @@ Layout that presents catalog search results
    <property name="label_edit">cpsdashboards_type_label</property>
    <property name="is_i18n">True</property>
    <property name="vocabulary">search_portal_type</property>
-   <property name="translated">False</property>
+   <property name="translated">True</property>
+   <property name="add_empty_key">True</property>
+   <property name="empty_key_value_i18n">label_all_portal_types</property>
+   <property name="defines_scope">False</property>
    <property name="cookie_id">cpsdashboards</property>
    <property name="fields">
      <element value="filter_type" />
