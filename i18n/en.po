@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-11-06 14:48default\n"
+"POT-Creation-Date: 2006-11-06 14:52default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -68,6 +68,12 @@ msgid "psm_select_at_least_one_valid_item"
 msgstr ""
 "Please select documents for which you are allowed to perform the request "
 "action."
+
+#
+# Portal Types
+#
+msgid "portal_type_Dashboard_title"
+msgstr "Dashboard"
 
 #
 # Layouts label

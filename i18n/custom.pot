@@ -20,6 +20,13 @@ msgid "psm_select_at_least_one_valid_item"
 msgstr ""
 
 #
+# Portal Types
+#
+
+msgid "portal_type_Dashboard_title"
+msgstr ""
+
+#
 # Layout labels
 #
 
