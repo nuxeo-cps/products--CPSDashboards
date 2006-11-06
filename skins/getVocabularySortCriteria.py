@@ -1,8 +1,11 @@
 ##parameters=key=None
 #$Id$
-"""Return a portal type vocabulary, used as MethodVocabulary."""
+"""Return a vocabulary for allowed sort criteria, used as MethodVocabulary.
 
-# We use the list of types allowed in container as searchable types
+This script should be aggressively cached.
+"""
+
+# We directly introspect the row layout
 
 ltool = context.portal_layouts
 layout = ltool['dashboard_row']
