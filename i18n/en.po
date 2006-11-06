@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-10-23 21:15default\n"
+"POT-Creation-Date: 2006-11-06 14:48default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -89,3 +89,16 @@ msgstr "Maximum creation date"
 
 msgid "cpsdashboards_fulltext_search"
 msgstr "Full text search"
+
+# empty keys
+msgid "label_all_review_states"
+msgstr "All"
+
+msgid "label_all_subjects"
+msgstr "All"
+
+msgid "label_all_portal_types"
+msgstr "All"
+
+msgid "cpsdashboards_creation_date_label"
+msgstr "Creation"

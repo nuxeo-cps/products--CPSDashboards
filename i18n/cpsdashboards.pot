@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-10-23 21:15default\n"
+"POT-Creation-Date: 2006-11-06 14:48default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -68,7 +68,7 @@ msgid "psm_select_at_least_one_valid_item"
 msgstr ""
 
 #
-# Layouts label
+# Layout labels
 #
 msgid "cpsdashboards_type_label"
 msgstr ""
@@ -86,4 +86,18 @@ msgid "cpsdashboards_created_max_label"
 msgstr ""
 
 msgid "cpsdashboards_fulltext_search"
+msgstr ""
+
+# empty keys
+msgid "label_all_review_states"
+msgstr ""
+
+msgid "label_all_subjects"
+msgstr ""
+
+msgid "label_all_portal_types"
+msgstr ""
+
+# rows
+msgid "cpsdashboards_creation_date_label"
 msgstr ""
