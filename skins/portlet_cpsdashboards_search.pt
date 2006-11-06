@@ -10,6 +10,7 @@
                   online_help_url string:${base_url}help_center/help_set_mode;"
  method="get" action="" tal:attributes="action advanced_search_form"
  onsubmit="return checkEmptySearch(this)">
+  <div>
   <img tal:attributes="src
     string:${base_url}cpsskins_images/portlet_search_icon.png;
     alt value_search" />
@@ -21,10 +22,12 @@
   <input type="hidden" name="filter" value=""/>
   <input class="context searchButton" type="submit" value="button_ok"
     i18n:attributes="value" name="search"/>
+  </div>
+  <div>
   <a href="" i18n:translate="link_advanced_search"
     tal:attributes="href advanced_search_form">
     Advanced search</a>
-
+  </div>
   <!-- Online help with popup window -->
   <script type="text/javascript">
     function link_popup(url, name) {
@@ -36,6 +39,4 @@
       return false;
     }
   </script>
-  <a href="" tal:attributes="onclick string:return link_popup('${online_help_url}')"><img alt="action_view_help" i18n:attributes="alt"
-      tal:attributes="src string:${base_url}faq_icon.png"/></a>
 </form>
