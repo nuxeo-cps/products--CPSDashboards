@@ -13,4 +13,4 @@ Bug fixes
 - Quick Display Date Time Widget used to fail on empty dates
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
--
+- Refactored batch perform view to make it usable by concrete applications

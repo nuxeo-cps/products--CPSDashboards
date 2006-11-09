@@ -34,51 +34,82 @@ from searchview import SearchView
 
 logger = getLogger('CPSDashboards.browser.batchperformview')
 
-_SESSION_KEY = "CPSDASHBOARDS_BATCH_PERFORM"
 
 class BatchPerformView(SearchView):
+    """A generic view class to perform batch actions on documents.
 
-    transition = None # id of the wf action to be performed
-    rpaths = () # rpaths of documents as target of the transition
+    It can be used in conjunction with a tabular widget, that renders buttons
+    tied to CMF actions.
 
-    submit_button_prefix = "cpsdashboard_batch_"
-    # namespace prefix for all the submit buttons that call this view from a
-    # a tabular widget for instance
+    There are mainly two cases:
+        - non workflow actions, e.g, cut/copy/paste. It is assumed that
+          right to perform has to be checked on context (ie the folder).
+        - batch workflow transitions with a classical confirmation form. A
+          prefiltering is applied to exclude documents for which the transition
+          is not available.
+        - session_key: sessions get used to keep bunches of rpaths from one
+          screen to another.
+
+    This is meant to be subclassed. Attributes to override are
+       - non_wf_actions: you can register hear your handlers.
+       - submit_button_prefix: the action to be done is deduced from the
+       submit button's name, with this prefix cut out.
+
+    Subclasses can be hooked as browser pages either
+       - by using a different page name that the default one in CPSDashboards
+       - by an overrides.zcml (this is terminal)
+
+    Associated template:
+       it must understand the 'do_redirect' response and use it to avoid
+       costly and useless renderings.
+
+       Note that .. is allowed in the templates path so that one can reuse one
+       from CPSDashboards.
+    """
+
+    non_wf_actions = {'cut': '_doCutCopyPaste',
+                      'copy': '_doCutCopyPaste',
+                      'paste': '_doCutCopyPaste'}
+    submit_button_prefix = "cpsdashboards_batch_"
+    session_key = "CPSDASHBOARDS_BATCH_PERFORM"
+
+    action = None # id of the action to be performed
+    rpaths = () # rpaths of documents as target of the action
 
     #
     # Helpers to maintain current session
     #
 
-    def _storeDataInSession(self, rpaths, transition_id):
+    def _storeDataInSession(self, rpaths, action_id):
         """Store data in a session to allow for multi screen action"""
         request = self.request
-        if not sessionHasKey(request, _SESSION_KEY):
-            request.SESSION[_SESSION_KEY] = {}
+        if not sessionHasKey(request, self.session_key):
+            request.SESSION[self.session_key] = {}
         rpath = getToolByName(self.context, 'portal_url').getRpath(self.context)
         data = {
-            'transition_id': transition_id,
+            'action_id': action_id,
             'rpaths': rpaths,
         }
-        request.SESSION[_SESSION_KEY][rpath] = data
+        request.SESSION[self.session_key][rpath] = data
 
     def _readDataFromSession(self):
         """Read the request session to find stored rpaths"""
         request = self.request
-        if not sessionHasKey(request, _SESSION_KEY):
+        if not sessionHasKey(request, self.session_key):
             return [], None
         rpath = getToolByName(self.context, 'portal_url').getRpath(self.context)
-        data = request.SESSION[_SESSION_KEY].get(rpath, {})
-        return data.get('rpaths', []), data.get('transition_id')
+        data = request.SESSION[self.session_key].get(rpath, {})
+        return data.get('rpaths', []), data.get('action_id')
 
     def _expireSession(self):
         """Expire rpaths info related to the current mailbox"""
         request = self.request
-        if not sessionHasKey(request, _SESSION_KEY):
+        if not sessionHasKey(request, self.session_key):
             return
         rpath = getToolByName(self.context, 'portal_url').getRpath(self.context)
-        del request.SESSION[_SESSION_KEY][rpath]
+        del request.SESSION[self.session_key][rpath]
 
-    def _filterMatchingRpaths(self, transition, rpaths):
+    def _filterMatchingRpaths(self, action, rpaths):
         """Helper method to filter out non p-matching rpaths"""
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
         wftool = getToolByName(self.context, 'portal_workflow')
@@ -86,12 +117,12 @@ class BatchPerformView(SearchView):
         for rpath in rpaths:
             proxy = portal.unrestrictedTraverse(rpath)
             for wf in wftool.getWorkflowsFor(proxy):
-                if wf.isActionSupported(proxy, transition):
+                if wf.isActionSupported(proxy, action):
                     filtered.append(rpath)
         return filtered
 
     def _getSessionData(self):
-        """Process the request to extract the list of rpaths and transition id
+        """Process the request to extract the list of rpaths and action id
 
         Also take care of storing/reading/updating the session if necessary
         """
@@ -106,21 +137,21 @@ class BatchPerformView(SearchView):
         else:
             rpaths = form.get('rpaths', ())
 
-        # extract transition id info from request
+        # extract action id info from request
 
-        transitions = [key for key in form
+        actions = [key for key in form
                            if key.startswith(self.submit_button_prefix)]
-        if len(transitions) > 1:
-            raise ValueError("Got more than one transition to perform: %r" %
-                             transitions)
-        if transitions:
-            transition = transitions[0][len(self.submit_button_prefix):]
+        if len(actions) > 1:
+            raise ValueError("Got more than one action to perform: %r" %
+                             actions)
+        if actions:
+            action = actions[0][len(self.submit_button_prefix):]
         else:
-            transition = None
+            action = None
 
-        if transition not in ('cut', 'copy', 'paste', None):
+        if action is None or action not in self.non_wf_actions:
             # filter out non matching rpaths
-            rpaths = self._filterMatchingRpaths(transition, rpaths)
+            rpaths = self._filterMatchingRpaths(action, rpaths)
 
         # session management:
         #  - store data read from the request
@@ -138,33 +169,38 @@ class BatchPerformView(SearchView):
             # nothing was provided in the request, we are probably in a multi
             # screens session:
             # try to see if data was previously stored in the session
-            rpaths, transition = self._readDataFromSession()
+            rpaths, action = self._readDataFromSession()
         else:
             # rpaths were directly provided in the request, store them in
             # cookies for later reuse
-            self._storeDataInSession(rpaths, transition)
+            self._storeDataInSession(rpaths, action)
 
-        logger.debug('rpaths: %s, transition_id: %s', rpaths, transition)
-        return rpaths, transition
+        logger.debug('rpaths: %s, action_id: %s', rpaths, action)
+        return rpaths, action
 
     #
-    # Cut copy paste management
+    # Non workflow actions helpers
     #
 
     def _doRedirect(self, psm):
+        """Perform a classical redirection. Avoid useless rendering."""
         url = "%s?%s" % (self.context.absolute_url(),
                          urlencode({'portal_status_message': psm}))
         self.request.RESPONSE.redirect(url)
-        # return a flag that tells the template not to render the rest of the
-        # view since we don't need it
+        # flag that the template understands
         return 'do_redirect'
 
-    def _doCutCopyPaste(self):
-        """Special handling of cut/copy/paste actions
+    #
+    # Non workflow actions handlers
+    #
 
-        This are not actual transitions and require special treatment
+    def _doCutCopyPaste(self):
+        """Handling of cut/copy/paste actions
+
+        Such handlers have to perform security checkings at the context level.
+        They can be used for several actions.
         """
-        if self.transition == 'paste':
+        if self.action == 'paste':
             if self.context.cb_dataValid:
                 cp = self.request['__cp']
                 try:
@@ -184,10 +220,10 @@ class BatchPerformView(SearchView):
             # copy or cut
             ids = [rpath.rsplit('/', 1)[1] for rpath in self.rpaths]
             if ids:
-                if self.transition == 'cut':
+                if self.action == 'cut':
                     self.context.manage_CPScutObjects(ids, self.request)
                     psm = 'psm_item(s)_cut'
-                if self.transition == 'copy':
+                if self.action == 'copy':
                     self.context.manage_CPScopyObjects(ids, self.request)
                     psm = 'psm_item(s)_copied'
             else:
@@ -201,22 +237,18 @@ class BatchPerformView(SearchView):
 
     def dispatchSubmit(self):
         """Process the POST request of the tabular widget listing views
-
-        There are mainly two cases:
-         - other batch transitions with a classical confirmation form
-         - do a cut/copy/paste action
         """
         # compute the list of incoming mail rpath and store them as attribute
         # of the view instance
-        self.rpaths, self.transition = self._getSessionData()
+        self.rpaths, self.action = self._getSessionData()
 
-        if not self.transition:
-            raise ValueError('No transition specified')
+        if not self.action:
+            raise ValueError('No action specified')
 
-        if self.transition in ('cut', 'copy', 'paste'):
-            # special actions that are not handled by actual workflow
-            # transitions
-            return self._doCutCopyPaste()
+        # non wf actions
+        meth = self.non_wf_actions.get(self.action)
+        if meth is not None:
+            return getattr(self, meth)()
 
         if not self.rpaths:
             return self._doRedirect('psm_select_at_least_one_valid_item')

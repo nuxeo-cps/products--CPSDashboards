@@ -78,7 +78,7 @@
 	 class="context"
 	 tal:repeat="action actions"
          tal:attributes="value action/title;
-                         name string:cpsdashboard_batch_${action/id}"
+                         name string:cpsdashboards_batch_${action/id}"
 	 i18n:attributes="value" />
 
   <tal:block condition="make_form">

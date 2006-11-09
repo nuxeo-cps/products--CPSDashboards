@@ -3,17 +3,17 @@
   <metal:main fill-slot="main">
     <tal:dispatch_submit define="submit_result view/dispatchSubmit">
       <tal:no_redirect condition="python: submit_result != 'do_redirect'"
-        define="transition view/transition">
+        define="action view/action">
 
         <metal:std_main use-macro="here/content_lib_std_main/macros/std_main">
 
           <metal:title fill-slot="title" i18n:translate="">
-            <span tal:replace="string:heading_batch_${transition}" />
+            <span tal:replace="string:heading_batch_${action}" />
           </metal:title>
 
           <metal:help fill-slot="help">
             <tal:help i18n:translate=""
-              content="string:help_batch_${transition}"></tal:help>
+              content="string:help_batch_${action}"></tal:help>
             <ul>
               <li tal:repeat="info view/getDocumentInfo">
                 <a tal:attributes="href info/url" target="_blank"
@@ -39,7 +39,7 @@
                   <input type="hidden" name="trigger_transition"
                     tal:attributes="value transition" />
                   <input type="submit" class="standalone"
-                    tal:attributes="value string:button_${transition}"
+                    tal:attributes="value string:button_${action}"
                     i18n:attributes="value" />
                   <input type="button" class="context" onClick="history.back()"
                     value="button_cancel" i18n:attributes="value" />
