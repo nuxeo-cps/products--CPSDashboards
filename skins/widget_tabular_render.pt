@@ -36,7 +36,9 @@
 					method='post'
 					enctype='multipart/form-data'> "/>
   </tal:block>
-  <table class="listing" tal:condition="rows">
+  <table
+         tal:condition="rows"
+         tal:attributes="class options/css_class|string:listing;">
     <tr>
       <tal:column repeat="col columns">
 	<tal:block define="widget python:col[0];

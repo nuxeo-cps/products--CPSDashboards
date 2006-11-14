@@ -1,5 +1,7 @@
 <tal:comment replace="nothing">
   This special layout expects to find a tabular widget in the last row.
+  Note that tabular widgets take care of their CSS class by themselves.
+
   All other widgets are used to govern filtering/sorting parameters and make up
   a form.
 

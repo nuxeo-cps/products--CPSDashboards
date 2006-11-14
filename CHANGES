@@ -3,6 +3,8 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
+- Tabular widget css_class properties get used on the table element
+  or a surrounding div if appropriate
 - New div based render method for tabular widgets allows making of
   simple listings, such as CPSDefault's search results page
 Bug fixes

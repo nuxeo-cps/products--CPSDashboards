@@ -417,7 +417,8 @@ class TabularWidget(CPSIntFilterWidget):
         actions = self.getActions(datastructure)
 
         # finding here_url to feed to render method
-        here = proxy or datastructure.getDataModel().getContext()
+        datamodel = datastructure.getDataModel()
+        here = proxy or datamodel.getContext()
         here_url = here.absolute_url()
 
         # in search mode, we must add the view name to here_url
@@ -434,9 +435,12 @@ class TabularWidget(CPSIntFilterWidget):
         else:
             batching_info = self.getBatchingInfo(current_page, nb_pages)
 
+        css_class=self.getCssClass(kw.get('layout_mode', mode), datamodel)
+
         return meth(mode=mode, columns=columns,
                     batch_perform_view_name=self.batch_perform_view_name,
                     rows=rendered_rows, actions=actions,
                     here_url=here_url, batching_info=batching_info,
                     base_url=getToolByName(self, 'portal_url').getBaseUrl(),
-                    empty_message=self.empty_message)
+                    empty_message=self.empty_message,
+                    css_class=css_class)
