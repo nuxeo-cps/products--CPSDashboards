@@ -48,6 +48,9 @@ msgstr ""
 msgid "cpsdashboards_fulltext_search"
 msgstr ""
 
+msgid "cpsdashboards_layout_tabular_label"
+msgstr ""
+
 # empty keys
 msgid "label_all_review_states"
 msgstr ""

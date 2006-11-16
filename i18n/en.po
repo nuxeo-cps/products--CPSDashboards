@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-11-06 14:52default\n"
+"POT-Creation-Date: 2006-11-16 16:55default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -17,14 +17,15 @@ msgstr ""
 "Domain: default\n"
 
 #.   <title fill-slot="title">
-#.               <span replace="string:heading_batch_${transition}" />
+#.               <span replace="string:heading_batch_${action}" />
 #.             </title>
 #: from ../browser/batchPerform.zpt
-msgid "<span replace=\"string:heading_batch_${transition}\" />"
+msgid "<span replace=\"string:heading_batch_${action}\" />"
 msgstr ""
 
 #.   <span>Page ${current_page (tal replace="current_page")} of ${nb_pages (tal replace="nb_pages")}</span>
-#: from ../skins/widget_tabular_render.pt
+#: from ../skins/widget_tabular_listing_render.pt
+#: ../skins/widget_tabular_render.pt
 msgid "Page ${current_page} of ${nb_pages}"
 msgstr ""
 
@@ -95,6 +96,9 @@ msgstr "Maximum creation date"
 
 msgid "cpsdashboards_fulltext_search"
 msgstr "Full text search"
+
+msgid "cpsdashboards_layout_tabular_label"
+msgstr "Filtering criteria"
 
 # empty keys
 msgid "label_all_review_states"
