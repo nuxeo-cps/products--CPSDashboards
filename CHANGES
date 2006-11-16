@@ -3,16 +3,10 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
-- Tabular widget css_class properties get used on the table element
-  or a surrounding div if appropriate
-- New div based render method for tabular widgets allows making of
-  simple listings, such as CPSDefault's search results page
+-
 Bug fixes
 ~~~~~~~~~
-- braindatamodel relays to corresponding object datamodel
-  if requested key is missing in brains.
-- #1768: pseudo-groups support in folder_localroles.html
-- Quick Display Date Time Widget used to fail on empty dates
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
-- Refactored batch perform view to make it usable by concrete applications
+- 
