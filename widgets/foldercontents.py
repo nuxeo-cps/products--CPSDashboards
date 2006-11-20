@@ -54,10 +54,6 @@ class FolderContentsWidget(TabularWidget):
     _properties = TabularWidget._properties + (
         {'id': 'listed_meta_types', 'type': 'lines', 'mode': 'w',
          'label': 'Meta types to list', 'is_required' : 1},
-        {'id': 'cookie_id', 'type': 'string', 'mode': 'w',
-         'label': 'Name of cookie for filter params (no cookie if empty)', },
-        {'id': 'filter_button', 'type': 'string', 'mode': 'w',
-         'label': 'Name of the button used to trigger filtering', },
         )
 
     listed_meta_types = (
