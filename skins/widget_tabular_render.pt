@@ -76,7 +76,7 @@
   <p tal:condition="not:rows" tal:content="empty_message"
     i18n:translate=""></p>
 
-  <p>
+  <p class="tabularActions">
   <input type="submit"
 	 class="context"
 	 tal:repeat="action actions"
@@ -88,7 +88,7 @@
     <tal:block content="structure string:</form>"/>
   </tal:block>
 
-  <tal:batching_gadget condition="batching_info">
+  <div class="batchingGadget" tal:condition="batching_info">
     <tal:block define="form_key batching_info/form_key;
 		       pages batching_info/linked_pages;
 		       current_page batching_info/current_page;
@@ -111,6 +111,6 @@
           >last page</a>
         </div>
     </tal:block>
-  </tal:batching_gadget>
+  </div>
 
 </tal:block>

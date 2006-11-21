@@ -10,4 +10,5 @@ Bug fixes
   widget_tabular_render
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
-- 
+- classes attributes in widget_tabular_render to control
+  the look of buttons and batching gadget
