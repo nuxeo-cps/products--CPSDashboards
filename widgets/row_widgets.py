@@ -374,7 +374,7 @@ class CPSTimeLeftWidget(CPSIntWidget):
                                     {'d': base_rendered,
                                     'plus_sign': plus_sign})
             base_rendered = xlated.encode('iso-8859-15')
-        return '<span class=%s>%s</span>' % (css_class, base_rendered)
+        return '<span class="%s">%s</span>' % (css_class, base_rendered)
 
 
 InitializeClass(CPSTimeLeftWidget)

@@ -18,7 +18,7 @@
 		   make_form python:tabular_mode != 'search';
 		   formaction string:;
 		   ">
-<fieldset tal:omit-tag="not:layout_label">
+<fieldset class="cpsDashboardsFilter" tal:omit-tag="not:layout_label">
   <legend tal:condition="python:layout_label and layout_is_i18n"
     i18n:translate="" tal:content="layout_label"></legend>
   <legend tal:condition="python:layout_label and not layout_is_i18n"
@@ -53,18 +53,16 @@
 	</tal:block>
       </tr>
     </table>
-  </fieldset>
-    <p style="text-align:right; margin:1em">
-      <input type="submit" name="filter" value="tabular_filter_button"
-	     class="context"
-	     tal:condition="param_rows"
-	     i18n:attributes="value" />
-    </p>
+    <input type="submit" name="filter" value="tabular_filter_button"
+           class="context"
+           tal:condition="param_rows"
+           i18n:attributes="value" />
 
   <tal:block condition="make_form">
     <tal:block content="structure string:</form>"/>
   </tal:block>
 
+  </fieldset>
 
   <p tal:define="widget tabular_cell/widget" tal:condition="widget/label">
     <span class="dlabel"
