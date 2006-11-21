@@ -6,7 +6,8 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
-- two XHTML validity issues
+- some XHTML validity issues in layout_tabular_view and
+  widget_tabular_render
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

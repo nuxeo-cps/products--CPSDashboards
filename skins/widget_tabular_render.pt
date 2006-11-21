@@ -76,13 +76,14 @@
   <p tal:condition="not:rows" tal:content="empty_message"
     i18n:translate=""></p>
 
+  <p>
   <input type="submit"
 	 class="context"
 	 tal:repeat="action actions"
          tal:attributes="value action/title;
                          name string:cpsdashboards_batch_${action/id}"
 	 i18n:attributes="value" />
-
+  </p>
   <tal:block condition="make_form">
     <tal:block content="structure string:</form>"/>
   </tal:block>

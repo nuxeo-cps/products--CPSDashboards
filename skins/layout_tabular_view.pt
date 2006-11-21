@@ -53,11 +53,12 @@
 	</tal:block>
       </tr>
     </table>
+    <p>
     <input type="submit" name="filter" value="tabular_filter_button"
            class="context"
            tal:condition="param_rows"
            i18n:attributes="value" />
-
+    </p>
   <tal:block condition="make_form">
     <tal:block content="structure string:</form>"/>
   </tal:block>
@@ -75,8 +76,6 @@
     <span class="dlabel" tal:condition="not:widget/is_i18n"
       tal:content="widget/label">label</span>
   </p>
-  <p>
-    <tal:block replace="structure tabular_cell/widget_rendered" />
-  </p>
+  <tal:block replace="structure tabular_cell/widget_rendered" />
 
 </tal:block>
