@@ -441,7 +441,8 @@ class TabularWidget(CPSIntFilterWidget):
         else:
             batching_info = self.getBatchingInfo(current_page, nb_pages)
 
-        css_class=self.getCssClass(kw.get('layout_mode', mode), datamodel)
+        css_class=self.getCssClass(
+            kw.get('layout_mode', mode), datamodel) or None
 
         return meth(mode=mode, columns=columns,
                     batch_perform_view_name=self.batch_perform_view_name,
