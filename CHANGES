@@ -3,7 +3,8 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
--
+- Optional onMouseOver/Out to put on rows can be specified as properties on
+  tabular widgets
 Bug fixes
 ~~~~~~~~~
 - some XHTML validity issues in layout_tabular_view and

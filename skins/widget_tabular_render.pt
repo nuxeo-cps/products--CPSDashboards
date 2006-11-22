@@ -68,8 +68,10 @@
       </tal:column>
     </tr>
     <tr tal:repeat="row rows"
-	  tal:attributes="class python:test(repeat['row'].odd(),
-			  'odd', 'even')">
+        tal:attributes="class python:test(repeat['row'].odd(),
+                                          'odd', 'even');
+                        onMouseOver options/row_mouseover|nothing;
+                        onMouseOut options/row_mouseout|nothing;">
       <tal:block replace="structure row" />
     </tr>
   </table>
