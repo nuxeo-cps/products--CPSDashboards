@@ -1,4 +1,27 @@
 ===========================================================
+Package: CPSDashboards 0.6.0
+===========================================================
+First release built by: gracinet at: 2006-11-23T21:03:17
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.6.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@50248
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- Optional onMouseOver/Out to put on rows can be specified as properties on
+  tabular widgets
+Bug fixes
+~~~~~~~~~
+- some XHTML validity issues in layout_tabular_view and
+  widget_tabular_render
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- classes attributes in widget_tabular_render to control
+  the look of buttons and batching gadget
+
+===========================================================
 Package: CPSDashboards 0.5.0
 ===========================================================
 First release built by: gracinet at: 2006-11-16T18:21:57

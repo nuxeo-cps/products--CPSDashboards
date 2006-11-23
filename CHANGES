@@ -3,13 +3,10 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
-- Optional onMouseOver/Out to put on rows can be specified as properties on
-  tabular widgets
+-
 Bug fixes
 ~~~~~~~~~
-- some XHTML validity issues in layout_tabular_view and
-  widget_tabular_render
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
-- classes attributes in widget_tabular_render to control
-  the look of buttons and batching gadget
+- 
