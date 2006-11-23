@@ -274,8 +274,11 @@ class BatchPerformView(SearchView):
             })
         return infos
 
-    def batchTriggerTransition(self, transition):
-        """Do the WF update when possible and return the result as psm"""
+    def batchTriggerTransition(self, transition, kwargs=None):
+        """Do the WF update when possible and return the result as psm
+
+        Optional kwargs dict is passed to the transition.
+        """
 
         t = Timer('CPSDashboards.browser.batchperformview.batchTriggerTransition',
                   level=DEBUG)
@@ -287,6 +290,8 @@ class BatchPerformView(SearchView):
         kw = {
            'comment': form.get('comments', ''),
         }
+        if kwargs is not None:
+            kw.update(kwargs)
 
         t.mark('Process form data')
 
