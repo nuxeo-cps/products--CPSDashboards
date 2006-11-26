@@ -152,16 +152,29 @@ class CatalogTabularWidget(TabularWidget):
             del filters[key]
 
         #Filters to feed with user id and its groups
-        if not self.users_groups_filters:
+        if self.users_groups_filters:
+            aclu = getToolByName(self, 'acl_users')
+            user = getSecurityManager().getUser()
+            allowed = aclu.getAllowedRolesAndUsersOfUser(user)
+
+            for filt in self.users_groups_filters:
+                if filters.get(filt):
+                    filters[filt] = allowed
+
+        # Path
+        path = filters.get('path')
+        if path is None or filters.get('path_physical', False):
             return
 
-        aclu = getToolByName(self, 'acl_users')
-        user = getSecurityManager().getUser()
-        allowed = aclu.getAllowedRolesAndUsersOfUser(user)
-
-        for filt in self.users_groups_filters:
-            if filters.get(filt):
-                filters[filt] = allowed
+        utool = getToolByName(self, 'portal_url')
+        portal_path = '/' + utool.getPhysicalPath()[1]
+        if not path:
+            path = portal_path
+        elif path[0] == '/':
+            path = portal_path + path
+        else:
+            path = '%s/%s' % (portal_path, path)
+        filters['path'] = path
 
     def _doBatchedQuery(self, catalog, b_start, b_size, query):
         """ Return batched results, total number of results.

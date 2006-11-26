@@ -9,4 +9,4 @@ Bug fixes
 -
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
-- 
+- #1773: a filter w/ id  'path' gets now properly rewritten.

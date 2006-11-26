@@ -394,7 +394,7 @@ InitializeClass(CPSToggableCriterionWidget)
 widgetRegistry.register(CPSToggableCriterionWidget)
 
 class CPSPathWidget(CPSWidget):
-    """ This widget is a quick & dirty convenience."""
+    """Put path to context_obj or current proxy, ready to use by catalog."""
 
     meta_type = 'Path Widget'
 
@@ -403,13 +403,13 @@ class CPSPathWidget(CPSWidget):
                  or datastructure.getDataModel().getProxy())
         if proxy is None:
             return
+
         utool = getToolByName(proxy, 'portal_url')
 
-        # taken from search.py
-        portal_path = utool.getPhysicalPath()[1]
-        datastructure[self.getWidgetId()] = '/%s/%s' % (portal_path,
-                                                        utool.getRpath(proxy),
-                                                        )
+        wid = self.getWidgetId()
+        datastructure[wid] = '/'.join(proxy.getPhysicalPath())
+        # used by filtersToQuery methods
+        datastruture[wid + '_physical'] = True
 
     def validate(self, datastructure, **kw):
         return 1

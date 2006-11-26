@@ -93,6 +93,22 @@ Empty values are ignored if any::
     {'date': {'query': DateTime('2006/02/03'),
               'range': 'max'}}
 
+Path queries
+~~~~~~~~~~~~
+
+The path index is always about physical path but user input will
+always be relative to the portal. So we need to put the portal's
+physical path in front:
+
+    >>> class FakePortalUrl:
+    ...    def getPhysicalPath(self):
+    ...       return ['', 'portal', 'portal_url']
+    >>> cat.portal_url = FakePortalUrl()
+    >>> filters = {'path' : 'some/path'}
+    >>> cat.filtersToQuery(filters)
+    >>> filters
+    {'path': '/portal/some/path'}
+
 
 .. Emacs
 .. Local Variables:
