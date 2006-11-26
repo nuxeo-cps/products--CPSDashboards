@@ -404,12 +404,10 @@ class CPSPathWidget(CPSWidget):
         if proxy is None:
             return
 
-        utool = getToolByName(proxy, 'portal_url')
-
         wid = self.getWidgetId()
         datastructure[wid] = '/'.join(proxy.getPhysicalPath())
         # used by filtersToQuery methods
-        datastruture[wid + '_physical'] = True
+        datastructure[wid + '_physical'] = True
 
     def validate(self, datastructure, **kw):
         return 1
