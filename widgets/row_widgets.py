@@ -33,6 +33,7 @@ from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 from Products.CPSSchemas.BasicWidgets import (CPSStringWidget,
                                               CPSLinesWidget,
                                               CPSIntWidget,
+                                              CPSImageWidget,
                                               CPSBooleanWidget)
 from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
 
@@ -641,3 +642,49 @@ class CPSQuickDisplayDateTimeWidget(CPSDateTimeWidget):
 
 InitializeClass(CPSQuickDisplayDateTimeWidget)
 widgetRegistry.register(CPSQuickDisplayDateTimeWidget)
+
+class CPSImageWithLinkWidget(CPSImageWidget):
+    """Display the image within an anchor element.
+
+    Link is specified by the 'link_field' property.
+    If empty, does same as Qualified Link Widget.
+
+    For view mode only.
+    """
+
+    meta_type = "Image With Link Widget"
+    _properties = CPSImageWidget._properties + (
+        {'id': 'link_field', 'type': 'string', 'mode': 'w',
+         'label': 'Field holding href'},
+        )
+
+    link_field = ''
+
+    def prepare(self, ds, **kw):
+        CPSImageWidget.prepare(self, ds, **kw)
+        dm = ds.getDataModel()
+        key = '%s_%s' % (self.getWidgetId(), 'href')
+        if self.link_field:
+            ds[key] = dm[self.link_field]
+        else:
+            proxy = dm.getProxy()
+            if proxy is None:
+                raise ValueError(
+                    "No field provided for link, no proxy object found")
+            utool = getToolByName(self, 'portal_url')
+            base_url = utool.getBaseUrl()
+            rpath = utool.getRpath(proxy)
+
+            ds[key] = base_url+rpath
+
+    def render(self, mode, ds, **kw):
+        if mode != 'view':
+            raise NotImplementedError
+
+        anchor = '<a href="%s">' % escape(
+            ds['%s_%s' % (self.getWidgetId(), 'href')])
+        image = CPSImageWidget.render(self, mode, ds, **kw)
+        return anchor + image + '</a>'
+
+InitializeClass(CPSImageWithLinkWidget)
+widgetRegistry.register(CPSImageWithLinkWidget)
