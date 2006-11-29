@@ -3,11 +3,10 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
-- New "row" widget: Image With Link. Render the image inside an anchor element.
-  can be used to link to corresponding document.
+-
 Bug fixes
 ~~~~~~~~~
 -
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
-- #1773: a filter w/ id  'path' gets now properly rewritten.
+- 

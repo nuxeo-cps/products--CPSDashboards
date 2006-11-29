@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.7.0
+===========================================================
+First release built by: gracinet at: 2006-11-29T01:53:08
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.7.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@50353
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- New "row" widget: Image With Link. Render the image inside an anchor element.
+  can be used to link to corresponding document.
+Bug fixes
+~~~~~~~~~
+-
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- #1773: a filter w/ id  'path' gets now properly rewritten.
+
+===========================================================
 Package: CPSDashboards 0.6.0
 ===========================================================
 First release built by: gracinet at: 2006-11-23T21:03:17
