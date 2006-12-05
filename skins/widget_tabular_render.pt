@@ -70,6 +70,7 @@
     <tr tal:repeat="row rows"
         tal:attributes="class python:test(repeat['row'].odd(),
                                           'odd', 'even');
+                        onClick options/row_click|nothing;
                         onMouseOver options/row_mouseover|nothing;
                         onMouseOut options/row_mouseout|nothing;">
       <tal:block replace="structure row" />

@@ -184,13 +184,23 @@ class CPSQualifiedLinkWidget(CPSWidget):
     {'id': 'popup_height', 'type': 'int', 'mode': 'w',
      'label': 'Height of popup window'},
     {'id': 'is_display_i18n', 'type': 'boolean', 'mode': 'w',
-     'label': 'Should the display of values be translated?'},)
+     'label': 'Should the display of values be translated?'},
+    {'id': 'onclick', 'type': 'string', 'mode': 'w',
+     'label': 'onClick to put on anchor element (breaks popup mode)'},
+    {'id': 'onmouseover', 'type': 'string', 'mode': 'w',
+     'label': 'onMouseOver to put on anchor element'},
+    {'id': 'onmouseout', 'type': 'string', 'mode': 'w',
+     'label': 'onMouseOut to put on anchor element'},
+    )
 
     is_display_i18n = False
     target = ''
     popup = False
     popup_width = 800
     popup_height = 600
+    onmouseover = ''
+    onmouseout = ''
+    onclick = ''
 
     def prepare(self, datastructure, **kw):
         """Prepare datastructure from datamodel."""
@@ -231,13 +241,19 @@ class CPSQualifiedLinkWidget(CPSWidget):
 
         if not params['href']:
             return escape(params['contents'])
-                
+
         if self.popup:
             script = renderHtmlTag('script', type='text/javascript',
                                      contents=JS_OPENER % (self.popup_width,
-                                                           self.popup_height,))
+                                                           self.popup_height,),
+                                   )
             onclick = "return link_popup('%s', 'roles')" % params['href']
-            params['onClick'] = onclick
+            params['onclick'] = onclick
+
+        for add in ('onmouseover', 'onmouseout', 'onclick'):
+            v = getattr(self, add)
+            if v:
+                params[add] = v
 
         a_tag = renderHtmlTag('a', **params)
 

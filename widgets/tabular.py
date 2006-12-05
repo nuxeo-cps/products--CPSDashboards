@@ -93,6 +93,8 @@ class TabularWidget(CPSIntFilterWidget):
          'label': 'Filter used for number of results per page', },
         {'id': 'batching_gadget_pages', 'type': 'int', 'mode': 'w',
          'label': 'Number of context pages displayed in batching gadget'},
+        {'id': 'row_click', 'type': 'string', 'mode': 'w',
+         'label': 'onClick to put on rows'},
         {'id': 'row_mouseover', 'type': 'string', 'mode': 'w',
          'label': 'onMouseOver to put on rows'},
         {'id': 'row_mouseout', 'type': 'string', 'mode': 'w',
@@ -112,6 +114,7 @@ class TabularWidget(CPSIntFilterWidget):
     items_per_page = 10
     batching_gadget_pages = 3
     filter_items_per_page = ''
+    row_click = ''
     row_mouseover = ''
     row_mouseout = ''
 
@@ -450,6 +453,7 @@ class TabularWidget(CPSIntFilterWidget):
                     here_url=here_url, batching_info=batching_info,
                     base_url=getToolByName(self, 'portal_url').getBaseUrl(),
                     empty_message=self.empty_message,
+                    row_click = self.row_click or None,
                     row_mouseover = self.row_mouseover or None,
                     row_mouseout = self.row_mouseout or None,
                     css_class=css_class)

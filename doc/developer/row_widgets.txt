@@ -121,7 +121,19 @@ This now the result of rendering::
     >>> widget.render('view', ds)
     '<a href="http://target.url" title="title of the link">text of the link</a>'
 
-In case the link field is empty, no <a> element is produced::
+We can register javascript event handlers, too:
+
+    >>> widget.manage_changeProperties(onclick='click();',
+    ...                                onmouseover='over();',
+    ...                                onmouseout='out();')
+
+This is now what we get (hope it won't break because of irrelevant
+order of attributes):
+
+    >>> widget.render('view', ds)
+    '<a onmouseout="out();" title="title of the link" href="http://target.url" onmouseover="over();" onclick="click();">text of the link</a>'
+
+In case the link field is empty, no anchor element is produced::
 
    >>> dm['href'] = ''
    >>> widget.prepare(ds)
