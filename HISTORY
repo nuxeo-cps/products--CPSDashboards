@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.8.0
+===========================================================
+First release built by: gracinet at: 2006-12-05T19:06:46
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.8.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@50516
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- onClick, onMouseOver, onMouseOut on Qualified Link Widget; onClick on rows
+Bug fixes
+~~~~~~~~~
+-
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.7.0
 ===========================================================
 First release built by: gracinet at: 2006-11-29T01:53:08
