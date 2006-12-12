@@ -44,14 +44,26 @@ class FakeRequest:
     def __init__(self, **kw):
         self.form = kw
 
-class RequestCookiesMixin:
-    """prepare datastructure from dm, request and cookie."""
+class FilterWidgetMixin:
+    """General Mixin for all FilterWidgets.
+
+    - prepare datastructure from dm, request and cookie.
+    - wear info about boolean operators (condition)
+    """
 
     _properties = (
         {'id': 'cookie_id', 'type': 'string', 'mode': 'w',
          'label': 'Name of cookie for filter params (no cookie if empty)', },
+        {'id': 'insertion_boolean_op', 'type': 'selection', 'mode': 'w',
+         'select_variable': 'boolean_ops',
+         'label': 'Boolean operator in which to insert this filter', },
+#        {'id': 'internal_boolean_op', 'type': 'selection', 'mode': 'w',
+#         'select_variable': 'boolean_ops',
+#         'label': 'Boolean operator to apply inside this filter', },
         )
 
+    boolean_ops = ('', 'OR', 'NOT', 'AND')
+    insertion_boolean_op = ''
     cookie_id = ''
 
     def readCookie(self, datastructure, wid):
@@ -149,7 +161,7 @@ class RequestCookiesMixin:
 # Widgets
 #
 
-class CPSSelectFilterWidget(RequestCookiesMixin, CPSSelectWidget):
+class CPSSelectFilterWidget(FilterWidgetMixin, CPSSelectWidget):
     """A select widget that prepares from request and cookies.
 
     Problem fixed by ugly hack: catalog would want a singleton instead of
@@ -160,7 +172,7 @@ class CPSSelectFilterWidget(RequestCookiesMixin, CPSSelectWidget):
     base_widget_class = CPSSelectWidget
 
     _properties = (CPSSelectWidget._properties
-                   + RequestCookiesMixin._properties
+                   + FilterWidgetMixin._properties
                    + ({'id': 'defines_scope', 'type': 'boolean', 'mode': 'w',
  'label': "Is the union of all values is more restrictive than no filtering?"},
                       {'id': 'reject_from_scope', 'type': 'tokens', 'mode': 'w',
@@ -203,7 +215,7 @@ class CPSSelectFilterWidget(RequestCookiesMixin, CPSSelectWidget):
     def prepare(self, ds, **kw):
         """Prepare datastructure from datamodel."""
         CPSSelectWidget.prepare(self, ds, **kw)
-        RequestCookiesMixin.prepare(self, ds, call_base=False, **kw)
+        FilterWidgetMixin.prepare(self, ds, call_base=False, **kw)
         wid = self.getWidgetId()
         if self.defines_scope and not ds[wid]:
             ds[wid+'_scope'] = self.getScope(ds)
@@ -213,11 +225,11 @@ InitializeClass(CPSSelectFilterWidget)
 widgetRegistry.register(CPSSelectFilterWidget)
 
 
-class CPSMultiSelectFilterWidget(RequestCookiesMixin, CPSMultiSelectWidget):
+class CPSMultiSelectFilterWidget(FilterWidgetMixin, CPSMultiSelectWidget):
     """A multiselect widget that prepares from request and cookies. """
 
     meta_type = 'MultiSelect Filter Widget'
-    _properties = CPSMultiSelectWidget._properties + RequestCookiesMixin._properties
+    _properties = CPSMultiSelectWidget._properties + FilterWidgetMixin._properties
     base_widget_class = CPSMultiSelectWidget
 
 InitializeClass(CPSMultiSelectFilterWidget)
@@ -225,11 +237,11 @@ InitializeClass(CPSMultiSelectFilterWidget)
 widgetRegistry.register(CPSMultiSelectFilterWidget)
 
 
-class CPSStringFilterWidget(RequestCookiesMixin, CPSStringWidget):
+class CPSStringFilterWidget(FilterWidgetMixin, CPSStringWidget):
     """A string widget that prepares from request and cookies. """
 
     meta_type = 'String Filter Widget'
-    _properties = CPSStringWidget._properties + RequestCookiesMixin._properties
+    _properties = CPSStringWidget._properties + FilterWidgetMixin._properties
     base_widget_class = CPSStringWidget
 
 InitializeClass(CPSStringFilterWidget)
@@ -278,7 +290,7 @@ widgetRegistry.register(CPSFixedListFilterWidget)
 
 TOKEN_SUFFIX = '_token'
 
-class CPSToggableCriterionWidget(RequestCookiesMixin, CPSSelectWidget):
+class CPSToggableCriterionWidget(FilterWidgetMixin, CPSSelectWidget):
     """A widget that manipulates a decorated criterion.
 
     typical use-case: key to sort on and sort direction. In this use-case, one
@@ -289,7 +301,7 @@ class CPSToggableCriterionWidget(RequestCookiesMixin, CPSSelectWidget):
     meta_type = 'Toggable Criterion Widget'
 
     _properties = CPSSelectWidget._properties +\
-                  RequestCookiesMixin._properties + (
+                  FilterWidgetMixin._properties + (
         {'id': 'filter_button', 'type': 'string', 'mode': 'w',
          'label': 'Name of the button used to trigger filtering', },
         {'id': 'toggle_tokens', 'type': 'tokens', 'mode': 'w',
@@ -420,14 +432,14 @@ InitializeClass(CPSPathWidget)
 
 widgetRegistry.register(CPSPathWidget)
 
-class CPSDateTimeFilterWidget(RequestCookiesMixin, CPSDateTimeWidget):
+class CPSDateTimeFilterWidget(FilterWidgetMixin, CPSDateTimeWidget):
     """ Puts its argument in datastructure.
 
     This widget would become useless after #1606 is done
     """
 
     meta_type = 'DateTime Filter Widget'
-    _properties = CPSDateTimeWidget._properties + RequestCookiesMixin._properties
+    _properties = CPSDateTimeWidget._properties + FilterWidgetMixin._properties
 
     base_widget_class = CPSDateTimeWidget
 
@@ -494,11 +506,11 @@ InitializeClass(CPSDateTimeFilterWidget)
 
 widgetRegistry.register(CPSDateTimeFilterWidget)
 
-class CPSIntFilterWidget(RequestCookiesMixin, CPSIntWidget):
+class CPSIntFilterWidget(FilterWidgetMixin, CPSIntWidget):
     """ Puts its argument in datastructure. """
 
     meta_type = 'Int Filter Widget'
-    _properties = CPSIntWidget._properties + RequestCookiesMixin._properties
+    _properties = CPSIntWidget._properties + FilterWidgetMixin._properties
 
     def validate(self, datastructure, **kw):
         """ Update datamodel from datastructure """
@@ -564,7 +576,7 @@ class CPSToDoFilterWidget(CPSSelectFilterWidget):
     def prepare(self, ds, **kw):
         """Prepare datastructure from datamodel."""
         CPSSelectWidget.prepare(self, ds, **kw)
-        RequestCookiesMixin.prepare(self, ds, call_base=False, **kw)
+        FilterWidgetMixin.prepare(self, ds, call_base=False, **kw)
         wid = self.getWidgetId()
         value = ds[wid]
         indexes = iter(self.forward_indexes)
@@ -579,3 +591,29 @@ InitializeClass(CPSToDoFilterWidget)
 
 widgetRegistry.register(CPSToDoFilterWidget)
 
+class CPSUserIdFilterWidget(FilterWidgetMixin, CPSWidget):
+    """Put user id in datastructure. No validation or rendering.
+
+    Useful, e.g, for security indexes, special filterings.
+    """
+
+    meta_type = "User Id Filter Widget"
+
+    _properties = (
+        {'id': 'title', 'type': 'string', 'mode': 'w',
+         'label': 'Title'},
+        {'id': 'prefix', 'type': 'selection', 'mode': 'w',
+         'label': 'Prefix to put before user id',
+         'select_variable': 'prefixes'},
+        ) +  FilterWidgetMixin._properties[1:]
+
+    prefixes = ('', 'user:')
+
+    def prepare(self, ds, **kw):
+        from AccessControl import getSecurityManager
+        user_id = getSecurityManager().getUser().getId()
+        ds[self.getWidgetId()] = user_id
+
+InitializeClass(CPSUserIdFilterWidget)
+
+widgetRegistry.register(CPSUserIdFilterWidget)

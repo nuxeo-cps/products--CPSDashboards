@@ -3,7 +3,8 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
--
+- #1796: leveraging new CPS Lucene Catalog's "insert_condition" as
+  "insertion_boolean_op" in filter widgets.
 Bug fixes
 ~~~~~~~~~
 -

@@ -32,17 +32,17 @@ one provides::
     >>> from Products.CPSSchemas.tests.testWidgets import FakeDataModel
     >>> from Products.CPSSchemas.DataStructure import DataStructure
 
-RequestCookiesMixin
+FilterWidgetMixin
 ------------------
 
   This is a mixin class that provides the preparation of datastructure
   from request and cookie. Widgets that subclass this and a widget
   class can call explicitely the usual prepare methode and the one
-  provided by RequestCookiesMixin::
+  provided by FilterWidgetMixin::
 
     >>> from Products.CPSDashboards.widgets.filter_widgets \
-    ...                         import RequestCookiesMixin
-    >>> mixin = RequestCookiesMixin()
+    ...                         import FilterWidgetMixin
+    >>> mixin = FilterWidgetMixin()
 
   The cookie parsing is optional and depends on the non-emptiness of
   the 'cookie_id' property.
@@ -101,7 +101,7 @@ Cookie expiration
   Now let's check that the genuine ``_expireCookie`` does its job,
   that is forwarding to the response object.
 
-    >>> mixin = RequestCookiesMixin()
+    >>> mixin = FilterWidgetMixin()
     >>> mixin.cookie_id = 'the_cookie'
     >>> mixin.REQUEST = FakeRequestWithCookies()
     >>> resp = mixin.REQUEST.RESPONSE

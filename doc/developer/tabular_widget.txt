@@ -18,6 +18,16 @@ Like most CPS objects, we need to provide the id in the constructor::
     >>> tab.getId()
     'spam'
 
+We'll actually need to put this one inside a layout::
+
+    >>> from Products.CPSSchemas.Layout import Layout
+    >>> layout = Layout()
+    >>> tab = layout.addSubObject(tab)
+
+and simulate an HTTPRequest
+    >>> from Products.CPSDashboards.testing import FakeRequestWithCookies
+    >>> layout.REQUEST = FakeRequestWithCookies()
+
 Most of widget methods manipulate DataStructure instances::
 
     >>> from Products.CPSSchemas.DataStructure import DataStructure
@@ -110,6 +120,24 @@ Nothing's done if ``path`` is already there::
     >>> tab.buildFilters(datastructure7)
     {'path': '/the/path'}
 
+If an item corresponds to a widget and it has a non-void
+'insertion_boolean_op' property, CPSLuceneCatalog boolean syntax is
+used (see issue 1796 in trac)::
+
+    >>> from Products.CPSDashboards.widgets.filter_widgets import CPSStringFilterWidget
+    >>> q_foo = layout.addSubObject(CPSStringFilterWidget('q_foo'))
+    >>> q_foo.manage_changeProperties(insertion_boolean_op='NOT')
+    >>> datastructure8 = DataStructure(data = {'q_foo': 'eggs'})
+    >>> tab.buildFilters(datastructure8)
+    {'foo': {'query': 'eggs', 'insert_condition': 'NOT'}}
+
+This is no interpretation of the operator, just a passing::
+
+    >>> q_foo.manage_changeProperties(insertion_boolean_op='MY_OP')
+    >>> tab.buildFilters(datastructure8)
+    {'foo': {'query': 'eggs', 'insert_condition': 'MY_OP'}}
+
+
 
 Cookie setting
 ~~~~~~~~~~~~~~
@@ -123,8 +151,6 @@ set it::
 To see what the cookie setting does, we'll need to simulate HTTP requests
 and read the cookie.
 
-    >>> from Products.CPSDashboards.testing import FakeRequestWithCookies
-    >>> tab.REQUEST = FakeRequestWithCookies()
     >>> from Products.CPSDashboards.utils import unserializeFromCookie
 
 Cookie setting will not be done if request lacks the filter_button::

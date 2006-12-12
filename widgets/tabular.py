@@ -200,15 +200,28 @@ class TabularWidget(CPSIntFilterWidget):
 
         # replace some empty filters by the corresponding total scope
         # and remove the others
+        # apply boolean operators
         filters = {}
         pref_len = len(prefix)
+        layout = self.aq_inner.aq_parent
         for key, item in prefilt.items():
-            if item and not key.endswith(SCOPE_SUFFIX):
-                filters[key[pref_len:]] = item
+            if key.endswith(SCOPE_SUFFIX):
                 continue
-            scope = datastructure.get(key + SCOPE_SUFFIX)
-            if scope is not None:
-                filters[key[pref_len:]] = scope
+            if not item:
+                item = datastructure.get(key + SCOPE_SUFFIX)
+            if item is None:
+                continue
+
+            try:
+                widget = layout[key]
+            except KeyError:
+                pass
+            else:
+                bool_op = getattr(widget, 'insertion_boolean_op', None)
+                if bool_op:
+                    item = {'query': item,
+                            'insert_condition': bool_op,}
+            filters[key[pref_len:]] = item
 
         # path and rpath. Meant to reproduce what CPSDefault's search.py does
         rpaths = filters.pop('folder_prefix', None)

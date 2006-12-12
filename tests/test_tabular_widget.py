@@ -36,6 +36,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.Widget import widgetRegistry
+from Products.CPSSchemas.Layout import Layout
 from Products.CPSDocument.FlexibleTypeInformation import FlexibleTypeInformation
 
 from Products.CPSDashboards.widgets.foldercontents import FolderContentsWidget
@@ -101,6 +102,8 @@ class IntegrationTestCase(CPSTestCase):
         dm = self.portlet.getTypeInfo().getDataModel(portlet, context=portlet)
         self.ds = DataStructure(datamodel=dm)
 
+        self.layout = Layout().__of__(self.portal)
+        self.layout._setId('the_layout')
         self.afterAfterSetUp()
 
     def beforeTearDown(self):
@@ -115,8 +118,8 @@ class IntegrationTestTabularPortlet(IntegrationTestCase):
 
     def afterAfterSetUp(self):
         # a portlet widget with custom rendering methods
-        self.widget = TestingTabularWidgetCustomMethods(
-            'the_id_custom').__of__(self.portal)
+        widget = TestingTabularWidgetCustomMethods('the_id_custom')
+        self.widget = self.layout.addSubObject(widget)
         self.widget.manage_changeProperties(row_layout='test_row')
 
     def test_widget_registration(self):
@@ -136,6 +139,7 @@ class IntegrationTestTabularPortlet(IntegrationTestCase):
     def test_render_layout_default_view(self):
         # layout render context will be the usual one
         widget = TestingTabularWidget('the_id')
+        widget = self.layout.addSubObject(widget)
         widget.manage_changeProperties(row_layout='test_row')
 
         rendered = widget.render('view', self.ds)
