@@ -612,7 +612,7 @@ class CPSUserIdFilterWidget(FilterWidgetMixin, CPSWidget):
     def prepare(self, ds, **kw):
         from AccessControl import getSecurityManager
         user_id = getSecurityManager().getUser().getId()
-        ds[self.getWidgetId()] = user_id
+        ds[self.getWidgetId()] = self.prefix + user_id
 
 InitializeClass(CPSUserIdFilterWidget)
 
