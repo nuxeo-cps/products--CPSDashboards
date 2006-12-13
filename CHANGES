@@ -3,10 +3,7 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
-- #1796: leveraging new CPS Lucene Catalog's "insert_condition" as
-  "insertion_boolean_op" in filter widgets.
-- User Id Filter Widget: put this in your layout, but not in the
-  table to fire a request on current user id
+-
 Bug fixes
 ~~~~~~~~~
 -
