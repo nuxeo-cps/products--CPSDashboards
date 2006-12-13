@@ -607,6 +607,7 @@ class CPSUserIdFilterWidget(FilterWidgetMixin, CPSWidget):
          'select_variable': 'prefixes'},
         ) +  FilterWidgetMixin._properties[1:]
 
+    prefix = ''
     prefixes = ('', 'user:')
 
     def prepare(self, ds, **kw):
