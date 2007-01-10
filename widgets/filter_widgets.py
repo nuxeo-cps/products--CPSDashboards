@@ -174,7 +174,7 @@ class CPSSelectFilterWidget(FilterWidgetMixin, CPSSelectWidget):
     _properties = (CPSSelectWidget._properties
                    + FilterWidgetMixin._properties
                    + ({'id': 'defines_scope', 'type': 'boolean', 'mode': 'w',
- 'label': "Is the union of all values is more restrictive than no filtering?"},
+                       'label': "Is the union of all values is more restrictive than no filtering?"},
                       {'id': 'reject_from_scope', 'type': 'tokens', 'mode': 'w',
                        'label': "Items from voc to exclude from scope"},
                       {'id': 'total_scope', 'type': 'tokens', 'mode': 'w',
