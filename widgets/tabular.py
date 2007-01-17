@@ -170,7 +170,7 @@ class TabularWidget(CPSIntFilterWidget):
                         if not isinstance(v, DateTime) )
 
         cookie = serializeForCookie(to_cook, charset=self.default_charset)
-        logger.debug("Setting cookie, path=%s" % path)
+        logger.debug("Setting cookie, path=%s", path)
         request.RESPONSE.setCookie(self.cookie_id, cookie, path=path)
 
     def buildFilters(self, datastructure, cookie_path_method=False):
@@ -235,7 +235,7 @@ class TabularWidget(CPSIntFilterWidget):
                 elif isinstance(rpaths, str):
                     filters['path'] = '%s/%s' % (base, rpaths)
 
-        logger.debug(' filters: %s' %filters)
+        logger.debug(' filters: %s', filters)
         return filters
 
     def getBatchParams(self, datastructure, filters=None):
