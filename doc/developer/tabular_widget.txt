@@ -114,6 +114,20 @@ Case of multiple ones::
     >>> tab.buildFilters(datastructure6)
     {'path': ['/portal_id/w', '/portal_id/s']}
 
+To use the current context path, the widget reacts to the 
+boolean 'context_path' filter::
+
+    >>> class FakeContext:
+    ...      def getPhysicalPath(self):
+    ...          return ['', 'spam', 'bar']
+    >>> class FakeDMWithContext:
+    ...      def getContext(self):
+    ...         return FakeContext()
+    >>> datastructure6b = DataStructure(datamodel=FakeDMWithContext())
+    >>> datastructure6b['q_context_path'] = True
+    >>> tab.buildFilters(datastructure6b)
+    {'path': '/spam/bar'}
+
 Nothing's done if ``path`` is already there::
 
     >>> datastructure7 = DataStructure(data = {'q_path': '/the/path'})

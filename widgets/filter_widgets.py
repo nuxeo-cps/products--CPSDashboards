@@ -29,8 +29,10 @@ from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSSchemas.BasicWidgets import (CPSSelectWidget,
                                               CPSMultiSelectWidget,
+                                              CPSBooleanWidget,
                                               CPSStringWidget,
                                               CPSIntWidget)
+from Products.CPSSchemas.SearchWidgets import CPSSearchLocationWidget
 from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
 from Products.CPSDashboards.utils import unserializeFromCookie
 
@@ -248,6 +250,19 @@ InitializeClass(CPSStringFilterWidget)
 
 widgetRegistry.register(CPSStringFilterWidget)
 
+class CPSBooleanFilterWidget(FilterWidgetMixin, CPSBooleanWidget):
+    """The filter widget counterpart to Search Location Widget.
+
+    Would become useless if #1606 is ever taken care of.
+    """
+
+    meta_type = 'Boolean Filter Widget'
+    _properties = CPSBooleanWidget._properties + FilterWidgetMixin._properties
+    base_widget_class = CPSBooleanWidget
+
+InitializeClass(CPSBooleanFilterWidget)
+widgetRegistry.register(CPSBooleanFilterWidget)
+    
 class CPSFixedFilterWidget(CPSStringWidget):
     """A string widget that puts a fixed value in datastructure.
 
@@ -618,3 +633,4 @@ class CPSUserIdFilterWidget(FilterWidgetMixin, CPSWidget):
 InitializeClass(CPSUserIdFilterWidget)
 
 widgetRegistry.register(CPSUserIdFilterWidget)
+

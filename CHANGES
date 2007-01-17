@@ -4,7 +4,7 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
--
+- path filtering can be deduced from context; filter boolean widget for UI
 Bug fixes
 ~~~~~~~~~
 - avoid some useless logging serializations.  

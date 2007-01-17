@@ -98,6 +98,15 @@ msgstr ""
 msgid "cpsdashboards_layout_tabular_label"
 msgstr ""
 
+msgid "cpsdashboards_search_global_local_label"
+msgstr ""
+
+msgid "cpsdashboards_label_search_here"
+msgstr ""
+
+msgid "cpsdashboards_label_search_sitewide"
+msgstr ""
+
 # empty keys
 msgid "label_all_review_states"
 msgstr ""

@@ -107,5 +107,14 @@ msgstr "Tous"
 msgid "label_all_portal_types"
 msgstr "Tous"
 
+msgid "cpsdashboards_search_global_local_label"
+msgstr "Étendue de la recherche"
+
+msgid "cpsdashboards_label_search_here"
+msgstr "Dans le dossier courant et les sous-dossiers"
+
+msgid "cpsdashboards_label_search_sitewide"
+msgstr "Dans toute l'application"
+
 msgid "cpsdashboards_creation_date_label"
 msgstr "Création"

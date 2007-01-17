@@ -100,6 +100,15 @@ msgstr "Full text search"
 msgid "cpsdashboards_layout_tabular_label"
 msgstr "Filtering criteria"
 
+msgid "cpsdashboards_search_global_local_label"
+msgstr "Scope of search"
+
+msgid "cpsdashboards_label_search_here"
+msgstr "In the current folder and its subfolders"
+
+msgid "cpsdashboards_label_search_sitewide"
+msgstr "In the whole application"
+
 # empty keys
 msgid "label_all_review_states"
 msgstr "All"
