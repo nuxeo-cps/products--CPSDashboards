@@ -17,7 +17,8 @@
 #
 # $Id$
 
-from zLOG import LOG, DEBUG
+import logging
+logger = logging.getLogger('CPSDashboards.braindatamodel')
 
 from OFS.Image import File
 
@@ -201,6 +202,7 @@ class BrainDataModel(DataModel):
                 # we are now sure that self.utool has been set
                 value = self.utool.getUrlFromRpath(rpath)
             else:
+                logger.debug('Fetching field %s from ZODB', key)
                 # fallback on object's datamodel
                 dm = getattr(self, '_obj_dm', None)
                 if dm is None:
