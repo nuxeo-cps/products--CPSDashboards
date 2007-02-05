@@ -8,6 +8,7 @@ New features
 Bug fixes
 ~~~~~~~~~
 - avoid some useless logging serializations.  
+- xhtml compliance: onclick, onmouseover, onmouseout
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - debug level log line to see fields that miss in the brain 

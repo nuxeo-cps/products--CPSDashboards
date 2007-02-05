@@ -45,9 +45,9 @@ A simpler render method that puts each "row" in a div element.
       <div tal:repeat="row rows"
            tal:attributes="class python:test(repeat['row'].odd(),
                                           'odd', 'even');
-                        oClick options/row_click|nothing;
-                        onMouseOver options/row_mouseover|nothing;
-                        onMouseOut options/row_mouseout|nothing;">
+                        onclick options/row_click|nothing;
+                        onmouseover options/row_mouseover|nothing;
+                        onmouseout options/row_mouseout|nothing;">
         <tal:block replace="structure row" />
       </div>
     </div>

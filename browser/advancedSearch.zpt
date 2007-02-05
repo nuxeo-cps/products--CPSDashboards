@@ -55,7 +55,7 @@
 		<input type="button" name="cancel_submit"
 		       class="standalone" value="button_cancel"
 		       i18n:attributes="value"
-		       onClick="history.back();"/>
+		       onclick="history.back();"/>
 	      </p>
 	    </tal:block>
 	  </form>
