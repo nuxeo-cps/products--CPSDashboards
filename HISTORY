@@ -1,4 +1,26 @@
 ===========================================================
+Package: CPSDashboards 0.11.0
+===========================================================
+First release built by: gracinet at: 2007-02-06T14:47:23
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.11.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@50983
+
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- path filtering can be deduced from context; filter boolean widget for UI
+Bug fixes
+~~~~~~~~~
+- avoid some useless logging serializations.  
+- xhtml compliance: onclick, onmouseover, onmouseout
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- debug level log line to see fields that miss in the brain 
+
+===========================================================
 Package: CPSDashboards 0.10.0
 ===========================================================
 First release built by: div at: 2007-01-10T19:09:58
