@@ -43,7 +43,7 @@ def xlate(s, cpsmcat):
     """Does a translation."""
     if not s: # no need to waste time
         return s
-    return cpsmcat(s).encode('iso-8859-15')
+    return cpsmcat(s)
 
 
 class CPSTypeIconWidget(CPSWidget):
@@ -79,7 +79,7 @@ class CPSTypeIconWidget(CPSWidget):
         uri = utool.getBaseUrl() + icon
         title = fti.title_or_id()
         cpsmcat = getToolByName(self, 'translation_service')
-        title = cpsmcat(title).encode('iso-8859-15')
+        title = cpsmcat(title)
         return renderHtmlTag('img', src=uri, alt=title)
 
 
@@ -124,7 +124,7 @@ class CPSWorkflowVariableWidget(CPSWidget):
         if state is None:
             return ''
         cpsmcat = getToolByName(self, 'translation_service')
-        return escape(cpsmcat(state).encode('iso-8859-15'))
+        return escape(cpsmcat(state))
 
 
 InitializeClass(CPSWorkflowVariableWidget)
@@ -142,7 +142,7 @@ class CPSReviewStateStringWidget(CPSStringWidget):
             return ''
         value = datastructure[self.getWidgetId()]
         cpsmcat = getToolByName(self, 'translation_service')
-        xlated = cpsmcat(value).encode('iso-8859-15')
+        xlated = cpsmcat(value)
         return renderHtmlTag('span', css_class=value, contents=xlated)
 
 InitializeClass(CPSReviewStateStringWidget)
@@ -390,7 +390,7 @@ class CPSTimeLeftWidget(CPSIntWidget):
             xlated = cpsmcat('cpscourrier_timeleft:${plus_sign}${d}',
                                     {'d': base_rendered,
                                     'plus_sign': plus_sign})
-            base_rendered = xlated.encode('iso-8859-15')
+            base_rendered = xlated
         return '<span class="%s">%s</span>' % (css_class, base_rendered)
 
 
@@ -449,7 +449,7 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
         uri = utool.getBaseUrl() + icon
 
         cpsmcat = getToolByName(self, 'translation_service')
-        label = cpsmcat(label).encode('iso-8859--15')
+        label = cpsmcat(label)
 
         return renderHtmlTag('img', src=uri, alt=label)
 
@@ -493,7 +493,7 @@ class CPSUsersWithRolesWidget(CPSLinesWidget):
             mid = mid[pref_len:]
             if mid.startswith('role:'):
                 if l10n is not None:
-                    title = l10n(mid).encode('iso-8859-15')
+                    title = l10n(mid)
                 else:
                     title = mid
             else:
@@ -571,7 +571,7 @@ class CPSMultiBooleanWidget(CPSWidget):
         rendered = datastructure[self.getWidgetId()]
         if self.is_display_i18n:
             cpsmcat = getToolByName(self, 'translation_service')
-            rendered = cpsmcat(rendered).encode('iso-8859-15')
+            rendered = cpsmcat(rendered)
         return rendered
 
 InitializeClass(CPSMultiBooleanWidget)
