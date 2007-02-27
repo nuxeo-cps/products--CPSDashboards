@@ -232,7 +232,7 @@ class TabularWidget(CPSIntFilterWidget):
                 if isinstance(rpaths, list):
                     filters['path'] = ['%s/%s' % (base, rpath)
                                        for rpath in rpaths]
-                elif isinstance(rpaths, str):
+                elif isinstance(rpaths, basestring):
                     filters['path'] = '%s/%s' % (base, rpaths)
             elif filters.pop('context_path', False):
                 # it's been removed already if it was False
