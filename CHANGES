@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Use basestring instead of str to match unicode too
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
