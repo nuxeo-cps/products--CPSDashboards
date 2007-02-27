@@ -1,4 +1,23 @@
 ===========================================================
+Package: CPSDashboards 0.12.1-rel821095958
+===========================================================
+First release built by: div at: 2007-02-27T14:26:07
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.12.1-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@51264
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Use basestring instead of str to match unicode too
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+===========================================================
 Package: CPSDashboards 0.12.0-rel821095958
 ===========================================================
 First release built by: div at: 2007-02-26T20:36:21
