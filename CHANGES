@@ -6,7 +6,9 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Fixed searching "in the current folder and its subfolders" (portal base url 
+  was added twice)
+
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
