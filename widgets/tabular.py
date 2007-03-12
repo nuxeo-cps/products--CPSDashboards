@@ -226,8 +226,8 @@ class TabularWidget(CPSIntFilterWidget):
         # path and rpath. Meant to reproduce what CPSDefault's search.py does
         rpaths = filters.pop('folder_prefix', None)
         if not 'path' in filters:
+            utool = getToolByName(self, 'portal_url')
             if rpaths is not None:
-                utool = getToolByName(self, 'portal_url')
                 base = '/'.join(utool.getPortalObject().getPhysicalPath())
                 if isinstance(rpaths, list):
                     filters['path'] = ['%s/%s' % (base, rpath)
@@ -237,7 +237,7 @@ class TabularWidget(CPSIntFilterWidget):
             elif filters.pop('context_path', False):
                 # it's been removed already if it was False
                 context = datastructure.getDataModel().getContext()
-                filters['path'] = '/'.join(context.getPhysicalPath())
+                filters['path'] = utool.getRelativeUrl(context)
 
         logger.debug(' filters: %s', filters)
         return filters
