@@ -1,4 +1,26 @@
 ===========================================================
+Package: CPSDashboards 0.11.1
+===========================================================
+First release built by: div at: 2007-03-14T12:28:11
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.11.1
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@51329
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Fixed searching "in the current folder and its subfolders" (portal base url 
+  was added twice)
+
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.11.0
 ===========================================================
 First release built by: gracinet at: 2007-02-06T14:47:23
