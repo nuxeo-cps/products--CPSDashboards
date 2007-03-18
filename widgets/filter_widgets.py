@@ -291,7 +291,7 @@ class CPSFixedListFilterWidget(CPSStringWidget):
 
     meta_type = 'Fixed List Filter Widget'
     _properties = CPSStringWidget._properties + (
-        {'id': 'values', 'type': 'token', 'mode': 'w', 'label': 'Fixed values'},)
+        {'id': 'values', 'type': 'lines', 'mode': 'w', 'label': 'Fixed values'},)
 
     values = ()
 
