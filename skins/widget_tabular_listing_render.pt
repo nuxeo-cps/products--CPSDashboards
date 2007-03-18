@@ -4,21 +4,6 @@ A simpler render method that puts each "row" in a div element.
 </tal:comment>
 
 
-<script type="text/javascript">
-  isChecked = false
-
-  function toggleSelectAll(toggleCheckbox) {
-    inputElements = toggleCheckbox.form.getElementsByTagName("input");
-
-    for (i = 0; i < inputElements.length; i++) {
-       element = inputElements[i]
-       if (element.type == "checkbox") {
-           element.checked = ! (isChecked); }
-     }
-     isChecked = !(isChecked);
-   }
-</script>
-
 <tal:block define="actions options/actions;
                    batch_perform_view_name options/batch_perform_view_name;
 		   batching_info options/batching_info|nothing;
@@ -31,6 +16,21 @@ A simpler render method that puts each "row" in a div element.
                    css_class options/css_class;
 		   ">
   <tal:block condition="make_form">
+    <script type="text/javascript">
+      isChecked = false
+
+      function toggleSelectAll(toggleCheckbox) {
+      inputElements = toggleCheckbox.form.getElementsByTagName("input");
+
+      for (i = 0; i < inputElements.length; i++) {
+      element = inputElements[i]
+      if (element.type == "checkbox") {
+           element.checked = ! (isChecked); }
+      }
+	   isChecked = !(isChecked);
+     }
+  </script>
+
     <tal:comment condition="nothing">
       we use "structure string:html_soup" in order to make the ZPT file valid
          xml even if we don't close the form tag now
@@ -51,7 +51,8 @@ A simpler render method that puts each "row" in a div element.
         <tal:block replace="structure row" />
       </div>
     </div>
-  <p tal:condition="not:rows" tal:content="empty_message"
+  <p tal:condition="python: not rows and empty_message"
+     tal:content="empty_message"
     i18n:translate=""></p>
 
   <input type="submit"
