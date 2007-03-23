@@ -3,7 +3,7 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
--
+- Added a Generic Select Filter Widget
 Bug fixes
 ~~~~~~~~~
 - Wrong property type for Fixed List Filter Widget
