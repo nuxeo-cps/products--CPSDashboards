@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.12.0
+===========================================================
+First release built by: div at: 2007-03-26T20:48:39
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.12.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@51414
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- Added a Generic Select Filter Widget
+Bug fixes
+~~~~~~~~~
+- Wrong property type for Fixed List Filter Widget
+- #1821: rendering never empty (for listing-type displays)
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.11.1
 ===========================================================
 First release built by: div at: 2007-03-14T12:28:11

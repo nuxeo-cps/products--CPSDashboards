@@ -3,11 +3,10 @@ Requires
 -
 New features
 ~~~~~~~~~~~~
-- Added a Generic Select Filter Widget
+-
 Bug fixes
 ~~~~~~~~~
-- Wrong property type for Fixed List Filter Widget
-- #1821: rendering never empty (for listing-type displays)
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
