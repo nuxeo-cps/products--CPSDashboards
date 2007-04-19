@@ -140,6 +140,7 @@ class SearchView(BrowserView):
             old_targets = [old_targets]
 
         if response.getStatus() == 302: # Moved temporarily (redirection)
+            response.setHeader('Cache-Control', 'no-cache')
             url = response.getHeader('location')
             for old_target in old_targets:
                 url = url.replace(old_target, new_target)
