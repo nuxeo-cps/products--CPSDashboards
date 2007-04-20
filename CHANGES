@@ -6,9 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
-- Sometimes folder_localroles.html page becomes cached and consequent local
-  roles modifications produce side effects. We instruct user agent not to
-  cache the page by providing 'Cache-Control': 'no-cache' in response header.
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
