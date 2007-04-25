@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-11-16 16:55default\n"
+"POT-Creation-Date: 2007-04-25 12:28default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -29,12 +29,12 @@ msgstr ""
 msgid "Page ${current_page} of ${nb_pages}"
 msgstr ""
 
-#.   <input condition="view/saveAsAllowed" type="submit" name="saveas_submit" value="button_saveas_dashboard" class="standalone" />
+#.   <input name="saveas_submit" type="submit" class="standalone" value="button_saveas_dashboard" condition="view/saveAsAllowed" />
 #: from ../browser/advancedSearch.zpt
 msgid "button_saveas_dashboard"
 msgstr "Save as a dashboard"
 
-#.   <input class="standalone" type="submit" id="button_submit_roles" value="button_submit_roles" name="submit_roles" />
+#.   <input name="submit_roles" type="submit" id="button_submit_roles" value="button_submit_roles" class="standalone" />
 #: from ../browser/folderLocalRoles.zpt
 msgid "button_submit_roles"
 msgstr "Pseudo groups"
@@ -60,7 +60,7 @@ msgstr "Search users"
 msgid "label_button_submit_roles"
 msgstr "For instance, all members."
 
-#.   <input condition="param_rows" type="submit" name="filter" value="tabular_filter_button" class="context" />
+#.   <input name="filter" type="submit" class="context" value="tabular_filter_button" condition="param_rows" />
 #: from ../skins/layout_tabular_view.pt
 msgid "tabular_filter_button"
 msgstr "Filter"
