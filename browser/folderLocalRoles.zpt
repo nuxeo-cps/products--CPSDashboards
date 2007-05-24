@@ -10,6 +10,10 @@
 			submit_url string:${here_url}/folder_localroles_submit;
 			cps_roles view/getCPSCandidateLocalRoles;
 			">
+
+  <p tal:omit-tag=""
+     tal:define="dummy python:request.RESPONSE.setHeader('Cache-Control', 'no-cache')" />
+
   <h1 i18n:translate="heading_local_roles_search_members_and_groups"
       tal:condition="not:searching">
     Assign local roles: Search Members and groups
@@ -127,5 +131,3 @@
 
 </body>
 </html>
-
-

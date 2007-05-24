@@ -60,6 +60,71 @@ New internal features
 - Implement unicode
 
 ===========================================================
+Package: CPSDashboards 0.12.1
+===========================================================
+First release built by: div at: 2007-04-20T11:59:44
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.12.1
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@51588
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Sometimes folder_localroles.html page becomes cached and consequent local
+  roles modifications produce side effects. We instruct user agent not to
+  cache the page by providing 'Cache-Control': 'no-cache' in response header.
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
+Package: CPSDashboards 0.12.0
+===========================================================
+First release built by: div at: 2007-03-26T20:48:39
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.12.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@51414
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- Added a Generic Select Filter Widget
+Bug fixes
+~~~~~~~~~
+- Wrong property type for Fixed List Filter Widget
+- #1821: rendering never empty (for listing-type displays)
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
+Package: CPSDashboards 0.11.1
+===========================================================
+First release built by: div at: 2007-03-14T12:28:11
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.11.1
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@51329
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Fixed searching "in the current folder and its subfolders" (portal base url 
+  was added twice)
+
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.11.0
 ===========================================================
 First release built by: gracinet at: 2007-02-06T14:47:23

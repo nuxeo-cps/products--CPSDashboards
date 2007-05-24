@@ -33,7 +33,8 @@ from Products.CPSSchemas.BasicWidgets import (CPSSelectWidget,
                                               CPSStringWidget,
                                               CPSIntWidget)
 from Products.CPSSchemas.SearchWidgets import CPSSearchLocationWidget
-from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
+from Products.CPSSchemas.ExtendedWidgets import (CPSDateTimeWidget,
+                                                 CPSGenericSelectWidget)
 from Products.CPSDashboards.utils import unserializeFromCookie
 
 from Products.CPSSchemas.Widget import widgetname
@@ -226,6 +227,69 @@ InitializeClass(CPSSelectFilterWidget)
 
 widgetRegistry.register(CPSSelectFilterWidget)
 
+class CPSGenericSelectFilterWidget(FilterWidgetMixin, CPSGenericSelectWidget):
+    """A select widget that prepares from request and cookies.
+
+    Problem fixed by ugly hack: catalog would want a singleton instead of
+    a string and multiselect inappropriate.
+    """
+
+    meta_type = 'Generic Select Filter Widget'
+    base_widget_class = CPSGenericSelectWidget
+
+    _properties = (CPSGenericSelectWidget._properties
+                   + FilterWidgetMixin._properties
+                   + ({'id': 'defines_scope', 'type': 'boolean', 'mode': 'w',
+                       'label': "Is the union of all values is more restrictive than no filtering?"},
+                      {'id': 'reject_from_scope', 'type': 'tokens', 'mode': 'w',
+                       'label': "Items from voc to exclude from scope"},
+                      {'id': 'total_scope', 'type': 'tokens', 'mode': 'w',
+                       'label': "Fixed total scope (takes precedence)"})
+                   )
+
+    defines_scope = False
+    reject_from_scope = ()
+    total_scope = ()
+
+    def getScope(self, datastructure):
+        """return a total scope that might not be equivalent for query
+        engines than dropping the value.
+
+        Use-case for this oddity:
+        voc of locally accepted portal_types.
+        '' Is used at position 0 to mean 'all',
+        but the query maker will use the list of all existing portal_types
+        and datastructure cannot hold lists, because of type inconsistency.
+
+        #XXX TODO factorize in mixin class
+        """
+
+        if self.total_scope:
+            return self.total_scope
+
+        items = self._getVocabulary(datastructure).keys()
+        if not items[0]: # raise on empty voc (good thing)
+            if self.reject_from_scope:
+                return list(it for it in items[1:]
+                            if not it in self.reject_from_scope)
+            else:
+                return list(items[1:]) # see use-case in docstring
+        else:
+            return list(items)
+
+
+    def prepare(self, ds, **kw):
+        """Prepare datastructure from datamodel."""
+        CPSGenericSelectWidget.prepare(self, ds, **kw)
+        FilterWidgetMixin.prepare(self, ds, call_base=False, **kw)
+        wid = self.getWidgetId()
+        if self.defines_scope and not ds[wid]:
+            ds[wid+'_scope'] = self.getScope(ds)
+
+InitializeClass(CPSGenericSelectFilterWidget)
+
+widgetRegistry.register(CPSGenericSelectFilterWidget)
+
 
 class CPSMultiSelectFilterWidget(FilterWidgetMixin, CPSMultiSelectWidget):
     """A multiselect widget that prepares from request and cookies. """
@@ -291,7 +355,7 @@ class CPSFixedListFilterWidget(CPSStringWidget):
 
     meta_type = 'Fixed List Filter Widget'
     _properties = CPSStringWidget._properties + (
-        {'id': 'values', 'type': 'token', 'mode': 'w', 'label': 'Fixed values'},)
+        {'id': 'values', 'type': 'lines', 'mode': 'w', 'label': 'Fixed values'},)
 
     values = ()
 
