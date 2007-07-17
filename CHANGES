@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Fixed problem with encoding unicode strings returned from the cookie
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

@@ -105,7 +105,10 @@ class FilterWidgetMixin:
         except AttributeError: # not a dict
             return
 
-        if isinstance(read, unicode):  # minjson makes all strings unicode
+        portal = getToolByName(self, 'portal_url').getPortalObject()
+        charset = portal.default_charset
+        
+        if isinstance(read, unicode) and charset != "unicode":  # minjson makes all strings unicode
             read = read.encode('iso-8859.15')
 
         return read
