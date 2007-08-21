@@ -47,6 +47,18 @@ queries upon these parameters.
 Fetching parameters
 ~~~~~~~~~~~~~~~~~~~
 
+First let's make a fake portal for the tests to work::
+
+    >>> class FakePortal:
+    ...     def getPhysicalPath(self):
+    ...         return ('', 'portal_id')
+    >>> class FakeUrlTool:
+    ...     def getPortalObject(self):
+    ...         return FakePortal()
+    ...     def getRelativeUrl(self, context):
+    ...         return '/spam/bar'
+    >>> tab.portal_url = FakeUrlTool() # fool getToolByName
+
 The datastructure extraction is based on a prefix whose default value
 is ``q_``::
 
@@ -92,15 +104,7 @@ Let's get back to the default value
     >>> tab.manage_changeProperties(filter_prefix='q_')
 
 For catalog-based subclass, we automatically make absolute paths from
-``folder_prefix`` values. For the example, let's make a fake portal::
-
-    >>> class FakePortal:
-    ...     def getPhysicalPath(self):
-    ...         return ('', 'portal_id')
-    >>> class FakeUrlTool:
-    ...     def getPortalObject(self):
-    ...         return FakePortal()
-    >>> tab.portal_url = FakeUrlTool() # fool getToolByName
+``folder_prefix`` values.
 
 Case of a single folder prefix::
 
@@ -114,7 +118,7 @@ Case of multiple ones::
     >>> tab.buildFilters(datastructure6)
     {'path': ['/portal_id/w', '/portal_id/s']}
 
-To use the current context path, the widget reacts to the 
+To use the current context path, the widget reacts to the
 boolean 'context_path' filter::
 
     >>> class FakeContext:

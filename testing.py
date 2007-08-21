@@ -35,6 +35,9 @@ class FakeResponse:
     def getHeader(self, key):
         return self.headers[key]
 
+    def setHeader(self, key, value):
+        self.headers[key] = value
+
     def setCookie(self, cookie_id, cookie, path=None):
         self.cookies[cookie_id] = {
             'value': cookie, 'path': path}
