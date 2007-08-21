@@ -6,7 +6,8 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Fixed #1852 "The "Users With Roles Widget" crash when the referenced users
+  don't exist in the directory".
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

@@ -289,12 +289,13 @@ subclasses the Lines Widget for rendering::
 Internals
 ~~~~~~~~~
 
+    >>> _marker = object()
     >>> class FakeDirectory:
     ...     title_field = 'title'
     ...     entries = {'me' : {'title': 'A B'},
     ...                'it' : {'title' : 'thing'},
     ...                }
-    ...     def _getEntry(self, eid):
+    ...     def _getEntry(self, eid, default=_marker):
     ...         return self.entries[eid]
 
 

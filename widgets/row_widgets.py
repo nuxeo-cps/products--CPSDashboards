@@ -1,4 +1,4 @@
-# (C) Copyright 2006 Nuxeo SAS <http://nuxeo.com>
+# (C) Copyright 2006-2007 Nuxeo SAS <http://nuxeo.com>
 # Author: Georges Racinet <gracinet@nuxeo.com>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -488,6 +488,7 @@ class CPSUsersWithRolesWidget(CPSLinesWidget):
 
         res = []
         for mid in members:
+            title = None
             if not mid.startswith(prefix):
                 continue
             mid = mid[pref_len:]
@@ -497,8 +498,11 @@ class CPSUsersWithRolesWidget(CPSLinesWidget):
                 else:
                     title = mid
             else:
-                title = mdir._getEntry(mid)[title_field]
-            res.append(title)
+                entry = mdir._getEntry(mid, default=None)
+                if entry is not None:
+                    title = entry[title_field]
+            if title is not None:
+                res.append(title)
         return res
 
     def prepare(self, datastructure, **kw):
