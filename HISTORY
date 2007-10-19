@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.13.0
+===========================================================
+First release built by: madarche at: 2007-10-19T12:19:05
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.13.0
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@52013
+
+Requires
+~~~~~~~~
+- CPSI18n >= 1.0.0
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Fixed #1852 "The "Users With Roles Widget" crash when the referenced users
+  don't exist in the directory".
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.12.1
 ===========================================================
 First release built by: div at: 2007-04-20T11:59:44
