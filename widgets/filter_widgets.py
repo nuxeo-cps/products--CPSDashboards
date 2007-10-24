@@ -34,7 +34,8 @@ from Products.CPSSchemas.BasicWidgets import (CPSSelectWidget,
                                               CPSIntWidget)
 from Products.CPSSchemas.SearchWidgets import CPSSearchLocationWidget
 from Products.CPSSchemas.ExtendedWidgets import (CPSDateTimeWidget,
-                                                 CPSGenericSelectWidget)
+                                                 CPSGenericSelectWidget,
+                                                 CPSAutocompletionStringWidget)
 from Products.CPSDashboards.utils import unserializeFromCookie
 
 from Products.CPSSchemas.Widget import widgetname
@@ -170,7 +171,7 @@ class FilterWidgetMixin:
 class CPSSelectFilterWidget(FilterWidgetMixin, CPSSelectWidget):
     """A select widget that prepares from request and cookies.
 
-    Problem fixed by ugly hack: catalog would want a singleton instead of
+    Problem fixed by ugly hack: catalog would want aCPSAutocompletionStringFilterWidget singleton instead of
     a string and multiselect inappropriate.
     """
 
@@ -316,6 +317,25 @@ class CPSStringFilterWidget(FilterWidgetMixin, CPSStringWidget):
 InitializeClass(CPSStringFilterWidget)
 
 widgetRegistry.register(CPSStringFilterWidget)
+
+
+
+
+
+class CPSAutocompletionStringFilterWidget(FilterWidgetMixin, CPSAutocompletionStringWidget):
+    """Autocompletion String Filter widget."""
+    meta_type = 'Autocompletion String Filter Widget'
+    server_method = ''
+
+    _properties = CPSAutocompletionStringWidget._properties + FilterWidgetMixin._properties
+    base_widget_class = CPSStringWidget
+
+InitializeClass(CPSAutocompletionStringFilterWidget)
+
+widgetRegistry.register(CPSAutocompletionStringFilterWidget)
+
+
+
 
 class CPSBooleanFilterWidget(FilterWidgetMixin, CPSBooleanWidget):
     """The filter widget counterpart to Search Location Widget.
