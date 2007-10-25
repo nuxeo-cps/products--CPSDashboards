@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.14.0-rel821095958
+===========================================================
+First release built by: laurent at: 2007-10-25T16:27:56
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.14.0-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@52154
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- SAVE CHANGES
+
+Bug fixes
+~~~~~~~~~
+-
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.13.1-rel821095958
 ===========================================================
 First release built by: div at: 2007-07-18T16:41:10
