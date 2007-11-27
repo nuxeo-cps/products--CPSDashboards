@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.15.0-rel821095958
+===========================================================
+First release built by: laurent at: 2007-11-27T16:26:51
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.15.0-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@52219
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+- Delete empty field from cookie
+Bug fixes
+~~~~~~~~~
+-
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.14.0-rel821095958
 ===========================================================
 First release built by: laurent at: 2007-10-25T16:27:56
