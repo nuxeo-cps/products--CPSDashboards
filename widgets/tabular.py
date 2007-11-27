@@ -167,7 +167,7 @@ class TabularWidget(CPSIntFilterWidget):
         # We should not put them in filter and serialize more tightly, but this
         # is good enough for now
         to_cook = dict( (k,v) for (k,v) in mapping.items()
-                        if not isinstance(v, DateTime) )
+                        if not isinstance(v, DateTime) and v!='')
 
         cookie = serializeForCookie(to_cook, charset=self.default_charset)
         logger.debug("Setting cookie, path=%s, size=%d", path, len(cookie))
