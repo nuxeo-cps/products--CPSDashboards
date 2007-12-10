@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.15.2-rel821095958
+===========================================================
+First release built by: gracinet at: 2007-12-10T16:56:23
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.15.2-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@52274
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- trying to cure svn deadlock
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.15.1-rel821095958
 ===========================================================
 First release built by: gracinet at: 2007-12-10T16:38:04
