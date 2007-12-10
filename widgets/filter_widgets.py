@@ -330,9 +330,9 @@ class CPSAutocompletionStringFilterWidget(FilterWidgetMixin, CPSAutocompletionSt
     _properties = CPSAutocompletionStringWidget._properties + FilterWidgetMixin._properties
     base_widget_class = CPSStringWidget
 
-#InitializeClass(CPSAutocompletionStringFilterWidget)
+InitializeClass(CPSAutocompletionStringFilterWidget)
 
-#widgetRegistry.register(CPSAutocompletionStringFilterWidget)
+widgetRegistry.register(CPSAutocompletionStringFilterWidget)
 
 
 
