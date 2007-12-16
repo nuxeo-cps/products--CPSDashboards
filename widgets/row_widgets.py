@@ -34,7 +34,8 @@ from Products.CPSSchemas.BasicWidgets import (CPSStringWidget,
                                               CPSLinesWidget,
                                               CPSIntWidget,
                                               CPSImageWidget,
-                                              CPSBooleanWidget)
+                                              CPSBooleanWidget, 
+                                              CPSSelectWidget)
 from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
 
 logger = logging.getLogger('CPSDashboards.widgets.row_widgets')
@@ -455,6 +456,79 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
 
 InitializeClass(CPSIconBooleanWidget)
 widgetRegistry.register(CPSIconBooleanWidget)
+
+
+
+
+
+class CPSIconSelectWidget(CPSSelectWidget):
+    """ A boolean widget that renders as an icon.
+
+    TODO: backport as an option of CPS Select Widget. """
+
+    meta_type = "Icon Select Widget"
+
+    _properties = CPSSelectWidget._properties + (
+        {'id': 'icons', 'type':'boolean', 'mode':'w',
+         'label': 'Use icons for',},
+        {'id': 'prefix', 'type':'string', 'mode':'w',
+         'label': 'Prefix of your icons',},
+        {'id': 'suffix', 'type':'string', 'mode':'w',
+         'label': 'Suffix of icons (.png, .jpeg, .gif...)',},
+        )
+    icons=''
+    prefix=''
+    suffix=''
+
+
+    def prepare(self, datastructure, **kw):
+        """Prepare datastructure from datamodel.
+
+        """
+
+        dm = datastructure.getDataModel()
+        value = dm[self.fields[0]]
+        datastructure[self.getWidgetId()] = value
+
+
+    def render(self, mode, datastructure, **kw):
+        """Render in mode from datastructure.
+        icon image is a boolean that indicate if you use an icon to represent the value.
+        You must named icons with the same id where is used in the value of the id vocabulary 
+        and replace the blank by '_' .
+        <prefix><identifiant><suffix>
+
+        """
+        value = datastructure[self.getWidgetId()]
+        if mode != 'view':
+            return CPSSelectWidget.render(self, mode, datastructure, **kw)
+
+        utool = getToolByName(self, 'portal_url')
+        label = self.label
+        if self.icons and value:
+            icon = self.prefix+value.replace(' ' ,'_')+self.suffix
+        else:
+            icon = ''
+        if not icon:
+            return ''
+        uri = utool.getBaseUrl() + icon
+
+        cpsmcat = getToolByName(self, 'translation_service')
+        label = cpsmcat(label)
+        return renderHtmlTag('img', src=uri, alt=label)
+
+
+InitializeClass(CPSIconSelectWidget)
+widgetRegistry.register(CPSIconSelectWidget)
+
+
+
+
+
+
+
+
+
 
 class CPSUsersWithRolesWidget(CPSLinesWidget):
     """A widget that displays the list of users having one of the given roles.
