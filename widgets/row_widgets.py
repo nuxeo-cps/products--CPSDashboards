@@ -457,10 +457,6 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
 InitializeClass(CPSIconBooleanWidget)
 widgetRegistry.register(CPSIconBooleanWidget)
 
-
-
-
-
 class CPSIconSelectWidget(CPSSelectWidget):
     """ A boolean widget that renders as an icon.
 
@@ -480,7 +476,6 @@ class CPSIconSelectWidget(CPSSelectWidget):
     prefix=''
     suffix=''
 
-
     def prepare(self, datastructure, **kw):
         """Prepare datastructure from datamodel.
 
@@ -490,14 +485,12 @@ class CPSIconSelectWidget(CPSSelectWidget):
         value = dm[self.fields[0]]
         datastructure[self.getWidgetId()] = value
 
-
     def render(self, mode, datastructure, **kw):
         """Render in mode from datastructure.
         icon image is a boolean that indicate if you use an icon to represent the value.
         You must named icons with the same id where is used in the value of the id vocabulary 
         and replace the blank by '_' .
         <prefix><identifiant><suffix>
-
         """
         value = datastructure[self.getWidgetId()]
         if mode != 'view':
@@ -517,18 +510,8 @@ class CPSIconSelectWidget(CPSSelectWidget):
         label = cpsmcat(label)
         return renderHtmlTag('img', src=uri, alt=label)
 
-
 InitializeClass(CPSIconSelectWidget)
 widgetRegistry.register(CPSIconSelectWidget)
-
-
-
-
-
-
-
-
-
 
 class CPSUsersWithRolesWidget(CPSLinesWidget):
     """A widget that displays the list of users having one of the given roles.
