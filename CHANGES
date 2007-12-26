@@ -6,7 +6,8 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- #1872: partial default values for date/time caused errors from one
+  page to the next
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
