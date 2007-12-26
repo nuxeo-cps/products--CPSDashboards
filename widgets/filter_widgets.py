@@ -583,6 +583,11 @@ class CPSDateTimeFilterWidget(FilterWidgetMixin, CPSDateTimeWidget):
             # and should bt the only present anyway
             cheat_dm = {}
             cheat_ds = DataStructure(data=subvalues, datamodel=cheat_dm)
+            if subkeys[0] not in cheat_ds:
+                # the most significative is missing -> None 
+                # (used to cause KeyError)
+                datastructure[wid] = None
+                return
             if subkeys[1] not in cheat_ds:
                 cheat_ds[subkeys[1]] = self.time_hour_default
             if subkeys[2] not in cheat_ds:
