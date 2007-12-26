@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.16.1-rel821095958
+===========================================================
+First release built by: gracinet at: 2007-12-26T20:26:07
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.16.1-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@52338
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #1872: partial default values for date/time caused errors from one
+  page to the next
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.16.0-rel821095958
 ===========================================================
 First release built by: gracinet at: 2007-12-17T01:06:20
