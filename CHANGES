@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- Missing i18n translation for failures in wf batch performs
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
