@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2006-11-16 16:55default\n"
+"POT-Creation-Date: 2007-12-27 16:39default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -70,6 +70,9 @@ msgstr ""
 "Veuillez selectionner des documents sur lesquels vous avez les droits de "
 "déclencher cette action."
 
+msgid "psm_no_action_performed for"
+msgstr "Impossible d'effectuer cette action pour les objets suivants: "
+
 #
 # Portal Types
 #
@@ -97,6 +100,15 @@ msgstr "Mots clés"
 msgid "cpsdashboards_layout_tabular_label"
 msgstr "Critères de filtrage"
 
+msgid "cpsdashboards_search_global_local_label"
+msgstr "Étendue de la recherche"
+
+msgid "cpsdashboards_label_search_here"
+msgstr "Dans le dossier courant et les sous-dossiers"
+
+msgid "cpsdashboards_label_search_sitewide"
+msgstr "Dans toute l'application"
+
 # empty keys
 msgid "label_all_review_states"
 msgstr "Tous"
@@ -106,15 +118,6 @@ msgstr "Tous"
 
 msgid "label_all_portal_types"
 msgstr "Tous"
-
-msgid "cpsdashboards_search_global_local_label"
-msgstr "Étendue de la recherche"
-
-msgid "cpsdashboards_label_search_here"
-msgstr "Dans le dossier courant et les sous-dossiers"
-
-msgid "cpsdashboards_label_search_sitewide"
-msgstr "Dans toute l'application"
 
 msgid "cpsdashboards_creation_date_label"
 msgstr "Création"

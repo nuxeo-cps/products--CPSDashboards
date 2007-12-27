@@ -19,6 +19,9 @@ msgstr ""
 msgid "psm_select_at_least_one_valid_item"
 msgstr ""
 
+msgid "psm_no_action_performed for"
+msgstr ""
+
 #
 # Portal Types
 #
