@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: default\n"
-"POT-Creation-Date: 2007-12-27 16:39default\n"
+"POT-Creation-Date: 2007-12-27 19:08default\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Your Name <your@email>\n"
 "Language-Team: Name <email>\n"
@@ -90,6 +90,12 @@ msgstr "Number of documents per page"
 
 msgid "cpsdashboards_no_result_msg"
 msgstr "No document matched your criteria"
+
+#
+# Layouts label
+#
+msgid "cpsdashboards_empty_folder_msg"
+msgstr "No document in this folder"
 
 msgid "cpsdashboards_created_min_label"
 msgstr "Minimum creation date"

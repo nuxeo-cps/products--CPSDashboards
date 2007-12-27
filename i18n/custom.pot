@@ -42,6 +42,9 @@ msgstr ""
 msgid "cpsdashboards_no_result_msg"
 msgstr ""
 
+msgid "cpsdashboards_empty_folder_msg"
+msgstr ""
+
 msgid "cpsdashboards_created_min_label"
 msgstr ""
 
