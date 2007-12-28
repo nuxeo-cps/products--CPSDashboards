@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.16.2-rel821095958
+===========================================================
+First release built by: gracinet at: 2007-12-28T20:29:12
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.16.2-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@52350
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- New i18n label for empty folders
+- Missing i18n translation for failures in wf batch performs
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.16.1-rel821095958
 ===========================================================
 First release built by: gracinet at: 2007-12-26T20:26:07
