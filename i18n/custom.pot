@@ -33,6 +33,9 @@ msgstr ""
 # Layout labels
 #
 
+msgid "cpsdashboards_subfolders_label"
+msgstr ""
+
 msgid "cpsdashboards_type_label"
 msgstr ""
 
