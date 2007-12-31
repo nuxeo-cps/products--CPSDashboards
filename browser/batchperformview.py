@@ -280,7 +280,6 @@ class BatchPerformView(SearchView):
         Optional kwargs dict is passed to the transition.
         """
 
-        import pdb; pdb.set_trace()
         t = Timer('CPSDashboards.browser.batchperformview.batchTriggerTransition',
                   level=DEBUG)
 
