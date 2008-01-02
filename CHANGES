@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- #1877: Path Widget needs to be hooked to a proxy
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

@@ -490,8 +490,11 @@ class CPSPathWidget(CPSWidget):
     meta_type = 'Path Widget'
 
     def prepare(self, datastructure, **kw):
+        dm = datastructure.getDataModel()
         proxy = (kw.get('context_obj', False)
-                 or datastructure.getDataModel().getProxy())
+                 or dm.getProxy() or dm.getContext())
+        # GR getProxy has been given precedence over getContext for BBB
+        # should always have been getContext
         if proxy is None:
             return
 
