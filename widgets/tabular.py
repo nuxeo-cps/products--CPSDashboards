@@ -464,7 +464,7 @@ class TabularWidget(CPSIntFilterWidget):
         css_class=self.getCssClass(
             kw.get('layout_mode', mode), datamodel) or None
 
-        return meth(mode=mode, columns=columns,
+        return meth(tabular_widget=self, mode=mode, columns=columns,
                     batch_perform_view_name=self.batch_perform_view_name,
                     rows=rendered_rows, actions=actions,
                     here_url=here_url, batching_info=batching_info,
