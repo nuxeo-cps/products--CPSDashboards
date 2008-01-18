@@ -6,8 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
-- Minor int feature: now the tabular widget gets passed to 
-  the render zpt as options/tabular_widget.
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.16.4-rel821095958
+===========================================================
+First release built by: gracinet at: 2008-01-18T16:07:17
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.16.4-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@52462
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- Minor int feature: now the tabular widget gets passed to 
+  the render zpt as options/tabular_widget.
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.16.3-rel821095958
 ===========================================================
 First release built by: gracinet at: 2007-12-31T08:57:50
