@@ -1,4 +1,25 @@
 ===========================================================
+Package: CPSDashboards 0.13.1
+===========================================================
+First release built by: madarche at: 2008-02-22T15:57:36
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.13.1
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@52586
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #1877: Path Widget needs to be hooked to a proxy.
+- #1872: DateTimeFilter Widget can fail on empty inputs.
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.13.0
 ===========================================================
 First release built by: madarche at: 2007-10-19T12:19:05

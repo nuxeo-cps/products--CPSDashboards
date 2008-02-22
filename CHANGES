@@ -6,8 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
-- #1877: Path Widget needs to be hooked to a proxy.
-- #1872: DateTimeFilter Widget can fail on empty inputs.
+-
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
