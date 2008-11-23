@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.13.2
+===========================================================
+First release built by: madarche at: 2008-11-23T22:03:40
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.13.2
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@53051
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #1916: Switch all the .po files to UTF-8
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.13.1
 ===========================================================
 First release built by: madarche at: 2008-02-22T15:57:36
