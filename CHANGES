@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- #1984: Single out the call of directory search in Directory Tabular Widget
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

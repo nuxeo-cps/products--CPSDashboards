@@ -20,6 +20,8 @@
 
 """ Directory Tabular Widget. """
 
+import logging
+
 from Globals import InitializeClass
 from AccessControl import Unauthorized
 
@@ -35,6 +37,7 @@ from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 from Products.CPSDashboards.braindatamodel import BrainDataModel
 from Products.CPSDashboards.widgets.tabular import TabularWidget
 
+logger = logging.getLogger('CPSDashBoards.widgets.dirsearch')
 
 class DirectoryTabularWidget(TabularWidget):
     """ A widget that renders a search form or search results for directories.
@@ -70,6 +73,25 @@ class DirectoryTabularWidget(TabularWidget):
     def getMethodContext(self, datastructure):
         return self
 
+    def _getDirectory(self):
+        """Return the directory on which all searches will be done.
+        TODO see class docstring."""
+
+        dtool = getToolByName(self, 'portal_directories')
+        return dtool._getOb(self.directory)
+
+    def _doBatchedQuery(self, directory, b_start, b_size, query):
+        """ Return batched results, total number of results.
+
+        the results are datamodels and can be a generator.
+        TODO: apply View permission
+        """
+
+        results = directory.searchEntries(**query)
+        results_batch = results[b_start:b_start+b_size]
+        return (directory._getDataModel(r, check_acl=1)
+                for r in results_batch), len(results)
+
     def listRowDataStructures(self, datastructure, layout, filters=None, **kw):
         """Return datastructures filled with search results meta-data
 
@@ -88,14 +110,19 @@ class DirectoryTabularWidget(TabularWidget):
         entries = cpsdir.searchEntries(**query) # checks security
         (b_page, b_start, b_size) = self.getBatchParams(datastructure,
                                                         filters=filters)
-        nb_pages = self.getNbPages(len(entries), b_size)
-        entries = entries[b_start:b_start+b_size]
 
-        dms = (cpsdir._getDataModel(id) for id in entries)
-        return ((self.prepareRowDataStructure(layout,
-                                              DataStructure(datamodel=dm))
-                 for dm in dms),
-                b_page, nb_pages)
+        dms, nb_results = self._doBatchedQuery(self._getDirectory(),
+                                               b_start, b_size, query)
+
+        nb_pages = self.getNbPages(nb_results, items_per_page=b_size)
+        logger.debug("DirectoryTabularWidget: "
+                     "%d results, %d pages (current %d)" % (nb_results,
+                                                            nb_pages,
+                                                            b_page))
+
+        datastructures = (DataStructure(datamodel=dm) for dm in dms)
+        return ([self.prepareRowDataStructure(layout, ds)
+                 for ds in datastructures], b_page, nb_pages)
 
 InitializeClass(DirectoryTabularWidget)
 
