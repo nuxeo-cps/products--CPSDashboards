@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- logging didn't see all ZODB accesses
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

@@ -149,6 +149,7 @@ class BrainDataModel(DataModel):
         else:
             obj = meth()
 
+        logger.debug("[PERFORMANCE] Retrieving object from ZODB")
         self._brain_obj = obj
         return obj
 
