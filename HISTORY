@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.16.5-rel821095958
+===========================================================
+First release built by: gracinet at: 2009-08-03T11:54:28
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.16.5-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@53769
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- logging didn't see all ZODB accesses
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.16.4-rel821095958
 ===========================================================
 First release built by: gracinet at: 2008-01-18T16:07:17
