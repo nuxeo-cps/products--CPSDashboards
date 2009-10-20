@@ -1,4 +1,24 @@
 ===========================================================
+Package: CPSDashboards 0.16.7-rel821095958
+===========================================================
+First release built by: gracinet at: 2009-10-20T18:14:24
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.16.7-rel821095958
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/branches/rel821095958@53921
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #2044: bad handling of out of range requests
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.16.6-rel821095958
 ===========================================================
 First release built by: gracinet at: 2009-10-16T16:12:31
