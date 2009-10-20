@@ -59,6 +59,10 @@ class TestingTabularWidget(TabularWidget):
         if datastructure.get('longbrains'):
             b_page, b_start, b_size = self.getBatchParams(datastructure)
             nb_results = len(self.longbrains)
+            if b_start >= nb_results: # to test out-of-range behavior
+                b_page = self.getNbPages(nb_results)
+                b_start = b_size * (b_page - 1)
+
             brains = self.longbrains[b_start:b_start+b_size]
         else: # we don't test batching
             b_page = b_start = 1
