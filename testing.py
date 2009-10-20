@@ -18,6 +18,7 @@
 # $Id$
 
 """CPSDashboards utilities for unit tests."""
+from Products.CPSDashboards.braindatamodel import FakeBrain
 
 class FakeResponse:
 
@@ -88,3 +89,25 @@ class FakeRequestWithCookies:
         if info is None:
             return None
         return info['value']
+
+class FakeLuceneCatalog:
+
+    @classmethod
+    def _makeBrain(self, i, out_of=10):
+        brain = FakeBrain({'Title': 'Title %d' % i,
+                           'content': 'content %d' % i,
+                           'Description': ''})
+        brain.out_of = out_of
+        return brain
+
+    _nb_results = 0
+    wrong_out_of = 0
+
+    def setNbResults(self, nb):
+        self._nb_results = nb
+
+    def __call__(self, b_start=0, b_size=10, **kw):
+        out_of = self.wrong_out_of or self._nb_results
+        return [self._makeBrain(i, out_of=out_of)
+                for i in range(self._nb_results)[b_start:b_start+b_size]]
+

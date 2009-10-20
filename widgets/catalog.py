@@ -182,7 +182,12 @@ class CatalogTabularWidget(TabularWidget):
         query will be changed to what was actually sent to the catalog."""
 
         brains = catalog(**query)
-        return brains[b_start:b_start+b_size], len(brains)
+        nb_results = len(brains)
+        if nb_results and b_start >= nb_results:
+            # out-of-range: let's switch to last page
+            b_page = self.getNbPages(nb_results)
+            b_start = b_size * (b_page - 1)
+        return brains[b_start:b_start+b_size], len(brains), b_start
 
     def listRowDataStructures(self, datastructure, layout, filters=None, **kw):
         """Return datastructures holding search results meta-data & batch info.
@@ -198,9 +203,10 @@ class CatalogTabularWidget(TabularWidget):
         (b_page, b_start, b_size) = self.getBatchParams(datastructure, filters=filters)
 
         logger.log(TRACE, query)
-        brains, nb_results = self._doBatchedQuery(catalog,
-                                                  b_start, b_size, query)
+        brains, nb_results, b_start = self._doBatchedQuery(
+            catalog, b_start, b_size, query)
 
+        b_page = 1 + b_start / b_size # might have changed
         nb_pages = self.getNbPages(nb_results, items_per_page=b_size)
         logger.debug("CatalogTabularWidget: "
                      "%d results, %d pages (current %d)" % (nb_results,
@@ -229,13 +235,54 @@ class LuceneTabularWidget(CatalogTabularWidget):
         query['b_start'] = b_start
         query['b_size'] = b_size
 
-#        logger.debug('Final query: %s', query)
-
         brains = catalog(**query)
         if brains:
-            return brains, brains[0].out_of
-        else:
-            return [], 0
+            return brains, brains[0].out_of, b_start
+
+        if not b_start:
+            # we are sure there is no result at all
+            return [], 0, 0
+
+        # from now on, that's a potential out-of-range query
+        # most probable case: we're one page off due to some batch action
+        # by the same user in previous request.
+        b_start -= b_size
+        if b_start < 0:
+            b_start = 0
+        query['b_start'] = b_start
+        brains = catalog(**query)
+        if brains:
+            return brains, brains[0].out_of, b_start
+        if not b_start:
+            return [], 0, 0
+
+        # starting over to know the number of pages : minimal Lucene query
+        query['b_start'] = 0
+        query['b_size'] = 1
+        brains = catalog(**query)
+        if not brains:
+            return [], 0, 0
+
+        nb_results = brains[0].out_of
+        nb_pages = self.getNbPages(nb_results)
+        query['b_start'] = b_start = (nb_pages-1) * b_size
+        query['b_size'] = b_size
+        brains = catalog(**query)
+        if brains:
+            return brains, brains[0].out_of, b_start
+
+        # We shouldn't be there, but Lucene isn't transactional, therefore
+        # results may have changed between the last two requests.
+        # Using the first page as a last resort option
+        if not b_start: # That *was* the first page, actually
+            return [], 0, 0
+        b_start = query['b_start'] = 0
+        brains = catalog(**query)
+        if brains:
+            return brains, brains[0].out_of, b_start
+
+        # ok there's nothing any more
+        return [], 0, 0
 
 InitializeClass(LuceneTabularWidget)
 

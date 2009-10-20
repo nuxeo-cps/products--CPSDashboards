@@ -220,6 +220,20 @@ class IntegrationTestTabularPortlet(IntegrationTestCase):
         self.assertEquals(b_info['form_key'], widget_in_form)
         self.assertEquals(b_info['linked_pages'], [2, 3, 4, 5, 6])
 
+        # Now requesting after the last page
+        self.widget.REQUEST = FakeRequestWithCookies(**{widget_in_form:8})
+        self.widget.prepare(self.ds)
+        self.ds['longbrains'] = True
+        rendered = self.widget.render('view', self.ds)
+        b_info = self.widget.passed_batching_info
+
+        self.failIf(b_info is None) # should happen when there's one page only
+        self.assertEquals(b_info['current_page'], 7)
+        self.assertEquals(b_info['nb_pages'], 7) #  31 results
+        self.assertEquals(b_info['form_key'], widget_in_form)
+        self.assertEquals(b_info['linked_pages'], [ 5, 6, 7])
+
+
 #
 # Sub classes
 #

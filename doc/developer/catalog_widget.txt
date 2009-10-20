@@ -109,6 +109,84 @@ physical path in front:
     >>> filters
     {'path': '/portal/some/path'}
 
+Batching subtleties
+~~~~~~~~~~~~~~~~~~~
+
+Now we demonstrate what happens in case the user requests an out of
+range page of requests. We concentrate on the most difficult case of
+Lucene (native batching means that several requests have to be issued,
+non-transasctional behavior means that extra robustness is needed).
+
+Let's create a Lucene Tabular Widget, and have it use a fake lucene
+catalog that has 30 results
+
+    >>> from Products.CPSDashboards.testing import FakeLuceneCatalog
+    >>> from Products.CPSDashboards.widgets.catalog import LuceneTabularWidget
+    >>> wid = LuceneTabularWidget('thecat')
+    >>> wid.portal_catalog = cat = FakeLuceneCatalog()
+    >>> cat.setNbResults(30)
+
+Now let's try the simplest out of range request. Imagine there was 31
+results and the user just removed the 31st from the 4th page and is -
+of course - redirected to the 4th page again...
+
+    >>> brains, nb_results, b_start = wid._doBatchedQuery(cat, 30, 10, {})
+
+We actually switched to the 3rd page (the widget tries this most
+common case first)
+
+    >>> b_start
+    20
+    >>> len(brains)
+    10
+    >>> nb_results
+    30
+
+Now a very much out of range request produces the same result (this
+time, the widget has directly asked for the number of results):
+
+    >>> brains, nb_results, b_start = wid._doBatchedQuery(cat, 300, 10, {})
+    >>> b_start
+    20
+    >>> len(brains)
+    10
+    >>> nb_results
+    30
+
+Now a special mode of the fake lucene catalog: after the first request
+issued to know the real number of results, this number actually
+changes. This can happen in real life since the Lucene catalog isn't
+transactional. Actually, the fake lucene catalog simply returns a
+wrong total number of results. This is enough for our
+testing/demonstrating purposes, since the request for the expected
+last page will provide no result :
+
+    >>> cat.wrong_out_of = 200
+    >>> brains = cat(b_start=0, b_size=1)
+    >>> brains[0].out_of
+    200
+
+This is what the catalog returns if we request the expected last page, based on
+the wrong number of results
+    >>> cat(b_start=190, b_size=10)
+    []
+
+In the case of a wrong indication like this, the widget defaults to
+the first page:
+
+    >>> brains, nb_results, b_start = wid._doBatchedQuery(cat, 300, 10, {})
+    >>> b_start
+    0
+    >>> len(brains)
+    10
+
+In our testing context, the number of results is still wrong (returned
+by the fake lucene catalog). This one is included for completeness in
+order to avoid confusing a doctests maintainer. A real catalog would
+have returned the new number of results, of course.
+
+    >>> nb_results
+    200
 
 .. Emacs
 .. Local Variables:

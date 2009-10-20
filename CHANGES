@@ -6,6 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
+- #2044: bad handling of out of range requests
 - #1984: Single out the call of directory search in Directory Tabular Widget
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
