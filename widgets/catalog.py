@@ -21,6 +21,7 @@
 """ Catalog Tabular Widgets. """
 
 import logging
+from copy import deepcopy
 
 from Globals import InitializeClass
 from AccessControl import Unauthorized
@@ -235,7 +236,7 @@ class LuceneTabularWidget(CatalogTabularWidget):
         query['b_start'] = b_start
         query['b_size'] = b_size
 
-        brains = catalog(**query)
+        brains = catalog(**deepcopy(query))
         if brains:
             return brains, brains[0].out_of, b_start
         if not b_start:
@@ -249,7 +250,7 @@ class LuceneTabularWidget(CatalogTabularWidget):
         if b_start < 0:
             b_start = 0
         query['b_start'] = b_start
-        brains = catalog(**query)
+        brains = catalog(**deepcopy(query))
         if brains:
             return brains, brains[0].out_of, b_start
         if not b_start:
@@ -258,7 +259,7 @@ class LuceneTabularWidget(CatalogTabularWidget):
         # starting over to know the number of pages : minimal Lucene query
         query['b_start'] = 0
         query['b_size'] = 1
-        brains = catalog(**query)
+        brains = catalog(**deepcopy(query))
         if not brains:
             return [], 0, 0
 
@@ -266,7 +267,7 @@ class LuceneTabularWidget(CatalogTabularWidget):
         nb_pages = self.getNbPages(nb_results)
         query['b_start'] = b_start = (nb_pages-1) * b_size
         query['b_size'] = b_size
-        brains = catalog(**query)
+        brains = catalog(**deepcopy(query))
         if brains:
             return brains, brains[0].out_of, b_start
 
@@ -276,7 +277,7 @@ class LuceneTabularWidget(CatalogTabularWidget):
         if not b_start: # That *was* the first page, actually
             return [], 0, 0
         b_start = query['b_start'] = 0
-        brains = catalog(**query)
+        brains = catalog(**deepcopy(query))
         if brains:
             return brains, brains[0].out_of, b_start
 
