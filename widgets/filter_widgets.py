@@ -527,8 +527,6 @@ class CPSDateTimeFilterWidget(FilterWidgetMixin, CPSDateTimeWidget):
 
     def prepare(self, datastructure, **kw):
         wid = self.getWidgetId()
-        if self.fields:
-            CPSDateTimeWidget.prepare(self, datastructure, **kw)
 
         # from cookie
         v = self.readCookie(datastructure, wid)
@@ -575,7 +573,18 @@ class CPSDateTimeFilterWidget(FilterWidgetMixin, CPSDateTimeWidget):
 
             # it's really time for #1606
             CPSDateTimeWidget.validate(self, cheat_ds, **kw)
-            datastructure[wid] = cheat_dm[self.fields[0]]
+            dm = datastructure.getDataModel()
+            if self.fields:
+                fid = self.fields[0]
+                dm[fid] = cheat_dm[fid]
+
+        # let the normal preparation happen.
+        # doing it now also reset all sub values in ds
+        # with the correct information from the found date and ensuring
+        # that further cookie based info is correct
+        if self.fields:
+            CPSDateTimeWidget.prepare(self, datastructure, **kw)
+
 
     def _prepareDateTimeFromValue(self, value, datastructure, **kw):
         """Same as CPSDateTimeWidget.prepare but use value instead of dm"""

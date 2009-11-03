@@ -336,6 +336,24 @@ Now let's try with a cookie::
     >>> dt.strftime('%Y-%m-%d %H:%M')
     '2006-07-03 03:57'
 
+Moreover, the filters-from-datastructure are themselves ready to be
+set in cookies (this used to fail, see #2043)::
+
+    >>> filters = dict((k, v) for k, v in ds.items()
+    ...                if k.startswith('datetime') and not \
+    ...                isinstance(v, DateTime))
+    >>> cookie = serializeForCookie(filters)
+    >>> widget.REQUEST['cookies']['the_cookie'] = cookie
+    >>> dm2 = FakeDataModel()
+    >>> ds2 = DataStructure(datamodel=dm2)
+    >>> dm2['deadline'] = None
+    >>> widget.prepare(ds2)
+    >>> dt = ds2['datetime']
+    >>> isinstance(dt, DateTime)
+    True
+    >>> dt.strftime('%Y-%m-%d %H:%M')
+    '2006-07-03 03:57'
+
 And now as usual, request form takes precedence::
 
     >>> widget.REQUEST.form.update({'widget__datetime_date': '05/07/2006',
