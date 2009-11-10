@@ -200,6 +200,8 @@ class TabularWidget(CPSIntFilterWidget):
 
         # replace some empty filters by the corresponding total scope
         # and remove the others
+        # Here "empty" means evaluating to False, except False itself and 0,
+        # which are considered as non-missing values
         # apply boolean operators
         filters = {}
         pref_len = len(prefix)
@@ -207,7 +209,7 @@ class TabularWidget(CPSIntFilterWidget):
         for key, item in prefilt.items():
             if key.endswith(SCOPE_SUFFIX):
                 continue
-            if not item:
+            if not item and item is not False and item != 0:
                 item = datastructure.get(key + SCOPE_SUFFIX)
             if item is None:
                 continue

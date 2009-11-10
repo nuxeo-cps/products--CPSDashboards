@@ -75,6 +75,13 @@ Empty values get removed by default::
     >>> tab.buildFilters(datastructure2)
     {'eggs': 'spam'}
 
+But ``False`` and 0 don't (see #1982)::
+
+    >>> datastructure2_1 = DataStructure(data = {'q_one': False,
+    ...                                          'q_eggs': 0})
+    >>> tab.buildFilters(datastructure2_1) == {'one': False, 'eggs': 0}
+    True
+
 The types are preserved::
 
     >>> datastructure4 = DataStructure(data = {'q_one': [1],
