@@ -1,4 +1,27 @@
 ===========================================================
+Package: CPSDashboards 0.13.3
+===========================================================
+First release built by: gracinet at: 2009-12-15T12:27:30
+SVN Tag: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/tags/0.13.3
+Build from: https://svn.nuxeo.org/pub/CPS3/products/CPSDashboards/trunk@54101
+
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #2043: DateTime filters get lost in transient searches 
+- #2044: bad handling of out of range requests
+- #1982: Can't filter on False
+- #1984: Single out the call of directory search in Directory Tabular Widget
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.13.2
 ===========================================================
 First release built by: madarche at: 2008-11-23T22:03:40
