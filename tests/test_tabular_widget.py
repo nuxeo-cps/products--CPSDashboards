@@ -147,8 +147,8 @@ class IntegrationTestTabularPortlet(IntegrationTestCase):
     def test_render_view(self):
         rendered = self.widget.render('view', self.ds)
         self.assertEquals(rendered.split('\n'), [
-            'Title 1|<div class="ddefault">Pending</div>',
-            'Title 2|<div class="ddefault">Rejected</div>',
+            'Title 1|<div class="ddefault">', 'Pending', '</div>',
+            'Title 2|<div class="ddefault">', 'Rejected', '</div>',
             ])
 
     def test_vidget_render_method(self):
@@ -181,8 +181,8 @@ class IntegrationTestTabularPortlet(IntegrationTestCase):
 
         rendered = self.widget.render('view', ds)
         self.assertEquals(rendered.split('\n'), [
-            'Title 1|<div class="ddefault">Pending</div>',
-            'Title 2|<div class="ddefault">Rejected</div>',
+            'Title 1|<div class="ddefault">', 'Pending', '</div>',
+            'Title 2|<div class="ddefault">', 'Rejected', '</div>',
             ])
 
         self.widget.render_method = 'widget_render_logging'
@@ -268,8 +268,8 @@ class IntegrationTestFolderContentsPortlet(IntegrationTestCase):
 
         rendered = self.widget.render('view', self.ds, context_obj=container)
         self.assertEquals(rendered.split('\n'), [
-            'Title 1|<div class="ddefault">content 1</div>',
-            'Title 2|<div class="ddefault">content 2</div>',
+            'Title 1|<div class="ddefault">', 'content 1', '</div>',
+            'Title 2|<div class="ddefault">', 'content 2', '</div>',
             ])
 
 #
