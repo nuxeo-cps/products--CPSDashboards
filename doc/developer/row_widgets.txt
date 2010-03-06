@@ -203,7 +203,7 @@ Let's see what the radio input type does::
 
     >>> widget.input_type = 'radio'
     >>> widget.render('view', ds)
-    '<input type="radio" name="toks" value="tok-54FF54-formatted" />'
+    '<input type="radio" name="toks:utf8:ustring" value="tok-54FF54-formatted" />'
 
 Without field
 ~~~~~~~~~~~~~
@@ -370,7 +370,7 @@ Translation is made according to ``is_display_i18n`` property::
     u'ici'
     >>> widget.translation_service = FakeLocalizer()
     >>> widget.render('search', ds, something='else')
-    'ici'
+    u'ici'
 
 Email Display Widget
 --------------------

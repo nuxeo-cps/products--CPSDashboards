@@ -30,7 +30,9 @@ from Products.CPSSkins import minjson as json
 def serializeForCookie(obj, charset='ascii'):
     """Convert a python data structure into a base64 encoded string suitable
     for storing in a cookie."""
-
+    # XXX very ugly hack to fix "encoding with unicode" problem
+    if charset == "unicode":
+        charset = "utf-8"
     string = json.write(obj)
     # base64 will cast to str, producing Unicode errors
     if isinstance(string, unicode):
@@ -40,6 +42,10 @@ def serializeForCookie(obj, charset='ascii'):
 
 def unserializeFromCookie(string='', default=None, charset='ascii'):
     """Convert a base64 string into a python object"""
+
+    # XXX very ugly hack to fix "encoding with unicode" problem
+    if charset == "unicode":
+        charset = "utf-8"
 
     value = default
     if not string:

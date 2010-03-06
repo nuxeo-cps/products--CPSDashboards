@@ -167,7 +167,7 @@ class TabularWidget(CPSIntFilterWidget):
         # We should not put them in filter and serialize more tightly, but this
         # is good enough for now
         to_cook = dict( (k,v) for (k,v) in mapping.items()
-                        if not isinstance(v, DateTime) )
+                        if not isinstance(v, DateTime) and v!='')
 
         cookie = serializeForCookie(to_cook, charset=self.default_charset)
         logger.debug("Setting cookie, path=%s, size=%d", path, len(cookie))
@@ -234,7 +234,7 @@ class TabularWidget(CPSIntFilterWidget):
                 if isinstance(rpaths, list):
                     filters['path'] = ['%s/%s' % (base, rpath)
                                        for rpath in rpaths]
-                elif isinstance(rpaths, str):
+                elif isinstance(rpaths, basestring):
                     filters['path'] = '%s/%s' % (base, rpaths)
             elif filters.pop('context_path', False):
                 # it's been removed already if it was False
@@ -466,7 +466,7 @@ class TabularWidget(CPSIntFilterWidget):
         css_class=self.getCssClass(
             kw.get('layout_mode', mode), datamodel) or None
 
-        return meth(mode=mode, columns=columns,
+        return meth(tabular_widget=self, mode=mode, columns=columns,
                     batch_perform_view_name=self.batch_perform_view_name,
                     rows=rendered_rows, actions=actions,
                     here_url=here_url, batching_info=batching_info,
