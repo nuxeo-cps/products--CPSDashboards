@@ -17,6 +17,11 @@ one provides::
 
     >>> from Products.CPSSchemas.tests.testWidgets import FakeDataModel
 
+Doctext mode for html samples
+
+    >>> from lxml import usedoctest
+
+
 Type Icon Widget
 ----------------
 
@@ -130,8 +135,13 @@ We can register javascript event handlers, too:
 This is now what we get (hope it won't break because of irrelevant
 order of attributes):
 
-    >>> widget.render('view', ds)
-    '<a onmouseout="out();" title="title of the link" href="http://target.url" onmouseover="over();" onclick="click();">text of the link</a>'
+    >>> print widget.render('view', ds)
+    <a onclick="click();"
+       href="http://target.url"
+       onmouseout="out();" title="title of the link"
+       onmouseover="over();">
+       text of the link
+    </a>
 
 In case the link field is empty, no anchor element is produced::
 
