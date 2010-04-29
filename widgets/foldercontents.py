@@ -27,6 +27,7 @@ from AccessControl import Unauthorized
 from Products.CMFCore.utils import _checkPermission
 from Products.CMFCore.permissions import View, ListFolderContents
 
+from Products.CPSUtil.text import get_final_encoding
 from Products.CPSSchemas.Widget import CPSWidget
 from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSSchemas.DataModel import DataModel
@@ -74,15 +75,19 @@ class FolderContentsWidget(TabularWidget):
         """Render method for rows layouts in 'view' mode.
         """
 
+        encoding = get_final_encoding(self)
         if layout is None:
             raise ValueError("Computed layout is None")
         cells = (row[0] for row in layout['rows'])
+        # GR this is a breach in the principle that renderHtmlTag
+        # eats unicode or ascii only, but avoids bigs decoding/recoding
         tags = (renderHtmlTag('td',
                               css_class=cell.get('widget_css_class'),
                               contents=cell['widget_rendered'],
                               )
                 for cell in cells)
-        return ''.join(tags)
+        return ''.join((isinstance(tag, unicode) and tag.encode(encoding) or tag
+                        for tag in tags))
 
     def getMethodContext(self, datastructure):
         return self
