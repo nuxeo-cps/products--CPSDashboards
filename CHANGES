@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- #2153: restored i18n of portal types and review state on default  adv search
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
