@@ -121,6 +121,15 @@ This now the result of rendering::
     >>> widget.render('view', ds)
     '<a href="http://target.url" title="title of the link">text of the link</a>'
 
+Optionally, one can choose to render the link as a heading element::
+
+    >>> widget.manage_changeProperties(heading_level=3)
+    >>> widget.render('view', ds)
+    '<h3><a href="http://target.url" title="title of the link">text of the link</a></h3>'
+
+Getting back to the default value::
+    >>> widget.manage_changeProperties(heading_level=0)
+
 We can register javascript event handlers, too:
 
     >>> widget.manage_changeProperties(onclick='click();',

@@ -7,6 +7,7 @@ New features
 Bug fixes
 ~~~~~~~~~
 - #2153: restored i18n of portal types and review state on default  adv search
+- #2166: Qualified Link Widget can generate heading tags (e.g, <h2>)
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
