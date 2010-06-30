@@ -1,4 +1,22 @@
 ===========================================================
+Package: CPSDashboards 0.13.5
+===========================================================
+First release built by: gracinet at: 2010-06-30T02:32:41
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #2153: restored i18n of portal types and review state on default  adv search
+- #2166: Qualified Link Widget can generate heading tags (e.g, <h2>)
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.13.4
 ===========================================================
 First release built by: gracinet at: 2010-03-13T17:47:27
