@@ -192,6 +192,8 @@ class CPSQualifiedLinkWidget(CPSWidget):
      'label': 'onMouseOver to put on anchor element'},
     {'id': 'onmouseout', 'type': 'string', 'mode': 'w',
      'label': 'onMouseOut to put on anchor element'},
+    {'id': 'heading_level', 'type': 'int', 'mode': 'w',
+     'label': 'Heading level (e.g, 2 to render in a <h2> or 0 for none)'}
     )
 
     is_display_i18n = False
@@ -202,6 +204,7 @@ class CPSQualifiedLinkWidget(CPSWidget):
     onmouseover = ''
     onmouseout = ''
     onclick = ''
+    heading_level = 0
 
     def prepare(self, datastructure, **kw):
         """Prepare datastructure from datamodel."""
@@ -256,11 +259,16 @@ class CPSQualifiedLinkWidget(CPSWidget):
             if v:
                 params[add] = v
 
-        a_tag = renderHtmlTag('a', **params)
+        res = renderHtmlTag('a', **params)
+
+        hl = self.heading_level
+        if hl:
+            res = '<h%d>%s</h%d>' % (hl, res, hl)
 
         if self.popup:
-            return script + a_tag
-        return a_tag
+            return script + res
+
+        return res
 
 InitializeClass(CPSQualifiedLinkWidget)
 

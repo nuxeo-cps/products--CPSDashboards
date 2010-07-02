@@ -1,0 +1,9 @@
+<object name="cpsdefault_search" meta_type="CPS Layout">
+ <widget name="portal_type" meta_type="MultiSelect Widget">
+  <property name="translated">True</property>
+ </widget>
+
+ <widget name="review_state" meta_type="Select Widget">
+  <property name="translated">True</property>
+ </widget>
+</object>
