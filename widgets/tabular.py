@@ -28,6 +28,8 @@ from DateTime.DateTime import DateTime
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.CPSUtil.text import get_final_encoding
+from Products.CPSUtil.html import renderHtmlTag
 from Products.CPSSchemas.Widget import CPSWidget
 from Products.CPSSchemas.Widget import widgetname
 from Products.CPSSchemas.DataStructure import DataStructure
@@ -234,7 +236,7 @@ class TabularWidget(CPSIntFilterWidget):
                 if isinstance(rpaths, list):
                     filters['path'] = ['%s/%s' % (base, rpath)
                                        for rpath in rpaths]
-                elif isinstance(rpaths, str):
+                elif isinstance(rpaths, basestring):
                     filters['path'] = '%s/%s' % (base, rpaths)
             elif filters.pop('context_path', False):
                 # it's been removed already if it was False
@@ -466,7 +468,7 @@ class TabularWidget(CPSIntFilterWidget):
         css_class=self.getCssClass(
             kw.get('layout_mode', mode), datamodel) or None
 
-        return meth(mode=mode, columns=columns,
+        return meth(tabular_widget=self, mode=mode, columns=columns,
                     batch_perform_view_name=self.batch_perform_view_name,
                     rows=rendered_rows, actions=actions,
                     here_url=here_url, batching_info=batching_info,
@@ -476,3 +478,24 @@ class TabularWidget(CPSIntFilterWidget):
                     row_mouseover = self.row_mouseover or None,
                     row_mouseout = self.row_mouseout or None,
                     css_class=css_class)
+
+    def table_layout_row_view(self, layout=None, **kw):
+        """Render method for rows layouts in 'view' mode.
+
+        To be used in subclasses that want to bypass skins aq
+        """
+
+        encoding = get_final_encoding(self)
+        if layout is None:
+            raise ValueError("Computed layout is None")
+        cells = (row[0] for row in layout['rows'])
+        # GR this is a breach in the principle that renderHtmlTag
+        # eats unicode or ascii only, but avoids bigs decoding/recoding
+        tags = (renderHtmlTag('td',
+                              css_class=cell.get('widget_css_class'),
+                              contents=cell['widget_rendered'],
+                              )
+                for cell in cells)
+        return ''.join((isinstance(tag, unicode) and tag.encode(encoding) or tag
+                        for tag in tags))
+

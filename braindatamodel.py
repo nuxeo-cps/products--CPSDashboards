@@ -149,6 +149,7 @@ class BrainDataModel(DataModel):
         else:
             obj = meth()
 
+        logger.debug("[PERFORMANCE] Retrieving object from ZODB")
         self._brain_obj = obj
         return obj
 
@@ -192,6 +193,8 @@ class BrainDataModel(DataModel):
             # try and compute some values (see XXX in docstring for improvement)
             brain = self._brain
             if key == 'rpath':
+                # GR. There is now a 'relative_path' brain attribute that
+                # could be used instead of calling the URL tool
                 utool = getattr(self, 'utool', None)
                 if utool is None:
                      utool = getToolByName(self._brain, 'portal_url')

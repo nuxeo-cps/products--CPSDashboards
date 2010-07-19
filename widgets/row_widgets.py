@@ -34,7 +34,8 @@ from Products.CPSSchemas.BasicWidgets import (CPSStringWidget,
                                               CPSLinesWidget,
                                               CPSIntWidget,
                                               CPSImageWidget,
-                                              CPSBooleanWidget)
+                                              CPSBooleanWidget, 
+                                              CPSSelectWidget)
 from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
 
 logger = logging.getLogger('CPSDashboards.widgets.row_widgets')
@@ -43,7 +44,7 @@ def xlate(s, cpsmcat):
     """Does a translation."""
     if not s: # no need to waste time
         return s
-    return cpsmcat(s).encode('iso-8859-15')
+    return cpsmcat(s)
 
 
 class CPSTypeIconWidget(CPSWidget):
@@ -79,7 +80,7 @@ class CPSTypeIconWidget(CPSWidget):
         uri = utool.getBaseUrl() + icon
         title = fti.title_or_id()
         cpsmcat = getToolByName(self, 'translation_service')
-        title = cpsmcat(title).encode('iso-8859-15')
+        title = cpsmcat(title)
         return renderHtmlTag('img', src=uri, alt=title)
 
 
@@ -124,7 +125,7 @@ class CPSWorkflowVariableWidget(CPSWidget):
         if state is None:
             return ''
         cpsmcat = getToolByName(self, 'translation_service')
-        return escape(cpsmcat(state).encode('iso-8859-15'))
+        return escape(cpsmcat(state))
 
 
 InitializeClass(CPSWorkflowVariableWidget)
@@ -142,7 +143,7 @@ class CPSReviewStateStringWidget(CPSStringWidget):
             return ''
         value = datastructure[self.getWidgetId()]
         cpsmcat = getToolByName(self, 'translation_service')
-        xlated = cpsmcat(value).encode('iso-8859-15')
+        xlated = cpsmcat(value)
         return renderHtmlTag('span', css_class=value, contents=xlated)
 
 InitializeClass(CPSReviewStateStringWidget)
@@ -398,7 +399,7 @@ class CPSTimeLeftWidget(CPSIntWidget):
             xlated = cpsmcat('cpscourrier_timeleft:${plus_sign}${d}',
                                     {'d': base_rendered,
                                     'plus_sign': plus_sign})
-            base_rendered = xlated.encode('iso-8859-15')
+            base_rendered = xlated
         return '<span class="%s">%s</span>' % (css_class, base_rendered)
 
 
@@ -431,7 +432,7 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
 
         dm = datastructure.getDataModel()
         value = dm[self.fields[0]]
-        if isinstance(value, str):
+        if isinstance(value, basestring):
             value = bool(int(value))
         else:
             value = bool(value)
@@ -457,12 +458,68 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
         uri = utool.getBaseUrl() + icon
 
         cpsmcat = getToolByName(self, 'translation_service')
-        label = cpsmcat(label).encode('iso-8859--15')
+        label = cpsmcat(label)
 
         return renderHtmlTag('img', src=uri, alt=label)
 
 InitializeClass(CPSIconBooleanWidget)
 widgetRegistry.register(CPSIconBooleanWidget)
+
+class CPSIconSelectWidget(CPSSelectWidget):
+    """ A boolean widget that renders as an icon.
+
+    TODO: backport as an option of CPS Select Widget. """
+
+    meta_type = "Icon Select Widget"
+
+    _properties = CPSSelectWidget._properties + (
+        {'id': 'icons', 'type':'boolean', 'mode':'w',
+         'label': 'Use icons for',},
+        {'id': 'prefix', 'type':'string', 'mode':'w',
+         'label': 'Prefix of your icons',},
+        {'id': 'suffix', 'type':'string', 'mode':'w',
+         'label': 'Suffix of icons (.png, .jpeg, .gif...)',},
+        )
+    icons=''
+    prefix=''
+    suffix=''
+
+    def prepare(self, datastructure, **kw):
+        """Prepare datastructure from datamodel.
+
+        """
+
+        dm = datastructure.getDataModel()
+        value = dm[self.fields[0]]
+        datastructure[self.getWidgetId()] = value
+
+    def render(self, mode, datastructure, **kw):
+        """Render in mode from datastructure.
+        icon image is a boolean that indicate if you use an icon to represent the value.
+        You must named icons with the same id where is used in the value of the id vocabulary 
+        and replace the blank by '_' .
+        <prefix><identifiant><suffix>
+        """
+        value = datastructure[self.getWidgetId()]
+        if mode != 'view':
+            return CPSSelectWidget.render(self, mode, datastructure, **kw)
+
+        utool = getToolByName(self, 'portal_url')
+        label = self.label
+        if self.icons and value:
+            icon = self.prefix+value.replace(' ' ,'_')+self.suffix
+        else:
+            icon = ''
+        if not icon:
+            return ''
+        uri = utool.getBaseUrl() + icon
+
+        cpsmcat = getToolByName(self, 'translation_service')
+        label = cpsmcat(label)
+        return renderHtmlTag('img', src=uri, alt=label)
+
+InitializeClass(CPSIconSelectWidget)
+widgetRegistry.register(CPSIconSelectWidget)
 
 class CPSUsersWithRolesWidget(CPSLinesWidget):
     """A widget that displays the list of users having one of the given roles.
@@ -502,7 +559,7 @@ class CPSUsersWithRolesWidget(CPSLinesWidget):
             mid = mid[pref_len:]
             if mid.startswith('role:'):
                 if l10n is not None:
-                    title = l10n(mid).encode('iso-8859-15')
+                    title = l10n(mid)
                 else:
                     title = mid
             else:
@@ -583,7 +640,7 @@ class CPSMultiBooleanWidget(CPSWidget):
         rendered = datastructure[self.getWidgetId()]
         if self.is_display_i18n:
             cpsmcat = getToolByName(self, 'translation_service')
-            rendered = cpsmcat(rendered).encode('iso-8859-15')
+            rendered = cpsmcat(rendered)
         return rendered
 
 InitializeClass(CPSMultiBooleanWidget)

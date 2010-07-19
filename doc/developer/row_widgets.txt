@@ -17,6 +17,11 @@ one provides::
 
     >>> from Products.CPSSchemas.tests.testWidgets import FakeDataModel
 
+Doctext mode for html samples
+
+    >>> from lxml import usedoctest
+
+
 Type Icon Widget
 ----------------
 
@@ -139,8 +144,13 @@ We can register javascript event handlers, too:
 This is now what we get (hope it won't break because of irrelevant
 order of attributes):
 
-    >>> widget.render('view', ds)
-    '<a onmouseout="out();" title="title of the link" href="http://target.url" onmouseover="over();" onclick="click();">text of the link</a>'
+    >>> print widget.render('view', ds)
+    <a onclick="click();"
+       href="http://target.url"
+       onmouseout="out();" title="title of the link"
+       onmouseover="over();">
+       text of the link
+    </a>
 
 In case the link field is empty, no anchor element is produced::
 
@@ -212,7 +222,7 @@ Let's see what the radio input type does::
 
     >>> widget.input_type = 'radio'
     >>> widget.render('view', ds)
-    '<input type="radio" name="toks" value="tok-54FF54-formatted" />'
+    '<input type="radio" name="toks:utf8:ustring" value="tok-54FF54-formatted" />'
 
 Without field
 ~~~~~~~~~~~~~
@@ -379,7 +389,7 @@ Translation is made according to ``is_display_i18n`` property::
     u'ici'
     >>> widget.translation_service = FakeLocalizer()
     >>> widget.render('search', ds, something='else')
-    'ici'
+    u'ici'
 
 Email Display Widget
 --------------------

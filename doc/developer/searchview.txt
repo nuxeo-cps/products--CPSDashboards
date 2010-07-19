@@ -124,8 +124,8 @@ Values forwarding
    >>> request.form = {'widget__truc': 'a value',
    ...                 'widget__spam': 'eggs'}
    >>> print view.forwardInputs(['truc', 'spam'])
-   <input type="hidden" name="widget__truc" value="a value" />
-   <input type="hidden" name="widget__spam" value="eggs" />
+   <input type="hidden" name="widget__truc:utf8:ustring" value="a value" />
+   <input type="hidden" name="widget__spam:utf8:ustring" value="eggs" />
 
    XXX there is a problem with the cookie stuff: is it on purpose that
    request doesn't take precedence ?

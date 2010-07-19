@@ -78,19 +78,7 @@ class CatalogTabularWidget(TabularWidget):
     range_min_suffix = "_min"
     range_max_suffix = "_max"
 
-    def layout_row_view(self, layout=None, **kw):
-        """Render method for rows layouts in 'view' mode.
-        """
-
-        if layout is None:
-            raise ValueError("Computed layout is None")
-        cells = (row[0] for row in layout['rows'])
-        tags = (renderHtmlTag('td',
-                              css_class=cell.get('widget_css_class'),
-                              contents=cell['widget_rendered'],
-                              )
-                for cell in cells)
-        return ''.join(tags)
+    layout_row_view = TabularWidget.table_layout_row_view
 
     def getMethodContext(self, datastructure):
         return self

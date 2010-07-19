@@ -136,7 +136,7 @@ class SearchView(BrowserView):
 
         new_target = new_target or self.getFormName()
         response = self.request.RESPONSE
-        if isinstance(old_targets, str):
+        if isinstance(old_targets, basestring):
             old_targets = [old_targets]
 
         if response.getStatus() == 302: # Moved temporarily (redirection)
