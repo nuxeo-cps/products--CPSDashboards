@@ -37,7 +37,7 @@ class TestUsersWithRolesWidget(CPSTestCase):
         self.mdir = mdir = self.dtool.members
         mdir._createEntry({'id': 'user_roleswidget',
                            'sn': 'Roles Tester',
-                           'roles' : ('Member'),
+                           'roles' : ('Member',),
                            })
         gdir = self.dtool.groups
         gdir._createEntry({'group': 'group_roleswidget'})
