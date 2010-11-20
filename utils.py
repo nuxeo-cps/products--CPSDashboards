@@ -20,7 +20,8 @@
 
 import base64
 
-from Products.CPSSkins import minjson as json
+
+from Products.CPSUtil import minjson as json
 
 # based on CPSSkins versions, but can handle non ascii-chars
 # here not to break possible CPSSkins assumptions

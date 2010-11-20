@@ -32,7 +32,7 @@ from Products.CPSSchemas.Widget import widgetRegistry
 from Products.CPSSchemas.DataModel import DataModel
 from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSSchemas.BasicWidgets import renderHtmlTag
-from Products.CPSSkins.cpsskins_utils import serializeForCookie
+from Products.CPSDashboards.utils import serializeForCookie
 
 from Products.CPSDashboards.widgets.tabular import TabularWidget
 
