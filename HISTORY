@@ -1,4 +1,21 @@
 ===========================================================
+Package: CPSDashboards 0.14.2
+===========================================================
+First release built by: gracinet at: 2010-11-27T04:17:03
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- lifted dependency on CPSSkins
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.14.1
 ===========================================================
 First release built by: gracinet at: 2010-07-26T23:55:14
