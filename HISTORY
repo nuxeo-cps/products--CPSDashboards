@@ -1,4 +1,21 @@
 ===========================================================
+Package: CPSDashboards 0.14.3
+===========================================================
+First release built by: gracinet at: 2010-12-30T12:07:47
+Requires
+~~~~~~~~
+-
+New features
+~~~~~~~~~~~~
+-
+Bug fixes
+~~~~~~~~~
+- #2264: adaptation to the new getSortedContentTypes
+New internal features
+~~~~~~~~~~~~~~~~~~~~~
+- 
+
+===========================================================
 Package: CPSDashboards 0.14.2
 ===========================================================
 First release built by: gracinet at: 2010-11-27T04:17:03
