@@ -8,11 +8,11 @@ delegated to the widgets. Original one kept unchanged for backwards compat.
 
 types = context.getSortedContentTypes(allowed=0)
 if is_i18n:
-    res = [(item.getId(), item.Title())
+    res = [(item['id'], item['Title'])
            for item in types]
 else:
     # we use the id as label, better than nothing
-    res = [item.getId() for item in types]
+    res = [item['id'] for item in types]
     res = zip(res, res)
 
 if key is not None:
