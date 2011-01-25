@@ -6,7 +6,7 @@ New features
 -
 Bug fixes
 ~~~~~~~~~
--
+- #2326: fixed braindatamodel for file/image row widgets
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 

@@ -210,7 +210,8 @@ class BrainDataModel(DataModel):
                 dm = getattr(self, '_obj_dm', None)
                 if dm is None:
                     try:
-                        self._obj_dm = dm = self.getObject().getDataModel()
+                        self._obj_dm = dm = self.getObject().getDataModel(
+                            proxy=self.getProxy())
                     except AttributeError:
                         # should maybe return None ?
                         raise KeyError(key)
