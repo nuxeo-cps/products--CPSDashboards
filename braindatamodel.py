@@ -20,6 +20,8 @@
 import logging
 logger = logging.getLogger('CPSDashboards.braindatamodel')
 
+from zope.interface import implements
+
 from OFS.Image import File
 
 from Products.CMFCore.utils import getToolByName
@@ -35,7 +37,7 @@ class FakeDocument:
     def __init__(self, **kw):
         self._data = kw
 
-    def getDataModel(self):
+    def getDataModel(self, **kw):
         dm = FakeDataModel(self._data)
         dm._adapters = ['the', 'fake', 'adapter']
         return dm
@@ -48,6 +50,15 @@ class FakeBrain:
 
     def getObject(self):
         return self._object
+
+class FakeProxy(object):
+    implements(ICPSProxy)
+
+    def __init__(self, ob):
+        self._content = ob
+
+    def getContent(self):
+        return self._content
 
 _lazy = object()
 _missing = object()
@@ -87,9 +98,10 @@ class BrainDataModel(DataModel):
     ...
     AttributeError: FakeBrain instance has no attribute 'foo'
 
-    Now make let's set a document in the BrainDataModel (this is normally
-    obtained through the brain via the proxy)
-    >>> dm._object = FakeDocument(foo='bar')
+    Now make let's set a proxy in the Brain. This is normally done by catalog
+    >>> proxy = FakeProxy(FakeDocument(foo='bar'))
+    >>> d._object = proxy
+    >>> dm = BrainDataModel(d)
     >>> dm['foo']
     'bar'
 
