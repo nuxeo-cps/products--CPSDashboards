@@ -33,10 +33,11 @@ from Products.CPSSchemas.BasicWidgets import renderHtmlTag
 from Products.CPSSchemas.BasicWidgets import (CPSStringWidget,
                                               CPSLinesWidget,
                                               CPSIntWidget,
-                                              CPSImageWidget,
-                                              CPSBooleanWidget, 
+                                              CPSBooleanWidget,
                                               CPSSelectWidget)
 from Products.CPSSchemas.ExtendedWidgets import CPSDateTimeWidget
+from Products.CPSSchemas.widgets.image import CPSImageWidget
+
 
 logger = logging.getLogger('CPSDashboards.widgets.row_widgets')
 
@@ -83,10 +84,8 @@ class CPSTypeIconWidget(CPSWidget):
         title = cpsmcat(title)
         return renderHtmlTag('img', src=uri, alt=title)
 
-
 InitializeClass(CPSTypeIconWidget)
 
-widgetRegistry.register(CPSTypeIconWidget)
 
 class CPSWorkflowVariableWidget(CPSWidget):
     """widget showing the value of a workflow_variable.
@@ -130,8 +129,6 @@ class CPSWorkflowVariableWidget(CPSWidget):
 
 InitializeClass(CPSWorkflowVariableWidget)
 
-widgetRegistry.register(CPSWorkflowVariableWidget)
-
 class CPSReviewStateStringWidget(CPSStringWidget):
     """Special widget for the rendering of a string like the review state.
     """
@@ -147,8 +144,6 @@ class CPSReviewStateStringWidget(CPSStringWidget):
         return renderHtmlTag('span', css_class=value, contents=xlated)
 
 InitializeClass(CPSReviewStateStringWidget)
-
-widgetRegistry.register(CPSReviewStateStringWidget)
 
 ## XXX This should be part of CPSDefault std js libraries
 # check status after current js refactorings
@@ -272,7 +267,6 @@ class CPSQualifiedLinkWidget(CPSWidget):
 
 InitializeClass(CPSQualifiedLinkWidget)
 
-widgetRegistry.register(CPSQualifiedLinkWidget)
 
 class CPSRowBooleanWidget(CPSWidget):
     """widget making a checkbox or radio in a row.
@@ -336,10 +330,8 @@ class CPSRowBooleanWidget(CPSWidget):
         return renderHtmlTag('input', type=self.input_type,
                              name=name, value=value)
 
-
 InitializeClass(CPSRowBooleanWidget)
 
-widgetRegistry.register(CPSRowBooleanWidget)
 
 class CPSTimeLeftWidget(CPSIntWidget):
     """ A widget that displays time left.
@@ -404,7 +396,7 @@ class CPSTimeLeftWidget(CPSIntWidget):
 
 
 InitializeClass(CPSTimeLeftWidget)
-widgetRegistry.register(CPSTimeLeftWidget)
+
 
 class CPSIconBooleanWidget(CPSBooleanWidget):
     """ A boolean widget that renders as an icon.
@@ -463,7 +455,7 @@ class CPSIconBooleanWidget(CPSBooleanWidget):
         return renderHtmlTag('img', src=uri, alt=label)
 
 InitializeClass(CPSIconBooleanWidget)
-widgetRegistry.register(CPSIconBooleanWidget)
+
 
 class CPSIconSelectWidget(CPSSelectWidget):
     """ A boolean widget that renders as an icon.
@@ -519,7 +511,7 @@ class CPSIconSelectWidget(CPSSelectWidget):
         return renderHtmlTag('img', src=uri, alt=label)
 
 InitializeClass(CPSIconSelectWidget)
-widgetRegistry.register(CPSIconSelectWidget)
+
 
 class CPSUsersWithRolesWidget(CPSLinesWidget):
     """A widget that displays the list of users having one of the given roles.
@@ -607,10 +599,14 @@ class CPSUsersWithRolesWidget(CPSLinesWidget):
 
 
 InitializeClass(CPSUsersWithRolesWidget)
-widgetRegistry.register(CPSUsersWithRolesWidget)
+
 
 class CPSMultiBooleanWidget(CPSWidget):
-    """Convert several boolean attributes in datamodel to a string."""
+    """Convert several boolean attributes in datamodel to a string.
+
+    The first to be true triggers the corresponding string from
+    displayed_values. The last elt from displayed_values is used as default
+    """
 
     meta_type = "Multi Boolean Widget"
 
@@ -644,7 +640,7 @@ class CPSMultiBooleanWidget(CPSWidget):
         return rendered
 
 InitializeClass(CPSMultiBooleanWidget)
-widgetRegistry.register(CPSMultiBooleanWidget)
+
 
 class CPSEmailDisplayWidget(CPSStringWidget):
     """Display an email address"""
@@ -675,7 +671,6 @@ class CPSEmailDisplayWidget(CPSStringWidget):
         return self.renderOneEmail(value)
 
 InitializeClass(CPSEmailDisplayWidget)
-widgetRegistry.register(CPSEmailDisplayWidget)
 
 
 class CPSEmailsDisplayWidget(CPSLinesWidget, CPSEmailDisplayWidget):
@@ -693,7 +688,7 @@ class CPSEmailsDisplayWidget(CPSLinesWidget, CPSEmailDisplayWidget):
         return self.view_mode_separator.join(rendered)
 
 InitializeClass(CPSEmailsDisplayWidget)
-widgetRegistry.register(CPSEmailsDisplayWidget)
+
 
 class CPSQuickDisplayDateTimeWidget(CPSDateTimeWidget):
     """A much less flexible widget for quick view mode rendering. """
@@ -726,7 +721,7 @@ class CPSQuickDisplayDateTimeWidget(CPSDateTimeWidget):
         return escape(value.strftime(format))
 
 InitializeClass(CPSQuickDisplayDateTimeWidget)
-widgetRegistry.register(CPSQuickDisplayDateTimeWidget)
+
 
 class CPSImageWithLinkWidget(CPSImageWidget):
     """Display the image within an anchor element.
@@ -772,4 +767,4 @@ class CPSImageWithLinkWidget(CPSImageWidget):
         return anchor + image + '</a>'
 
 InitializeClass(CPSImageWithLinkWidget)
-widgetRegistry.register(CPSImageWithLinkWidget)
+

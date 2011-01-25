@@ -1,0 +1,21 @@
+<configure xmlns="http://namespaces.nuxeo.org/cps">
+ <!-- Registration for the widget classes provided by CPSDashboards -->
+
+ <!-- Row widgets -->
+ <widget class=".widgets.row_widgets.CPSTypeIconWidget" />
+ <widget class=".widgets.row_widgets.CPSWorkflowVariableWidget" />
+ <widget class=".widgets.row_widgets.CPSReviewStateStringWidget" />
+ <widget class=".widgets.row_widgets.CPSQualifiedLinkWidget" />
+ <widget class=".widgets.row_widgets.CPSRowBooleanWidget" />
+ <widget class=".widgets.row_widgets.CPSTimeLeftWidget" />
+ <widget class=".widgets.row_widgets.CPSIconBooleanWidget" />
+ <widget class=".widgets.row_widgets.CPSIconSelectWidget" />
+ <widget class=".widgets.row_widgets.CPSUsersWithRolesWidget" />
+ <widget class=".widgets.row_widgets.CPSMultiBooleanWidget" />
+ <widget class=".widgets.row_widgets.CPSEmailDisplayWidget" />
+ <widget class=".widgets.row_widgets.CPSEmailsDisplayWidget" />
+ <widget class=".widgets.row_widgets.CPSQuickDisplayDateTimeWidget" />
+ <widget class=".widgets.row_widgets.CPSImageWithLinkWidget" />
+
+
+</configure>
