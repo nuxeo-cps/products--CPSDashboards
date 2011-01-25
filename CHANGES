@@ -8,6 +8,7 @@ Bug fixes
 ~~~~~~~~~
 - #2326: fixed braindatamodel for file/image row widgets
 - #2234: depend on the new image widget
+- #2310: registration of row widgets in ZCML
 New internal features
 ~~~~~~~~~~~~~~~~~~~~~
 - 
