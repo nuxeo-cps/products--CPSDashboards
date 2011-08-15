@@ -79,7 +79,7 @@
   <p tal:condition="not:rows" tal:content="empty_message"
     i18n:translate=""></p>
 
-  <p class="tabularActions">
+  <p class="buttons tabularActions">
   <input type="submit"
 	 class="context"
 	 tal:repeat="action actions"

@@ -55,12 +55,14 @@ A simpler render method that puts each "row" in a div element.
      tal:content="empty_message"
     i18n:translate=""></p>
 
-  <input type="submit"
-	 class="context"
-	 tal:repeat="action actions"
-         tal:attributes="value action/title;
-                         name string:cpsdashboard_batch_${action/id}"
-	 i18n:attributes="value" />
+  <p class="buttons">
+   <input type="submit"
+          class="context"
+	  tal:repeat="action actions"
+          tal:attributes="value action/title;
+                          name string:cpsdashboard_batch_${action/id}"
+	  i18n:attributes="value" />
+  </p>
 
   <tal:block condition="make_form">
     <tal:block content="structure string:</form>"/>

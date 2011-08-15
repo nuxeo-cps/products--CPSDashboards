@@ -53,7 +53,7 @@
 	</tal:block>
       </tr>
     </table>
-    <p>
+    <p class="tabularFilter">
     <input type="submit" name="filter" value="tabular_filter_button"
            class="context"
            tal:condition="param_rows"
