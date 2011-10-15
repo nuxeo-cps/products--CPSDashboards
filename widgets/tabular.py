@@ -34,7 +34,7 @@ from Products.CPSSchemas.Widget import CPSWidget
 from Products.CPSSchemas.Widget import widgetname
 from Products.CPSSchemas.DataStructure import DataStructure
 from Products.CPSDocument.FlexibleTypeInformation import FlexibleTypeInformation
-from Products.CPSPortlets.CPSPortletWidget import CPSPortletWidget
+from Products.CPSPortlets.widgets.generic import CPSPortletWidget
 from Products.CPSDashboards.utils import serializeForCookie
 from Products.CPSDashboards.utils import unserializeFromCookie
 from Products.CPSDashboards.widgets.filter_widgets import CPSIntFilterWidget
