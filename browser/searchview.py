@@ -52,7 +52,7 @@ class SearchView(BrowserView):
         BrowserView.__init__(self, context, request)
         form = self.request.form
         self.is_results = 'search_submit' in form or 'filter' in form
-        self.charset = self.context.default_charset
+        self.default_charset = self.context.default_charset
 
     def getId(self):
         """Return name as declared in ZCML.
@@ -105,7 +105,8 @@ class SearchView(BrowserView):
         else:
             cookie = None
         if cookie is not None:
-            cookie = unserializeFromCookie(cookie, charset=self.charset)
+            cookie = unserializeFromCookie(cookie,
+                                           charset=self.default_charset)
         for wid in widgets:
             name = widgetname(wid)
             if cookie is not None:
