@@ -5,7 +5,7 @@
                   cpsmcat nocall:here/translation_service;
                   value_search
                     request/q_ZCText_or|python:cpsmcat('button_search');
-                  base_url python:request.get('cpsskins_base_url');
+                  base_url python:request.get('cps_base_url');
                   advanced_search_form string:${base_url}advanced_search.html;
                   online_help_url string:${base_url}help_center/help_set_mode;"
  method="get" action="" tal:attributes="action advanced_search_form"
